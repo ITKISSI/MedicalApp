@@ -3,6 +3,8 @@ import './App.css';
 import Navbar from './components/Navbar';
 import DoctorCard from './components/DoctorCard';
 import SearchDoctorCard from './components/SearchDoctorCard';
+import Subscibe from './components/Subscribe';
+import FooterLinks from './components/FooterLinks';
 
 function App() {
   return (
@@ -92,22 +94,10 @@ function App() {
             <div class="cta_subscribe">
               <div class="container-fluid h-100">
                 <div class="row h-100 justify-content-center align-items-center">
-                  <div class="col-md-6 p-0">
-                    <div class="block_1">
-                      <figure><img src="./../public/assets/img/doctors_icon.svg" alt=""/></figure>
-                      <h3>Are you a Doctor?</h3>
-                      <p>The service allows you to get maximum visibility online and to manage appointments and contacts coming from the site, in a simple and fast way.</p>
-                      <a href="register-doctor.html" class="btn_1">Read more</a>
-                    </div>
-                  </div>
-                  <div class="col-md-6 p-0">
-                    <div class="block_2">
-                      <figure><img src="./../public/assets/img/patient_icon.svg" alt=""/></figure>
-                      <h3>Are you a patient?</h3>
-                      <p>Choosing a specialist has never been so fast! You can filter search results by location and medical specialization, and book medical examination online.</p>
-                      <a href="register.html" class="btn_1">Read more</a>
-                    </div>
-                  </div>
+                <Subscibe title={"Are you a Doctor?"} description ={"The service allows you to get maximum visibility online and to manage appointments and contacts coming from the site, in a simple and fast way."}/>
+
+                <Subscibe title={"Are you a Doctor?"} description ={"The service allows you to get maximum visibility online and to manage appointments and contacts coming from the site, in a simple and fast way."}/>
+
                 </div>
 
               </div>
@@ -127,26 +117,9 @@ function App() {
                     </a>
                   </p>
                 </div>
-                <div class="col-lg-3 col-md-4">
-                  <h5>About</h5>
-                  <ul class="links">
-                    <li><a href="#0">About us</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="#0">FAQ</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li>
-                  </ul>
-                </div>
-                <div class="col-lg-3 col-md-4">
-                  <h5>Useful links</h5>
-                  <ul class="links">
-                    <li><a href="#0">Doctors</a></li>
-                    <li><a href="#0">Clinics</a></li>
-                    <li><a href="#0">Specialization</a></li>
-                    <li><a href="#0">Join as a Doctor</a></li>
-                    <li><a href="#0">Download App</a></li>
-                  </ul>
-                </div>
+             <FooterLinks/>
+             <FooterLinks/>
+
                 <div class="col-lg-3 col-md-4">
                   <h5>Contact with Us</h5>
                   <ul class="contacts">
