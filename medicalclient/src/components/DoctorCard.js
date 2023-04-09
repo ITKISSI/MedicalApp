@@ -1,25 +1,33 @@
-const DoctorCard = () => {
-    return (    <div class="col-lg-4 col-md-6">
-    <div class="box_list home">
-      <a href="#0" data-toggle="tooltip" data-placement="top" title="Add to wishlist" class="wish_bt"></a>
+import React from 'react'
+
+
+export default function DoctorCard(props) {
+
+
+  return (
+    <div className="col-lg-4 col-md-6">
+    <div className="box_list home">
+      <a href="#0" data-toggle="tooltip" data-placement="top" title="Add to wishlist" className="wish_bt"></a>
       <figure>
 
-        <a href="detail-page.html"><img src="./../public/assets/http://via.placeholder.com/565x565.jpg" class="img-fluid" alt=""/></a>
-        <div class="preview"><span>Read more</span></div>
+        <a href="detail-page.html"><img src={'./../public/assets/img/doctors/'+props.doctor.id+props.doctor.phoneNumber+'.jpg'} className="img-fluid" alt=""/></a>
+        <div className="preview"><span>Read more</span></div>
       </figure>
-      <div class="wrapper">
-        <small>Psicologist</small>
-        <h3>Dr. Watamaniuk</h3>
-        <p>Id placerat tacimates definitionem sea, prima quidam vim no. Duo nobis persecuti cuodo....</p>
-        <span class="rating"><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i> <small>(145)</small></span>
-        <a href="#0" data-toggle="tooltip" data-placement="top" data-original-title="Badge Level" class="badge_list_1"><img src="./../public/assets/img/badges/badge_1.svg" width="15" height="15" alt=""/></a>
+      <div className="wrapper">
+        <small key={props.doctor.id}>{props.doctor.specialite}</small>
+        <h3>Dr. {props.doctor.name}</h3>
+        <h5>{props.doctor.phoneNumber}</h5>
+        <p>{props.doctor.city} </p>
+        <span className="rating"><i className="icon_star voted"></i><i className="icon_star voted"></i><i className="icon_star voted"></i><i className="icon_star"></i><i className="icon_star"></i> <small>(145)</small></span>
+        
       </div>
       <ul>
-        <li><i class="icon-eye-7"></i> 854 Views</li>
+        <li><i className="icon-eye-7"></i> 854 Views</li>
         <li><a href="detail-page.html">Book now</a></li>
       </ul>
     </div>
-  </div> );
+  </div>
+
+
+  )
 }
- 
-export default DoctorCard;
