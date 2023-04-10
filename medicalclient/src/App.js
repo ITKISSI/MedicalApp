@@ -75,9 +75,13 @@ function App() {
                 <div className="row"> 
 
                 {
-           doctors.map((doctor,index)=>(
-          <DoctorCard doctor={doctor} key={index}/>
-        ))}   
+
+        doctors.map((doctor,index)=>(
+
+          <DoctorCard doctor={doctor} index={index}/>
+
+        ))}
+               
                
                 </div>
 
