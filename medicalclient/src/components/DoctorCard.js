@@ -1,12 +1,9 @@
-import React from 'react'
-
-
 export default function DoctorCard(props) {
 
 
   return (
-    <div className="col-lg-4 col-md-6">
-    <div className="box_list home">
+    <div className="col-lg-4 col-md-6" >
+    <div className="box_list home" >
       <a href="#0" data-toggle="tooltip" data-placement="top" title="Add to wishlist" className="wish_bt"></a>
       <figure>
 
@@ -14,7 +11,7 @@ export default function DoctorCard(props) {
         <div className="preview"><span>Read more</span></div>
       </figure>
       <div className="wrapper">
-        <small key={props.doctor.id}>{props.doctor.specialite}</small>
+        <small>{props.doctor.specialite}</small>
         <h3>Dr. {props.doctor.name}</h3>
         <h5>{props.doctor.phoneNumber}</h5>
         <p>{props.doctor.city} </p>
@@ -27,7 +24,6 @@ export default function DoctorCard(props) {
       </ul>
     </div>
   </div>
-
 
   )
 }

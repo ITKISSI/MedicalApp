@@ -1,8 +1,8 @@
 const SearchDoctorCard = () => {
-    return (  <div class="col-xl-4 col-lg-5 col-md-6">
-    <div class="list_home">
-      <div class="list_title">
-        <i class="icon_pin_alt"></i>
+    return (  <div className="col-xl-4 col-lg-5 col-md-6">
+    <div className="list_home">
+      <div className="list_title">
+        <i className="icon_pin_alt"></i>
         <h3>Search by City or Zone</h3>
       </div>
       <ul>

@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Navbar from './components/Navbar';
 import DoctorCard from './components/DoctorCard';
@@ -51,15 +50,15 @@ function App() {
                   <ul>
                     <li>
                       <input type="radio" id="all" name="radio_search" value="all" checked=""/>
-                      <label for="all">All</label>
+                      <label htmlFor="all">All</label>
                     </li>
                     <li>
                       <input type="radio" id="doctor" name="radio_search" value="doctor"/>
-                      <label for="doctor">Doctor</label>
+                      <label htmlFor="doctor">Doctor</label>
                     </li>
                     <li>
                       <input type="radio" id="clinic" name="radio_search" value="clinic"/>
-                      <label for="clinic">Clinic</label>
+                      <label htmlFor="clinic">Clinic</label>
                     </li>
                   </ul>
                 </div>
@@ -76,13 +75,9 @@ function App() {
                 <div className="row"> 
 
                 {
-        doctors.map((doctor)=>(
-
-          <DoctorCard doctor={doctor}/>
-
-        ))}
-               
-
+           doctors.map((doctor,index)=>(
+          <DoctorCard doctor={doctor} key={index}/>
+        ))}   
                
                 </div>
 
