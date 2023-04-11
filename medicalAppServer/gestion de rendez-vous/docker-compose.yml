@@ -2,20 +2,27 @@ version: '3'
 
 services:
   web:
-    build: .
-    ports:
-      - "8080:80"
-    depends_on:
-      - database
+      build: .
+      ports:
+        - "8080:80"
+      depends_on:
+        - database
 
+###> doctrine/doctrine-bundle ###
   database:
-    image:  postgres:15
+    image: mysql
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
+      MYSQL_DB: ${MYSQL_DB:-app}
       # You should definitely change the password in production
-      POSTGRES_PASSWORD: root
-      POSTGRES_USER: postgres
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}
+      MYSQL_USER: ${MYSQL_USER:-app}
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - database_data:/var/lib/mysql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
 volumes:
+###> doctrine/doctrine-bundle ###
   database_data:
+###< doctrine/doctrine-bundle ###
