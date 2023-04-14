@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PatientRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
 #[ApiResource]
@@ -19,9 +20,11 @@ class Patient
 
     
     #[ORM\Column(length: 255)]
+    #[Groups(['patient:Name'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['patient:Name'])]
     private ?string $lastName = null;
 
     #[ORM\Column]

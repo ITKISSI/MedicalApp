@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DoctorRepository;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DoctorRepository::class)]
 #[ApiResource]
@@ -18,6 +19,7 @@ class Doctor
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['doctor:speciality'])]
     private ?string $speciality = null;
 
     #[ORM\ManyToOne(inversedBy: 'Doctor')]
