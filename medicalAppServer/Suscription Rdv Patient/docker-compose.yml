@@ -1,21 +1,24 @@
 version: '4.18'
 services:
-  postgres:
-    container_name: postgres
-    image: postgres
-    restart: always
+  database:
+      healthcheck:
+        test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
+        interval: 5s
+        retries: 5
+      container_name: 'database_server'
+      image: mysql
+      ports:
+        - "3306:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: 'root'
+        MYSQL_PASSWORD: 't3rceS'
+        MYSQL_DATABASE: 'database'
+  myadmin:
+    container_name: 'phpmyadmin'
+    image: phpmyadmin/phpmyadmin:5
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: suscription-db
+      PMA_HOST: database
     ports:
-      - 5432:5432
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.admin
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - 80:80
+      - "8080:80"
+    depends_on:
+      - database
