@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PatientRepository;
@@ -11,6 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
 #[ApiResource]
+#[Get(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name']])]
+#[Put(denormalizationContext:['groups' => ['appointment:date' , 'appointment:state']])]
 class Patient
 {
     #[ORM\Id]
@@ -47,9 +51,13 @@ class Patient
     #[ORM\OneToMany(mappedBy: 'Patient', targetEntity: Appointment::class)]
     private Collection $Appointments;
 
+    #[ORM\ManyToMany(targetEntity: doctor::class, inversedBy: 'patients')]
+    private Collection $doctor;
+
     public function __construct()
     {
         $this->Appointments = new ArrayCollection();
+        $this->doctor = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -180,6 +188,42 @@ class Patient
                 $appointment->setPatient(null);
             }
         }
+
+        return $this;
+    }
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'age' => $this->age,
+            'address' => $this->address,
+            'cin' => $this->cin,
+            'phoneNumber' => $this->phoneNumber,
+        ];
+    }
+
+    /**
+     * @return Collection<int, doctor>
+     */
+    public function getDoctor(): Collection
+    {
+        return $this->doctor;
+    }
+
+    public function addDoctor(doctor $doctor): self
+    {
+        if (!$this->doctor->contains($doctor)) {
+            $this->doctor->add($doctor);
+        }
+
+        return $this;
+    }
+
+    public function removeDoctor(doctor $doctor): self
+    {
+        $this->doctor->removeElement($doctor);
 
         return $this;
     }

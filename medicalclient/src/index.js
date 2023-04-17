@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import RdvList from './adminComponents/RdvList';
 import App from './App';
+import FormReporter from './adminComponents/FormReporter';
 
 const router = createBrowserRouter([
   {
@@ -20,9 +21,14 @@ const router = createBrowserRouter([
     element: <Dashbord/>,
   },
   {
-    path: "list",
+    path: "appointments",
     element: <RdvList/>,
   },
+  {
+    path: "/appointments/:id/edit",
+    element: <FormReporter />,
+  },
+
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
