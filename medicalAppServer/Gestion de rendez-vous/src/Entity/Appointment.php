@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
@@ -11,10 +14,15 @@ use App\Repository\AppointmentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\Time;
+use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: AppointmentRepository::class)]
 #[ApiResource]
-#[GetCollection(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name']])]
+#[GetCollection(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name']])]
+#[Get(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name']])]
+#[Put(denormalizationContext:['groups' => ['appointment:date' , 'appointment:state']])]
+
 class Appointment
 {
     #[ORM\Id]
@@ -24,15 +32,15 @@ class Appointment
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    #[Groups(['appointment:All'])]
-    private ?\DateTimeInterface $hour = null;
+    #[Groups(['appointment:All' , 'appointment:date'])]
+    private ?DateTimeInterface $hour = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['appointment:All'])]
-    private ?\DateTimeInterface $date = null;
+    #[Groups(['appointment:All' , 'appointment:date'])]
+    private ?DateTimeInterface $date = null;
 
     #[ORM\Column]
-    #[Groups(['appointment:All'])]
+    #[Groups(['appointment:All' , 'appointment:state'])]
     private ?bool $state = null;
 
     #[ORM\OneToMany(mappedBy: 'Appointment', targetEntity: Doctor::class)]  
@@ -54,24 +62,24 @@ class Appointment
         return $this->id;
     }
 
-    public function getHour(): ?\DateTimeInterface
+    public function getHour(): ?DateTimeInterface
     {
         return $this->hour;
     }
 
-    public function setHour(\DateTimeInterface $hour): self
+    public function setHour(DateTimeInterface $hour): self
     {
         $this->hour = $hour;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -131,5 +139,6 @@ class Appointment
 
         return $this;
     }
+
 
 }

@@ -97,6 +97,11 @@ function HeadNav() {
         <i className="fa fa-fw fa-sign-out"></i>Logout</a>
     </li>
   </ul>
+
+
+
+
+
   )
 }
 

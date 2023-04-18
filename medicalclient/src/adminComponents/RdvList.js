@@ -2,18 +2,70 @@ import React, { useState, useEffect } from 'react';
 import Footer from './Footer'
 import Navbar from './Navbar';
 import { Link } from 'react-router-dom'
-import moment from 'moment';
+import axios from 'axios';
 
 
 function RdvList() {
 
   const [appointments, setAppointments] = useState([]);
+ 
 
-  useEffect(() => {
-    fetch("https://127.0.0.1:8000/api/appointments")
-      .then(response => response.json())
-      .then(data => setAppointments(data['hydra:member']));
-  }, []);
+  useEffect(()=>{
+    loadAppointments();
+},[])
+
+  const loadAppointments=async () =>
+    {
+        const result = await axios.get("https://127.0.0.1:8000/appointments");
+        setAppointments(result.data);
+    };
+
+    const handleConfirm = async (id) => {
+      try {
+        const response = await fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ state: true }),
+        });
+        const updatedAppointment = await response.json();
+        const updatedappointments = appointments.map((appointment) =>
+          appointment.id === updatedAppointment.id ? updatedAppointment : appointment
+        );
+        setAppointments(updatedappointments);
+       // alert("Appointment confirmed!");
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+        alert("Error confirming appointment!");
+      }
+    };
+
+    const handleReject = async (id) => {
+      try {
+        const response = await fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ state: false }),
+        });
+        const updatedAppointment = await response.json();
+        const updatedAppointmentsList = appointments.map((appointment) =>
+          appointment.id === updatedAppointment.id ? updatedAppointment : appointment
+        );
+
+        setAppointments(updatedAppointmentsList);
+        //alert("Appointment rejected!");
+        window.location.reload();
+
+      } catch (error) {
+        console.error(error);
+        alert("Error rejecting appointment!");
+      }
+    };
+
     
 
   return (
@@ -37,27 +89,60 @@ function RdvList() {
               <div class="table-responsive">
 
 
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable"  cellspacing="0">
                   <thead>
                     <tr>
                       <th>Date</th>
                       <th>Heure</th>
-                      <th>Docteur</th>
+                      <th>Nom du Docteur</th>
+                      <th>specialite du Docteur</th>
                       <th>Nom du Patient</th>
-                      <th>Prenom du Patient</th>
                       <th>Statut</th>
+                      <th>Operations</th>
                     </tr>
                   </thead>
                   <tbody>
                     {appointments.map(appointment => (
                       <tr key={appointment.id}>
-                        <td>{moment(appointment.date).format('DD/MM/YYYY')}</td>                        
-                        <td>{moment(appointment.hour).format('HH:mm')}</td>
+                        <td>{appointment.date}</td>                        
+                        <td>{appointment.hour}</td>
+                        <td>{appointment.Doctor[0].firstName} {appointment.Doctor[0].lastName}</td>
                         <td>{appointment.Doctor[0].speciality}</td>
-                        <td>{appointment.Patient.lastName}</td>
-                        <td>{appointment.Patient.firstName}</td>
-                        <td>{appointment.state ? "Confirme"
-                         : "en attente"}</td>
+                        <td>{appointment.Patient.lastName} {appointment.Patient.firstName}</td>
+                        <td>{appointment.state ? (
+                            <span className="text-success">Confirmé</span>
+                          ) : (
+                            <span className="text-danger">Non confirmé</span>
+                          )}
+                        </td>
+                         <td>
+                          <div  class="flex-container" style={{ display: 'flex' , justifyContent:'center' }} >
+                            <button
+                            style={{width: '100px',
+                              margin: '2px',
+                              textalign: 'center'}}
+                            type="button" 
+                            class="btn btn-success" 
+                            onClick={() => handleConfirm(appointment.id)}
+                         >
+                          Valider
+                         </button>
+                         <button type="button" class="btn btn-danger"
+                         style={{width: '100px',
+                         margin: '2px',
+                         textalign: 'center'}}
+                            onClick={() => handleReject(appointment.id)}
+                         >
+                          Rejeter
+                          </button>
+                         <button type="button" class="btn btn-warning"  style={{width: '100px',
+                              margin: '2px',
+                              textalign: 'center'}}>
+                         <Link to={`/appointments/${appointment.id}/edit`}>Reporter</Link>
+                          </button>
+                          </div>
+                         
+                         </td>
                       </tr>
                     ))}
                   </tbody>
@@ -82,23 +167,7 @@ function RdvList() {
         <i class="fa fa-angle-up"></i>
       </a>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-              <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
     </body>
   )
