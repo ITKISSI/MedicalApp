@@ -4,7 +4,6 @@ namespace App\Entity;
 
 
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +13,6 @@ use App\Repository\AppointmentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints\Time;
 use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: AppointmentRepository::class)]

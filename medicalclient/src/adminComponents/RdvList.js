@@ -20,51 +20,77 @@ function RdvList() {
         setAppointments(result.data);
     };
 
-    const handleConfirm = async (id) => {
-      try {
-        const response = await fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
-          method: "PUT",
+
+    const handleConfirm = (id) => {
+      const confirmed = window.confirm("Voulez-vous confirmer ce rendez-vous ?");
+      if (confirmed) {
+        fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ state: true }),
+          body: JSON.stringify({state: true})
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Une erreur est survenue lors de la mise à jour de l\'état du rendez-vous');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setAppointments(prevAppointments => {
+            return prevAppointments.map(prevAppointment => {
+              if (prevAppointment.id === id) {
+                return {...prevAppointment, state: data.state};
+              } else {
+                return prevAppointment;
+              }
+            });
+          });
+          window.alert('Le rendez-vous a été confirmé avec succès');
+        })
+        .catch(error => {
+          console.error(error);
+          window.alert('Une erreur est survenue lors de la mise à jour de l\'état du rendez-vous');
         });
-        const updatedAppointment = await response.json();
-        const updatedappointments = appointments.map((appointment) =>
-          appointment.id === updatedAppointment.id ? updatedAppointment : appointment
-        );
-        setAppointments(updatedappointments);
-       // alert("Appointment confirmed!");
-        window.location.reload();
-      } catch (error) {
-        console.error(error);
-        alert("Error confirming appointment!");
       }
-    };
+    }
+    
 
-    const handleReject = async (id) => {
-      try {
-        const response = await fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
-          method: "PUT",
+    const handleReject = (id) => {
+      const confirmed = window.confirm("Voulez-vous rejeter ce rendez-vous ?");
+      if (confirmed) {
+        fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ state: false }),
+          body: JSON.stringify({state: false})
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Une erreur est survenue lors de la mise à jour de l\'état du rendez-vous');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setAppointments(prevAppointments => {
+            return prevAppointments.map(prevAppointment => {
+              if (prevAppointment.id === id) {
+                return {...prevAppointment, state: data.state};
+              } else {
+                return prevAppointment;
+              }
+            });
+          });
+          window.alert('Le rendez-vous a été rejeté avec succès');
+        })
+        .catch(error => {
+          console.error(error);
+          window.alert('Une erreur est survenue lors de la mise à jour de l\'état du rendez-vous');
         });
-        const updatedAppointment = await response.json();
-        const updatedAppointmentsList = appointments.map((appointment) =>
-          appointment.id === updatedAppointment.id ? updatedAppointment : appointment
-        );
-
-        setAppointments(updatedAppointmentsList);
-        //alert("Appointment rejected!");
-        window.location.reload();
-
-      } catch (error) {
-        console.error(error);
-        alert("Error rejecting appointment!");
       }
-    };
+    }
 
     
 

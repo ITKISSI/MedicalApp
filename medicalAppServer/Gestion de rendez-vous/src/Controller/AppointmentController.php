@@ -47,7 +47,7 @@ class AppointmentController extends AbstractController
         
     }
 
-    #[Route('/appointments/{id}/edit', name:'appointments_edit', methods:["PUT"])]
+    #[Route('/appointments/{id}/reporter', name:'appointments_reporter', methods:["PUT"])]
     public function update(Request $request, Appointment $appointment, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
