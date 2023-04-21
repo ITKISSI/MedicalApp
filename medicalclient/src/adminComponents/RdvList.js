@@ -164,7 +164,7 @@ function RdvList() {
                          <button type="button" class="btn btn-warning"  style={{width: '100px',
                               margin: '2px',
                               textalign: 'center'}}>
-                         <Link to={`/appointments/${appointment.id}/edit`}>Reporter</Link>
+                         <Link to={`/appointments/${appointment.id}/reporter`}>Reporter</Link>
                           </button>
                           </div>
                          
