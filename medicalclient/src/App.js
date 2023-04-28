@@ -6,8 +6,17 @@ import Subscibe from './components/Subscribe';
 import FooterLinks from './components/FooterLinks';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
+import Register from './components/Register';
 
 function App() {
+
+  <Router>
+    <Routes> 
+      
+      <Route exact path="/register" element={<Register/>} />
+    </Routes>
+  </Router>
 
   const [doctors,setDoctor]=useState([])
     useEffect(()=>{
