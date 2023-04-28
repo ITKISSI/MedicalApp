@@ -32,11 +32,11 @@ function App() {
   return (
       <div className="App">
         <div className="content">
-          <div className="layer"></div>
+          {/*<div className="layer"></div>
           <div id="map"></div>
-          <div id="preloader">
+           <div id="preloader">
             <div data-loader="circle-side"></div>
-          </div>
+          </div> */}
 
 
           <header className="header_sticky">
@@ -137,7 +137,7 @@ function App() {
                 <div className="col-lg-3 col-md-12">
                   <p>
                     <a href="index.html" title="Findoctor">
-                      <img src="./../public/assets/img/logo.png" data-retina="true" alt="" width="163" height="36" className="img-fluid"/>
+                      <img src="./assets/img/logo.png" data-retina="true" alt="" width="163" height="36" className="img-fluid"/>
                     </a>
                   </p>
                 </div>

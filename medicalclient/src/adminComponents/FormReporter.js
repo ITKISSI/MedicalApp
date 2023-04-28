@@ -3,8 +3,6 @@ import Footer from './Footer';
 import Navbar from './Navbar';
 import { Link , useParams , useNavigate} from 'react-router-dom';
 
-
-
 function FormReporter() {
     const { id } = useParams();
     const Navigate = useNavigate();
@@ -51,7 +49,10 @@ function FormReporter() {
       }
 
       if (isLoading) {
-        return <p>Loading...</p>;
+        return <div class="preloader">
+        <div data-loader="circle-side"></div>
+      </div>
+      ;
       }
 
 

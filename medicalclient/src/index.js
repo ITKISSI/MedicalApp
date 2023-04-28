@@ -10,6 +10,7 @@ import {
 import RdvList from './adminComponents/RdvList';
 import App from './App';
 import FormReporter from './adminComponents/FormReporter';
+import Login from './components/Login';
 
 const router = createBrowserRouter([
   {
@@ -25,8 +26,12 @@ const router = createBrowserRouter([
     element: <RdvList/>,
   },
   {
-    path: "/appointments/:id/edit",
+    path: "appointments/:id/reporter",
     element: <FormReporter />,
+  },
+  {
+    path: "login",
+    element: <Login />,
   },
 
 ]);

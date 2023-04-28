@@ -4,13 +4,24 @@ const Navbar = () => {
     return (   <div className="row">
                 <div className="col-lg-3 col-6">
                   <div id="logo_home">
-                    <h1><a href="index.html" title="Findoctor">Findoctor</a></h1>
+                    <h1>
+                      <Link to = "/" title="Findoctor">
+                          Findoctor
+                      </Link>
+                      </h1>
                   </div>
                 </div>
                 <nav className="col-lg-9 col-6">
                   <a className="cmn-toggle-switch cmn-toggle-switch__htx open_close" href="#0"><span>Menu mobile</span></a>
                   <ul id="top_access">
-                    <li><a href="login.html"><i class="pe-7s-user"></i></a></li>
+                    <li>
+                      
+                        <Link to = "/login">
+                          <i class="pe-7s-user"></i>
+                        </Link>
+                        
+                      
+                    </li>
                     <li><a href="register-doctor-working.html"><i className="pe-7s-add-user"></i></a></li>
                   </ul>
                   <div className="main-menu">
