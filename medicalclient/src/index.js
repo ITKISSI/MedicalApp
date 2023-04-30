@@ -11,6 +11,16 @@ import RdvList from './adminComponents/RdvList';
 import App from './App';
 import FormReporter from './adminComponents/FormReporter';
 import Login from './components/Login';
+import List from './components/List';
+import RegisterDoctor from './components/RegisterDoctor';
+import Detail from './components/Detail';
+import SubmitReview from './components/SubmitReview';
+import Register from './components/Register';
+import About from './components/About';
+import Contacts from './components/Contacts';
+import Booking from './components/Booking';
+import Confirm from './components/Confirm';
+import Error404 from './components/Error404';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +42,46 @@ const router = createBrowserRouter([
   {
     path: "login",
     element: <Login />,
+  },
+  {
+    path: "list",
+    element: <List />,
+  },
+  {
+    path: "registerDoctor",
+    element: <RegisterDoctor />,
+  },
+  {
+    path: "detail",
+    element: <Detail />,
+  },
+  {
+    path: "submitReview",
+    element: <SubmitReview />,
+  },
+  {
+    path: "register",
+    element: <Register />,
+  },
+  {
+    path: "about",
+    element: <About />,
+  },
+  {
+    path: "contacts",
+    element: <Contacts />,
+  },
+  {
+    path: "booking",
+    element: <Booking />,
+  },
+  {
+    path: "confirm",
+    element: <Confirm />,
+  },
+  {
+    path: "error404",
+    element: <Error404 />,
   },
 
 ]);
