@@ -1,13 +1,12 @@
 package ma.eheio.suscriptionrdvpatient.repository;
 
-import ma.eheio.suscriptionrdvpatient.model.Patient;
+import ma.eheio.suscriptionrdvpatient.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface PatientRepository extends JpaRepository<Patient,Integer> {
-
-    Optional<Patient> findUserByEmail(String username);
+public interface RoleRepository extends JpaRepository<Role,Integer> {
+    Optional<Role> findByAuthority(String authority);
 }

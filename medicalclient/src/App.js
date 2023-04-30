@@ -12,8 +12,17 @@ import './assets/css/vendors.css';
 import './assets/css/icon_fonts/css/all_icons_min.css';
 import './assets/css/custom.css';
 
+import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
+import Register from './components/Register';
 
 function App() {
+
+  <Router>
+    <Routes> 
+      
+      <Route exact path="/register" element={<Register/>} />
+    </Routes>
+  </Router>
 
   const [doctors,setDoctor]=useState([])
     useEffect(()=>{

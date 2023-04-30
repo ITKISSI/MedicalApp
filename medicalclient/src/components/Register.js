@@ -1,80 +1,93 @@
-import React from 'react'
-import Navbar from './Navbar'
-import Footer from './Footer'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+
+    let navigate=useNavigate();
+
+    const[patient,setpatient]=useState({
+        firstname: "",
+        lastname:"",
+        age: "",
+        cin: "",
+        email: "",
+        password: "",
+        address: "",
+        phone: ""
+    });
+
+    
+    const {firstname,lastname,email,password}=patient;
+
+    const onInputChange = (even) => {
+        setpatient({...patient,[even.target.name]:even.target.value});
+    };
+
+    const onSubmit = async (even) => {
+        even.preventDefault();
+        await axios.post("http://localhost:8081/patient/add",patient)
+        navigate("/");
+    };
+    const onCancle = async (even) => {
+        even.preventDefault();
+        navigate("/");
+    };
+
   return (
+    <div className='container'>
+        <div className="row">
+             <div className='col-md-6 offset-md-3 border rounded p-4 mt-2 shadow'>
+                <h2 className='text-center m-4'> Register patient</h2>
 
-    <div className="App">
-    <div className="content">
-
-    <header className="header_sticky">
-        <div className="container">
-        <Navbar/>
+                <form onSubmit={(e)=>onSubmit(e)}>
+                    
+                    <div className='mb-3'>
+                        <label htmlFor='Name' className='form-label'>First name</label>
+                        <input type={"text"}
+                                className='form-control'
+                                placeholder='Enter name'
+                                name="firstname"
+                                value={firstname}
+                                onChange={(e)=>onInputChange(e)}
+                                />
+                    </div>
+                    <div className='mb-3'>
+                        <label htmlFor='Name' className='form-label'>Last name</label>
+                        <input type={"text"}
+                                className='form-control'
+                                placeholder='Enter name'
+                                name="lastname"
+                                value={lastname}
+                                onChange={(e)=>onInputChange(e)}
+                                />
+                    </div>
+                    
+                    <div className='mb-3'>
+                        <label htmlFor='Email' className='form-label'>Email</label>
+                        <input type={"text"}
+                                className='form-control'
+                                placeholder='Enter email'
+                                name="email"
+                                value={email}
+                                onChange={(e)=>onInputChange(e)}
+                                />
+                    </div>
+                    <div className='mb-3'>
+                        <label htmlFor='Email' className='form-label'>Password</label>
+                        <input type={"password"}
+                                className='form-control'
+                                placeholder='Enter email'
+                                name="password"
+                                value={password}
+                                onChange={(e)=>onInputChange(e)}
+                                />
+                    </div>
+                    <button type='submit' onSubmit={(e)=>onSubmit(e)} className='btn btn-primary mx-2'>Submit</button>
+                    <button type='reset' onClick={(e)=>onCancle(e)} className='btn btn-danger mx-2'>Cancel</button>
+                </form>
+             </div>
         </div>
-    </header>  
-
-    <main>
-		<div class="bg_color_2">
-			<div class="container margin_60_35">
-				<div id="register">
-					<h1>Please register to Findoctor!</h1>
-					<div class="row justify-content-center">
-						<div class="col-md-5">
-							<form>
-								<div class="box_form">
-									<div class="form-group">
-										<label>Name</label>
-										<input type="text" class="form-control" placeholder="Your name"/>
-									</div>
-									<div class="form-group">
-										<label>Last name</label>
-										<input type="text" class="form-control" placeholder="Your last name"/>
-									</div>
-									<div class="form-group">
-										<label>Email</label>
-										<input type="email" class="form-control" placeholder="Your email address"/>
-									</div>
-									<div class="form-group">
-										<label>Password</label>
-										<input type="password" class="form-control" id="password1" name="password1"
-											placeholder="Your password"/>
-									</div>
-									<div class="form-group">
-										<label>Confirm password</label>
-										<input type="password" class="form-control" id="password2" name="password2"
-											placeholder="Confirm password"/>
-									</div>
-									<div id="pass-info" class="clearfix"></div>
-									<div class="checkbox-holder text-left">
-										<div class="checkbox_2">
-											<input type="checkbox" value="accept_2" id="check_2" name="check_2" checked/>
-											<label for="check_2"><span>I Agree to the <strong>Terms &amp;
-														Conditions</strong></span></label>
-										</div>
-									</div>
-									<div class="form-group text-center add_top_30">
-										<input class="btn_1" type="submit" value="Submit"/>
-									</div>
-								</div>
-								<p class="text-center"><small>Has voluptua vivendum accusamus cu. Ut per assueverit
-										temporibus dissentiet. Eum no atqui putant democritum, velit nusquam sententiae
-										vis no.</small></p>
-							</form>
-						</div>
-					</div>
-					
-				</div>
-				
-			</div>
-		</div>
-	</main>
-
-    <Footer/>
-
-
-<div id="toTop"></div>
-</div>
-</div>
+    </div>
   )
 }

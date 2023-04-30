@@ -1,14 +1,10 @@
 package ma.eheio.suscriptionrdvpatient.controller;
 
 
-import ma.eheio.suscriptionrdvpatient.exception.PatientNotFoundException;
-import ma.eheio.suscriptionrdvpatient.model.Patient;
 import ma.eheio.suscriptionrdvpatient.repository.PatientRepository;
 import ma.eheio.suscriptionrdvpatient.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/patient")
@@ -21,6 +17,14 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
 
+    @GetMapping("/")
+    public String userPage()
+    {
+        return "User access level";
+    }
+
+    //// CRUD patient
+    /*
     @PostMapping("/add")
     public String add( @RequestBody Patient Patient){
         patientService.savePatient(Patient);
@@ -66,5 +70,5 @@ public class PatientController {
 
         return "Patient with id "+ id +" deleted successfully";
     }
-
+    */
 }
