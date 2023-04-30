@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("http://localhost:3000")
 public class AdminController {
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String adminPage()
     {
         return "Admin access level";

@@ -17,7 +17,7 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String userPage()
     {
         return "User access level";

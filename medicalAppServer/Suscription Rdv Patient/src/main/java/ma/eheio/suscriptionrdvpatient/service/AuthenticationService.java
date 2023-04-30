@@ -34,7 +34,7 @@ public class AuthenticationService {
     @Autowired
     private TokenService tokenService;
 
-        public Patient registerUser(String email,String password){
+        public Patient registerUser(String email,String username,String password){
 
         String encodedPassword =encoder.encode(password);
         Role userRole = roleRepository.findByAuthority("USER").get();
@@ -42,6 +42,7 @@ public class AuthenticationService {
         roles.add(userRole);
         Patient patient = new Patient();
         patient.setEmail(email);
+        patient.setUsername(username);
         patient.setAuthorities(roles);
         patient.setPassword(encodedPassword);
         return patientRepository.save(patient);
