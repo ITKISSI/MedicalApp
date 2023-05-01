@@ -11,6 +11,10 @@ import RdvList from './adminComponents/RdvList';
 import App from './App';
 import FormReporter from './adminComponents/FormReporter';
 import Login from './components/Login';
+import CreateMedcin from './Medecin/CreateMedcin';
+import CreateCabinet from './Medecin/CreateCabinet';
+import ListCabinet from './Cabinet/ListCabinet';
+import ListMedcin from './Medecin/ListMedcin';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +37,24 @@ const router = createBrowserRouter([
     path: "login",
     element: <Login />,
   },
+  {
+    path: "createMedcin",
+    element: <CreateMedcin />,
+  },
+  {
+    path: "createCabinet",
+    element: <CreateCabinet />,
+  },
+  {
+    path :"cabinets",
+    element:<ListCabinet/>
+
+  },
+  {
+    path :"ListMedcin",
+    element:<ListMedcin/>
+
+  }
 
 ]);
 

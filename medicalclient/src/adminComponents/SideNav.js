@@ -16,6 +16,34 @@ function SideNav() {
       <span className="nav-link-text">Liste de rendez-vous</span>
       </Link>
     </li>
+    <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+      <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/createMedcin">
+      <i className="fa fa-fw fa-gear"></i>
+      <span className="nav-link-text">Cree un  Medecin</span>
+      </Link>
+    </li>
+    
+    <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+      <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/ListMedcin">
+      <i className="fa fa-fw fa-gear"></i>
+      <span className="nav-link-text">Liste de Medcin</span>
+      </Link>
+    </li>
+
+    <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+      <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/createcabinet">
+      <i className="fa fa-fw fa-gear"></i>
+      <span className="nav-link-text">Cree un Cabinet</span>
+      </Link>
+    </li>
+    <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+      <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/cabinets">
+      <i className="fa fa-fw fa-gear"></i>
+      <span className="nav-link-text">Liste de Cabinet</span>
+      </Link>
+    </li>
+
+    
     
   </ul>
   

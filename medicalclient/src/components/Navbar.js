@@ -28,6 +28,7 @@ const Navbar = () => {
                     <ul>
                       <li className="submenu">
                         <a href="#0" class="show-submenu">Home<i className="icon-down-open-mini"></i></a>
+                        
                         <ul>
                           <li><a href="index-7.html">Home with Map</a></li>
                         </ul>

@@ -6,10 +6,7 @@ import axios from 'axios';
 
 
 function RdvList() {
-
   const [appointments, setAppointments] = useState([]);
- 
-
   useEffect(()=>{
     loadAppointments();
 },[])

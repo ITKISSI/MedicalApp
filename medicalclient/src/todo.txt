@@ -1,0 +1,4 @@
+hada fichier dyali matkhatchoch fih hh
+* fix map localisation when opening the map
+* add data validation for both cabinet and medecin creation 
+* update cabinet row with map 
