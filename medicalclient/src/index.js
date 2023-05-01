@@ -16,6 +16,7 @@ import RegisterDoctor from './components/RegisterDoctor';
 import Detail from './components/Detail';
 import SubmitReview from './components/SubmitReview';
 import Register from './components/Register';
+import RegisterPatient from './components/RegisterPatient';
 import About from './components/About';
 import Contacts from './components/Contacts';
 import Booking from './components/Booking';
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
   {
     path: "register",
     element: <Register />,
+  },
+  {
+    path: "registerPatient",
+    element: <RegisterPatient />,
   },
   {
     path: "about",

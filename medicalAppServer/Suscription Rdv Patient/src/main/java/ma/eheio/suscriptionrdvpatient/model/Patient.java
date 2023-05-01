@@ -18,6 +18,7 @@ public class Patient implements UserDetails {
     @Column(name="user_id")
     private Integer id;
     private String firstname;
+    private String lastname;
     @Column(unique = true)
     private String username;
     private int age;
@@ -41,9 +42,10 @@ public class Patient implements UserDetails {
 
     }
 
-    public Patient(Integer id, String firstname, String username, int age, String cin, String email, String password, String address, String phone, Set<Role> authorities) {
+    public Patient(Integer id, String firstname,String lastname, String username, int age, String cin, String email, String password, String address, String phone, Set<Role> authorities) {
         this.id = id;
         this.firstname = firstname;
+        this.lastname=lastname;
         this.username = username;
         this.age = age;
         this.cin = cin;
@@ -69,6 +71,7 @@ public class Patient implements UserDetails {
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -116,6 +119,14 @@ public class Patient implements UserDetails {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public void setAuthorities(Set<Role> authorities) {

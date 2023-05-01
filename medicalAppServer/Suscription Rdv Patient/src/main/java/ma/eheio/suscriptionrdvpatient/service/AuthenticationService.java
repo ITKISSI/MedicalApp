@@ -34,26 +34,29 @@ public class AuthenticationService {
     @Autowired
     private TokenService tokenService;
 
-        public Patient registerUser(String email,String username,String password){
+        public Patient registerUser(String firstname,String lastname,String username,String phone,String email,String password){
 
         String encodedPassword =encoder.encode(password);
         Role userRole = roleRepository.findByAuthority("USER").get();
         Set<Role> roles = new HashSet<>();
         roles.add(userRole);
         Patient patient = new Patient();
-        patient.setEmail(email);
+        patient.setFirstname(firstname);
+        patient.setLastname(lastname);
         patient.setUsername(username);
+        patient.setPhone(phone);
+        patient.setEmail(email);
         patient.setAuthorities(roles);
         patient.setPassword(encodedPassword);
         return patientRepository.save(patient);
     }
 
-    public LoginResponseDTO loginUser(String email,String password){
+    public LoginResponseDTO loginUser(String username,String password){
         try{
-            Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(email,password));
+            Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
             String token = tokenService.generateJwt(auth);
 
-            return  new LoginResponseDTO(patientRepository.findUserByEmail(email).get(),token);
+            return  new LoginResponseDTO(patientRepository.findUserByUsername(username).get(),token);
 
         }catch(AuthenticationException e){
             return new LoginResponseDTO(null,"");

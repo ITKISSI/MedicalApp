@@ -31,7 +31,7 @@ public class SuscriptionRdvPatientApplication {
             Set<Role> roles =new HashSet<Role>();
             roles.add(adminRole);
             String pwd = encoder.encode("123");
-            Patient admin = new Patient(null,"tarik","nejjari",
+            Patient admin = new Patient(null,"tarik","nejjari","tarik12",
                     49,null,"tarik",pwd,null,null,roles);
 
             patientRepository.save(admin);

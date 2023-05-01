@@ -20,10 +20,9 @@ public class PatientService implements UserDetailsService {
     private PatientRepository patientRepository ;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        System.out.println("in the user Detail Service");
-        return (UserDetails)patientRepository.findUserByEmail(email).orElseThrow(()-> new UsernameNotFoundException("Not found"));
+        return (UserDetails)patientRepository.findUserByUsername(username).orElseThrow(()-> new UsernameNotFoundException("Not found"));
 
     }
 }
