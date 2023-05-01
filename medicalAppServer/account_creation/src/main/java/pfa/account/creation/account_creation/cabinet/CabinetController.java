@@ -9,12 +9,13 @@ import pfa.account.creation.account_creation.medcin.Medecin;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/api/v1/cabinet")
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class CabinetController {
     private CabinetService cabinetService;
-
-
     @Autowired
     public CabinetController(CabinetService cabinetService) {
         this.cabinetService = cabinetService;
@@ -24,18 +25,17 @@ public class CabinetController {
         return cabinetService.getAllCabinet();
     }
     @PostMapping
+
     public Cabinet addCabinet(@RequestBody Cabinet cabinet){
        return cabinetService.upSertCabinet(cabinet);
     }
     @GetMapping("/{id}")
     public ResponseEntity<Cabinet> getCabinetById(@PathVariable Long id) {
         Optional<Cabinet> cabinetOptional = cabinetService.getCabinetById(id);
-
         if (cabinetOptional.isPresent()) {
             Cabinet medecin = cabinetOptional.get();
             return ResponseEntity.ok(medecin);
         }
-
         return ResponseEntity.notFound().build();
     }
     @DeleteMapping("/{id}")

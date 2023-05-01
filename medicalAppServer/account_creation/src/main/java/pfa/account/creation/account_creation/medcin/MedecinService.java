@@ -2,6 +2,7 @@ package pfa.account.creation.account_creation.medcin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pfa.account.creation.account_creation.cabinet.Cabinet;
 
 import java.util.List;
 import java.util.Optional;
