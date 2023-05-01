@@ -1,8 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios';
 
 function RegisterPatient() {
+
+	let navigate=useNavigate();
+	
+	const[patient,setPatient]=useState({
+		firstname:"",
+		lastname:"",
+		username:"",
+		phone:"",
+		email:"",
+		password:"",
+	});
+
+	const {firstname,lastname,username,phone,email,password}=patient;
+
+	const onInputChange=(e)=>{
+		setPatient({...patient,[e.target.name]:e.target.value});
+		
+	}
+
+	const onSubmit = async (e)=>{
+		e.preventDefault();
+		await axios.post("http://localhost:8081/auth/register",patient)
+		
+	
+		
+	};
+	const onCancle = async (even) => {
+        even.preventDefault();
+        navigate("/");
+    };
+
+
+
   return (
 
     <div className="App">
@@ -16,98 +51,127 @@ function RegisterPatient() {
 
     <main>
 		<div id="hero_register">
-			<div class="container margin_120_95">
-				<div class="row">
-					<div class="col-lg-6">
+			<div className="container margin_120_95">
+				<div className="row">
+					<div className="col-lg-6">
 						<h1>It's time to find you!</h1>
-						<p class="lead">Te pri adhuc simul. No eros errem mea. Diam mandamus has ad. Invenire senserit
+						<p className="lead">Te pri adhuc simul. No eros errem mea. Diam mandamus has ad. Invenire senserit
 							ad has, has ei quis iudico, ad mei nonumes periculis.</p>
-						<div class="box_feat_2">
-							<i class="pe-7s-map-2"></i>
+						<div className="box_feat_2">
+							<i className="pe-7s-map-2"></i>
 							<h3>Let patients to Find you!</h3>
 							<p>Ut nam graece accumsan cotidieque. Has voluptua vivendum accusamus cu. Ut per assueverit
 								temporibus dissentiet.</p>
 						</div>
-						<div class="box_feat_2">
-							<i class="pe-7s-date"></i>
+						<div className="box_feat_2">
+							<i className="pe-7s-date"></i>
 							<h3>Easly manage Bookings</h3>
 							<p>Has voluptua vivendum accusamus cu. Ut per assueverit temporibus dissentiet. Eum no atqui
 								putant democritum, velit nusquam sententiae vis no.</p>
 						</div>
-						<div class="box_feat_2">
-							<i class="pe-7s-phone"></i>
+						<div className="box_feat_2">
+							<i className="pe-7s-phone"></i>
 							<h3>Instantly via Mobile</h3>
 							<p>Eos eu epicuri eleifend suavitate, te primis placerat suavitate his. Nam ut dico
 								intellegat reprehendunt, everti audiam diceret in pri, id has clita consequat
 								suscipiantur.</p>
 						</div>
 					</div>
-					
-					<div class="col-lg-5 ml-auto">
-						<div class="box_form">
-							<form>
-								<div class="row">
-									<div class="col-md-6 ">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="First Name"/>
+					<div className="col-lg-5 ml-auto">
+						<div className="box_form">
+							<form onSubmit={(e)=>onSubmit(e)}>
+								<div className="row">
+									<div className="col-md-6 ">
+										<div className="form-group">
+											<input type={"text"} 
+											className="form-control" 
+											placeholder="First Name"
+											name="firstname"
+											value={firstname}
+											onChange={(e)=>onInputChange(e)}
+											/>
 										</div>
 									</div>
-									<div class="col-md-6">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Last Name"/>
+									<div className="col-md-6 ">
+										<div className="form-group">
+											<input type={"text"} 
+											className="form-control" 
+											placeholder="Last Name"
+											name="lastname"
+											value={lastname}
+											onChange={(e)=>onInputChange(e)}
+											/>
 										</div>
 									</div>
 								</div>
 								
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Username"/>
+								<div className="row">
+									<div className="col-lg-12">
+									<div className="form-group">
+											<input type={"text"} 
+											className="form-control" 
+											placeholder="UserName"
+											name="username"
+											value={username}
+											onChange={(e)=>onInputChange(e)}
+											/>
 										</div>
 									</div>
 								</div>
 								
 
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="form-group">
-											<input text="email" class="form-control" placeholder="phone"/>
+								<div className="row">
+									<div className="col-lg-12">
+										<div className="form-group">
+											<input type={"text"} 
+											className="form-control" 
+											placeholder="Phone"
+											name="phone"
+											value={phone}
+											onChange={(e)=>onInputChange(e)}
+											/>
 										</div>
 									</div>
 								</div>
 								
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="form-group">
-											<input type="email" class="form-control" placeholder="Email Address"/>
+								<div className="row">
+									<div className="col-lg-12">
+										<div className="form-group">
+											<input type={"email"} 
+											className="form-control" 
+											placeholder="Email"
+											name="email"
+											value={email}
+											onChange={(e)=>onInputChange(e)}
+											/>
 										</div>
 									</div>
 								</div>
 
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="form-group">
-											<input type="password" class="form-control" placeholder="password"/>
+								<div className="row">
+									<div className="col-lg-12">
+										<div className="form-group">
+											<input type={"password"} 
+											className="form-control" 
+											placeholder="Password"
+											name="password"
+											value={password}
+											onChange={(e)=>onInputChange(e)}
+											/>
 										</div>
 									</div>
 								</div>
 
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="form-group">
-											<input type="password" class="form-control" placeholder="password confirmation"/>
-										</div>
-									</div>
-								</div>
 								
-								<p class="text-center add_top_30"><input type="submit" class="btn_1" value="Submit"/></p>
-								<div class="text-center"><small>Ut nam graece accumsan cotidieque. Has voluptua vivendum
-										accusamus cu. Ut per assueverit temporibus dissentiet.</small></div>
+								
+								<p className="text-center add_top_30">
+									<button type='submit' onSubmit={(e)=>onSubmit(e)} className='btn btn-primary mx-2'>Submit</button>
+									<button type='reset' onClick={(e)=>onCancle(e)} className='btn btn-danger mx-2'>Cancel</button>
+								</p>
 							</form>
 						</div>
 						
 					</div>
-				
 				</div>
 				
 			</div>
