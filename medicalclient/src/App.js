@@ -1,13 +1,28 @@
-import './App.css';
 import Navbar from './components/Navbar';
 import DoctorCard from './components/DoctorCard';
 import SearchDoctorCard from './components/SearchDoctorCard';
 import Subscibe from './components/Subscribe';
-import FooterLinks from './components/FooterLinks';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import Footer from './components/Footer';
+import { Link } from 'react-router-dom';
+import './assets/css/style.css';
+import './assets/css/bootstrap.min.css';
+import './assets/css/vendors.css';
+import './assets/css/icon_fonts/css/all_icons_min.css';
+import './assets/css/custom.css';
+
+import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
+import Register from './components/Register';
 
 function App() {
+
+  <Router>
+    <Routes> 
+      
+      <Route exact path="/register" element={<Register/>} />
+    </Routes>
+  </Router>
 
   const [doctors,setDoctor]=useState([])
     useEffect(()=>{
@@ -85,7 +100,11 @@ function App() {
                
                 </div>
 
-                <p className="text-center add_top_30"><a href="list.html" className="btn_1 medium">View all Doctors</a></p>
+                <p className="text-center add_top_30">
+                  <Link to="list" className="btn_1 medium">
+                    View all Doctors
+                  </Link>
+                </p>
               </div>
 
             </div>
@@ -122,51 +141,7 @@ function App() {
           </main>
 
 
-          <footer>
-            <div className="container margin_60_35">
-              <div className="row">
-                <div className="col-lg-3 col-md-12">
-                  <p>
-                    <a href="index.html" title="Findoctor">
-                      <img src="./assets/img/logo.png" data-retina="true" alt="" width="163" height="36" className="img-fluid"/>
-                    </a>
-                  </p>
-                </div>
-             <FooterLinks/>
-             <FooterLinks/>
-
-                <div className="col-lg-3 col-md-4">
-                  <h5>Contact with Us</h5>
-                  <ul className="contacts">
-                    <li><a href="tel://61280932400"><i className="icon_mobile"></i> + 61 23 8093 3400</a></li>
-                    <li><a href="mailto:info@findoctor.com"><i className="icon_mail_alt"></i> help@findoctor.com</a></li>
-                  </ul>
-                  <div className="follow_us">
-                    <h5>Follow us</h5>
-                    <ul>
-                      <li><a href="#0"><i className="social_facebook"></i></a></li>
-                      <li><a href="#0"><i className="social_twitter"></i></a></li>
-                      <li><a href="#0"><i className="social_linkedin"></i></a></li>
-                      <li><a href="#0"><i className="social_instagram"></i></a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <hr/>
-              <div className="row">
-                <div className="col-md-8">
-                  <ul id="additional_links">
-                    <li><a href="#0">Terms and conditions</a></li>
-                    <li><a href="#0">Privacy</a></li>
-                  </ul>
-                </div>
-                <div className="col-md-4">
-                  <div id="copy">© 2017 Findoctor</div>
-                </div>
-              </div>
-            </div>
-          </footer>
+          <Footer/>
 
 
           <div id="toTop"></div>

@@ -15,7 +15,17 @@ import CreateMedcin from './Medecin/CreateMedcin';
 import CreateCabinet from './Medecin/CreateCabinet';
 import ListCabinet from './Cabinet/ListCabinet';
 import ListMedcin from './Medecin/ListMedcin';
-
+import List from './components/List';
+import RegisterDoctor from './components/RegisterDoctor';
+import Detail from './components/Detail';
+import SubmitReview from './components/SubmitReview';
+import Register from './components/Register';
+import RegisterPatient from './components/RegisterPatient';
+import About from './components/About';
+import Contacts from './components/Contacts';
+import Booking from './components/Booking';
+import Confirm from './components/Confirm';
+import Error404 from './components/Error404';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,7 +64,51 @@ const router = createBrowserRouter([
     path :"ListMedcin",
     element:<ListMedcin/>
 
-  }
+  },
+  {
+    path: "list",
+    element: <List />,
+  },
+  {
+    path: "registerDoctor",
+    element: <RegisterDoctor />,
+  },
+  {
+    path: "detail",
+    element: <Detail />,
+  },
+  {
+    path: "submitReview",
+    element: <SubmitReview />,
+  },
+  {
+    path: "register",
+    element: <Register />,
+  },
+  {
+    path: "registerPatient",
+    element: <RegisterPatient />,
+  },
+  {
+    path: "about",
+    element: <About />,
+  },
+  {
+    path: "contacts",
+    element: <Contacts />,
+  },
+  {
+    path: "booking",
+    element: <Booking />,
+  },
+  {
+    path: "confirm",
+    element: <Confirm />,
+  },
+  {
+    path: "error404",
+    element: <Error404 />,
+  },
 
 ]);
 

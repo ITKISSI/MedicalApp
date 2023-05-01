@@ -1,18 +1,28 @@
 package ma.eheio.suscriptionrdvpatient.service;
 
 
-import ma.eheio.suscriptionrdvpatient.model.Patient;
+import ma.eheio.suscriptionrdvpatient.repository.PatientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
+@Service
+public class PatientService implements UserDetailsService {
 
-public interface PatientService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public Patient savePatient(Patient patient);
+    @Autowired
+    private PatientRepository patientRepository ;
 
-    public List<Patient> getPatients();
-    public void deletePatient(int id);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    public Optional<Patient> findPatientById(int id);
+        return (UserDetails)patientRepository.findUserByUsername(username).orElseThrow(()-> new UsernameNotFoundException("Not found"));
+
+    }
 }

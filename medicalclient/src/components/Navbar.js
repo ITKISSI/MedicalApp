@@ -22,45 +22,65 @@ const Navbar = () => {
                         
                       
                     </li>
-                    <li><a href="register-doctor-working.html"><i className="pe-7s-add-user"></i></a></li>
+                    <li>
+                    <Link to = "/registerDoctor">
+                      <i className="pe-7s-add-user"></i>
+                      </Link>
+                    </li>
                   </ul>
                   <div className="main-menu">
                     <ul>
                       <li className="submenu">
+<<<<<<< HEAD
                         <a href="#0" class="show-submenu">Home<i className="icon-down-open-mini"></i></a>
                         
                         <ul>
                           <li><a href="index-7.html">Home with Map</a></li>
                         </ul>
+=======
+                        
+                        <Link to = "/" class="show-submenu">
+                        Home
+                      </Link>
+                        
+>>>>>>> 1ade355736e4f9b1ef0259a8e4ab15a745633a59
                       </li>
                       <li className="submenu">
                         <a href="#0" className="show-submenu">Pages<i className="icon-down-open-mini"></i></a>
                         <ul>
                           <li className="third-level"><a href="#0">List pages</a>
                             <ul>
-                              <li><a href="list-map.html">List map page</a></li>
+                              <li><Link to="/list" >List map page</Link></li>
                             </ul>
                           </li>
                           <li className="third-level"><a href="#0">Detail pages</a>
                             <ul>
-                              <li><a href="detail-page-3.html">Detail page 3</a></li>
+                              <li>
+                                <Link to= "/detail">
+                                  Detail page 3
+                                </Link>
+                              </li>
                             </ul>
                           </li>
-                          <li><a href="submit-review.html">Submit Review</a></li>
+                          <li>
+                            <Link to= "/submitReview">
+                                Submit Review
+                            </Link>
+                          </li>
 
-                          <li><a href="login.html">Login</a></li>
-                          <li><a href="register-doctor-working.html">Working doctor register</a></li>
-                          <li><a href="register.html">Register</a></li>
-                          <li><a href="about.html">About Us</a></li>
-                          <li><a href="contacts.html">Contacts</a></li>
+                          <li> <Link to = "/login">Login</Link></li>
+                          <li> <Link to = "/registerDoctor">Working doctor register</Link></li>
+                          <li> <Link to = "/register">Register</Link></li>
+                          <li><Link to = "/about">About Us</Link></li>
+                          <li><Link to = "/contacts">Contacts</Link></li>
                         </ul>
                       </li>
                       <li className="submenu">
                         <a href="#0" className="show-submenu">Extra Elements<i className="icon-down-open-mini"></i></a>
                         <ul>
-                          <li><a href="booking-page.html">Booking page</a></li>
-                          <li><a href="confirm.html">Confirm page</a></li>
-                          <li><a href="404.html">404 page</a></li>
+                          <li><Link to="/booking" >Booking page</Link></li>
+                          <li><Link to="/confirm" >Confirm page</Link></li>
+                          <li><Link to="/error404" >404 page</Link></li>
                         </ul>
                       </li>
                     </ul>
