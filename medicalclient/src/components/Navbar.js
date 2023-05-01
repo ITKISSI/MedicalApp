@@ -31,19 +31,16 @@ const Navbar = () => {
                   <div className="main-menu">
                     <ul>
                       <li className="submenu">
-<<<<<<< HEAD
                         <a href="#0" class="show-submenu">Home<i className="icon-down-open-mini"></i></a>
                         
                         <ul>
                           <li><a href="index-7.html">Home with Map</a></li>
                         </ul>
-=======
                         
                         <Link to = "/" class="show-submenu">
                         Home
                       </Link>
                         
->>>>>>> 1ade355736e4f9b1ef0259a8e4ab15a745633a59
                       </li>
                       <li className="submenu">
                         <a href="#0" className="show-submenu">Pages<i className="icon-down-open-mini"></i></a>
