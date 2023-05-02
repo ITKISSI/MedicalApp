@@ -1,7 +1,9 @@
 MedicalApp.
                     |
                     |
-                    |....MedicalAppClient => reac                                    
+                    |....MedicalAppClient                                    
+                    |              |
+                    |              |..React
                     |
                     |....MedicalAppServer
                                    |
