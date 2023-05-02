@@ -1,9 +1,16 @@
 MedicalApp.
                     |
                     |
-                    |....MedicalAppClient => reac                                    
+                    |....MedicalAppClient                                    
+                    |              |
+                    |              |..React
                     |
                     |....MedicalAppServer
                                    |
                                    |..Spring boot
+                                   |    |
+                                   |    |..
+                                   |    
                                    |..Symfony
+                                        |
+                                        |..
