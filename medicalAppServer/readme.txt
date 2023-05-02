@@ -8,4 +8,9 @@ MedicalApp.
                     |....MedicalAppServer
                                    |
                                    |..Spring boot
+                                   |    |
+                                   |    |..
+                                   |    
                                    |..Symfony
+                                        |
+                                        |..
