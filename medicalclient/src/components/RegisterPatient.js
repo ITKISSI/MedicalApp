@@ -3,6 +3,8 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function RegisterPatient() {
 
@@ -15,9 +17,10 @@ function RegisterPatient() {
 		phone:"",
 		email:"",
 		password:"",
+		cpassword:""
 	});
 
-	const {firstname,lastname,username,phone,email,password}=patient;
+	const {firstname,lastname,username,phone,email,password,cpassword}=patient;
 
 	const onInputChange=(e)=>{
 		setPatient({...patient,[e.target.name]:e.target.value});
@@ -26,7 +29,24 @@ function RegisterPatient() {
 
 	const onSubmit = async (e)=>{
 		e.preventDefault();
-		await axios.post("http://localhost:8081/auth/register",patient)
+		try{
+			if(password !== cpassword) {
+				toast.error("Passwords are not same");
+			  }
+			  else if (password.length < 6) {
+				toast.error("Password must be atleast 6 characters");
+		
+			  }
+			  else{
+				await axios.post("http://localhost:8081/auth/register",patient);
+
+				toast.success("Added")
+			  }
+			  
+		}catch(e){
+			console.log(e);
+		}
+		
 		
 	
 		
@@ -48,7 +68,7 @@ function RegisterPatient() {
         <Navbar/>
         </div>
     </header>    
-
+	<ToastContainer />
     <main>
 		<div id="hero_register">
 			<div className="container margin_120_95">
@@ -156,6 +176,19 @@ function RegisterPatient() {
 											placeholder="Password"
 											name="password"
 											value={password}
+											onChange={(e)=>onInputChange(e)}
+											/>
+										</div>
+									</div>
+								</div>
+								<div className="row">
+									<div className="col-lg-12">
+										<div className="form-group">
+											<input type={"password"} 
+											className="form-control" 
+											placeholder="Password"
+											name="cpassword"
+											value={cpassword}
 											onChange={(e)=>onInputChange(e)}
 											/>
 										</div>

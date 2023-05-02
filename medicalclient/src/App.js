@@ -11,16 +11,18 @@ import './assets/css/bootstrap.min.css';
 import './assets/css/vendors.css';
 import './assets/css/icon_fonts/css/all_icons_min.css';
 import './assets/css/custom.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
-import Register from './components/Register';
+
 
 function App() {
 
   <Router>
     <Routes> 
       
-      <Route exact path="/register" element={<Register/>} />
+     
     </Routes>
   </Router>
 
@@ -38,6 +40,7 @@ function App() {
   return (
       <div className="App">
         <div className="content">
+       
           {/*<div className="layer"></div>
           <div id="map"></div>
            <div id="preloader">
@@ -51,7 +54,7 @@ function App() {
             </div>
 
           </header>
-
+          
 
           <main>
             <div className="hero_map">

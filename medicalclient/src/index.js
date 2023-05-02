@@ -10,7 +10,7 @@ import {
 import RdvList from './adminComponents/RdvList';
 import App from './App';
 import FormReporter from './adminComponents/FormReporter';
-import Login from './components/Login';
+import LoginPatient from './components/LoginPatient';
 import CreateMedcin from './Medecin/CreateMedcin';
 import CreateCabinet from './Medecin/CreateCabinet';
 import ListCabinet from './Cabinet/ListCabinet';
@@ -19,13 +19,14 @@ import List from './components/List';
 import RegisterDoctor from './components/RegisterDoctor';
 import Detail from './components/Detail';
 import SubmitReview from './components/SubmitReview';
-import Register from './components/Register';
 import RegisterPatient from './components/RegisterPatient';
 import About from './components/About';
 import Contacts from './components/Contacts';
 import Booking from './components/Booking';
 import Confirm from './components/Confirm';
 import Error404 from './components/Error404';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,10 +43,6 @@ const router = createBrowserRouter([
   {
     path: "appointments/:id/reporter",
     element: <FormReporter />,
-  },
-  {
-    path: "login",
-    element: <Login />,
   },
   {
     path: "createMedcin",
@@ -82,12 +79,13 @@ const router = createBrowserRouter([
     element: <SubmitReview />,
   },
   {
-    path: "register",
-    element: <Register />,
-  },
-  {
     path: "registerPatient",
     element: <RegisterPatient />,
+  },
+  
+  {
+    path: "loginPatient",
+    element: <LoginPatient />,
   },
   {
     path: "about",
