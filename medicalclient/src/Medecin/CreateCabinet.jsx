@@ -30,8 +30,8 @@ const CreateCabinet = () => {
   return (
     <>
       <Navbar />
-      <div className="content-wrapper">
-        <div className="container-fluid">
+      <div className="content-wrapper ">
+        <div className="container-fluid ">
           {/* Breadcrumbs*/}
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
@@ -92,12 +92,15 @@ const CreateCabinet = () => {
                 </div>
 
                 <div className="col-md-6">
-                  <MapContainer
+                <label>Localisation</label>
+
+                <MapContainer
                     isFromCreate={true}
                     setLongitude={setLongitude}
                     setLatitude={setLatitude}
                   />
                 </div>
+                
               </div>
 
               {/* /row*/}

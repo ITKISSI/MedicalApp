@@ -24,8 +24,6 @@ function MapModel(props) {
   return (
     <div className="custom-modal" style={modalStyle}>
       <MapContainer center={cabinetPosition} onClose={props.onClose}/>
-    
-
     </div>
   );
 }

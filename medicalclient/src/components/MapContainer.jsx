@@ -40,7 +40,7 @@ const MapContainer = ({
   }, []);
 
   return (
-    <div style={{ height: "100%", width: "100%" }}>
+    <div style={{ height: "400px", width: "100%" }}>
       <GoogleMapReact
         bootstrapURLKeys={{
           key: "YOUR_GOOGLE_MAPS_API_KEY",
@@ -51,11 +51,7 @@ const MapContainer = ({
       >
         {marker && <Pin lat={marker.lat} lng={marker.lng} />}
       </GoogleMapReact>
-      {marker && (
-        <div style={{ position: "absolute", top: 0, left: 0 }}>
-          Latitude: {marker.lat}, Longitude: {marker.lng}
-        </div>
-      )}
+
       <div className="text-center">
         {!isFromCreate && (
           <button className="btn btn-danger" onClick={onClose}>
