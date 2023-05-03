@@ -26,7 +26,7 @@ function SideNav() {
     <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
       <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/ListMedcin">
       <i className="fa fa-fw fa-gear"></i>
-      <span className="nav-link-text">Liste de Medcin</span>
+      <span className="nav-link-text">Liste de Medecin</span>
       </Link>
     </li>
 

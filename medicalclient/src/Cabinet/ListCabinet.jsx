@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../adminComponents/Navbar";
 import axiosInstance from "../services/apiClient";
 import MapModel from "../components/MapModel";
+import TableRowCabinet from "../components/TableRowCabinet";
 
 const ListCabinet = () => {
   const [data, setData] = useState([]);
@@ -34,20 +35,33 @@ const ListCabinet = () => {
       });
   };
 
+  const updateCabinet = (updatedData, cabinetId) => {
+    axiosInstance
+      .put(`/cabinet/${cabinetId}`, updatedData)
+      .then((response) => {
+        const updatedList = data.map((item) =>
+          item.id === cabinetId ? response.data : item
+        );
+        setData(updatedList);
+        console.log(response.data);
+        // do something with the response
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <>
       <Navbar />
       <div className="content-wrapper">
         <div className="container-fluid">
-          {/* Breadcrumbs*/}
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
               <a href="#">Dashboard</a>
             </li>
             <li className="breadcrumb-item active">Tables</li>
           </ol>
-          {/* Example DataTables Card*/}
           <div className="card mb-3">
             <div className="card-header">
               <i className="fa fa-table" /> List de cabinets
@@ -73,48 +87,14 @@ const ListCabinet = () => {
                   </thead>
 
                   <tbody>
-                    {data.map((item) => (
-                      <tr>
-                        <td>{item.id}</td>
-                        <td>{item.denomination}</td>
-                        <td>{item.adresse}</td>
-                        <td>{item.telephone}</td>
-
-                        <td>
-                          <button
-                            onClick={() => {
-                              console.log(
-                                "================onee===================="
-                              );
-                              console.log(lat);
-                              console.log(lng);
-
-                              console.log(
-                                "=================end oone==================="
-                              );
-                              setLat(item.latitude);
-                              setLng(item.longitude);
-                              setShowModal(true);
-                            }}
-                          >
-                            View Localisation
-                          </button>
-                        </td>
-                        <td>{item.medecins.length}</td>
-                        <td>
-                          <button className="btn btn-warning">Modifier</button>{" "}
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => {
-                              if (window.confirm("Are you sure you want to delete this item?")) {
-                                deleteCabinet(item.id);
-                              }
-                            }}
-                          >
-                            Supprimer
-                          </button>
-                        </td>
-                      </tr>
+                    {data.map((item, index) => (
+                      <TableRowCabinet
+                        key={index}
+                        item={item}
+                        onDelete={deleteCabinet}
+                        onUpdate={updateCabinet}
+                        onCancel={() => {}}
+                      />
                     ))}
                   </tbody>
                 </table>

@@ -32,8 +32,8 @@ const ListMedcin = () => {
   };
 
   const updateMedecin = (updatedData, medcinId) => {
-    console.log('=================here===================');
-    console.log('====================================');
+    console.log("=================here===================");
+    console.log("====================================");
     axiosInstance
       .put(`/medcin/${medcinId}`, updatedData)
       .then((response) => {
