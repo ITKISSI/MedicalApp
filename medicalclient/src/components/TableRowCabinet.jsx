@@ -1,7 +1,13 @@
 import { useState } from "react";
 import MedecinModel from "./MedecinModel";
 
-const TableRowCabinet = ({ item, onUpdate, onCancel, onDelete,handleViewLocalisation }) => {
+const TableRowCabinet = ({
+  item,
+  onUpdate,
+  onCancel,
+  onDelete,
+  handleViewLocalisation,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(item);
   const [modalState, setModalState] = useState(false);
@@ -101,7 +107,12 @@ const TableRowCabinet = ({ item, onUpdate, onCancel, onDelete,handleViewLocalisa
             <td>{item.telephone}</td>
             <td>
               {" "}
-              <button className="btn btn-warning" type="button" name="address" onClick={handleViewLocalisation}>
+              <button
+                className="btn btn-warning"
+                type="button"
+                name="address"
+                onClick={handleViewLocalisation}
+              >
                 view localisation
               </button>
             </td>

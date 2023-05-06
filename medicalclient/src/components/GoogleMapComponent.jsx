@@ -67,7 +67,7 @@ const GoogleMapComponent = ({
                 }}
                 zoom={mapZoom}
                 center={markerPosition}
-                onClick={onMapClick}
+               // onClick={onMapClick}
               >
                 <Marker position={markerPosition} />
               </GoogleMap>
