@@ -27,6 +27,7 @@ import Confirm from './components/Confirm';
 import Error404 from './components/Error404';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RegistreCabinet from './Cabinet/RegistreCabinet';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -107,7 +108,10 @@ const router = createBrowserRouter([
     path: "error404",
     element: <Error404 />,
   },
-
+  {
+    path:'registreCabinet',
+    element:<RegistreCabinet/>
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

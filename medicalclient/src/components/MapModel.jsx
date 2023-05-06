@@ -1,12 +1,12 @@
 import { useState } from "react";
 import MapContainer from "./MapContainer";
+import GoogleMapComponent from "./GoogleMapComponent";
 
 function MapModel(props) {
-
-  const cabinetPosition = { lat:props.lat, lng:props.lng};
-  console.log('=================position===================');
+  const cabinetPosition = { lat: props.lat, lng: props.lng };
+  console.log("=================position===================");
   console.log(cabinetPosition);
-  console.log('====================================');
+  console.log("====================================");
 
   const modalStyle = {
     position: "fixed",
@@ -23,7 +23,7 @@ function MapModel(props) {
 
   return (
     <div className="custom-modal" style={modalStyle}>
-      <MapContainer center={cabinetPosition} onClose={props.onClose}/>
+      <GoogleMapComponent longitude={props.lng} latitude={props.lat} isFromViewLocalisation={true} onClose={props.onClose} />
     </div>
   );
 }

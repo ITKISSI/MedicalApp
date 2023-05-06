@@ -1,29 +1,41 @@
 import { useState } from "react";
 import Navbar from "../adminComponents/Navbar";
-import MapContainer from "../components/MapContainer";
 import axiosInstance from "../services/apiClient";
+import GoogleMapComponent from "../components/GoogleMapComponent";
+import { ReactComponent as Loader } from "../Loader.svg";
+
 const CreateCabinet = () => {
   const [denomination, setDemonation] = useState("");
-  const [adresse, setAdresse] = useState("");
+  const [address, setAdresse] = useState("");
   const [telephone, setTelephone] = useState("");
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [submitText, setSubmitText] = useState("Ajouter");
+  const [isAdded, setIsAdded] = useState(false);
+
   const handleSubmit = (event) => {
-    event.preventDefault(); // prevent the default form submission behavior
-    console.log({ denomination, adresse, telephone, longitude, latitude });
+    event.preventDefault();
+    setIsLoading(true);
+
     axiosInstance
       .post("/cabinet", {
-        denomination: denomination,
-        adresse: adresse,
-        telephone: telephone,
-        longitude: longitude,
-        latitude: latitude,
+        denomination,
+        address,
+        telephone,
+        longitude,
+        latitude,
       })
       .then((response) => {
-        console.log("Data created successfully");
+        console.log("Data created successfully +longitude " + longitude);
+        console.log("Data created successfully +latitude " + latitude);
+        setIsAdded(true);
+
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        setIsLoading(false);
       });
   };
 
@@ -66,7 +78,7 @@ const CreateCabinet = () => {
                     <label>adresse</label>
                     <input
                       type="text"
-                      value={adresse}
+                      value={address}
                       onChange={(event) => setAdresse(event.target.value)}
                       className="form-control"
                       placeholder="adresse"
@@ -86,30 +98,30 @@ const CreateCabinet = () => {
                   </div>
                   <p>
                     <button className="btn_1 medium" type="submit">
-                      Ajouter
-                    </button>
+                      {!isLoading ? submitText : <Loader className="spinner" />}
+                    </button>{" "}
+                    <br />
+                    {isAdded && <span className="text-success">Le cabinet a été ajouté.</span>}
                   </p>
                 </div>
 
                 <div className="col-md-6">
-                <label>Localisation</label>
+                  <div className="form-group">
+                    <label>Localisation</label>
 
-                <MapContainer
-                    isFromCreate={true}
-                    setLongitude={setLongitude}
-                    setLatitude={setLatitude}
-                  />
+                    <GoogleMapComponent
+                      isFromViewLocalisation={false}
+                      longitude={longitude}
+                      latitude={latitude}
+                      setLongitude={setLongitude}
+                      setLatitude={setLatitude}
+                    />
+                  </div>
                 </div>
-                
               </div>
-
-              {/* /row*/}
-
-              {/* /row*/}
             </div>
           </form>
         </div>
-        {/* /.container-fluid*/}
       </div>
     </>
   );

@@ -123,8 +123,6 @@ const ListCabinet = () => {
                         item={item}
                         handleViewLocalisation={() => {
                           setLng(item.longitude);
-                  
-
                           setLat(item.latitude);
                           setShowModal(true);
                         }}
