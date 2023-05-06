@@ -1,15 +1,11 @@
-package pfa.account.creation.account_creation.cabinet;
+package pfa.account.creation.account_creation.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pfa.account.creation.account_creation.medcin.Medecin;
 
 import java.util.ArrayList;
 import java.util.List;

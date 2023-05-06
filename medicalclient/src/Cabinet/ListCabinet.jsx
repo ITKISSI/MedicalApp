@@ -3,29 +3,49 @@ import Navbar from "../adminComponents/Navbar";
 import axiosInstance from "../services/apiClient";
 import MapModel from "../components/MapModel";
 import TableRowCabinet from "../components/TableRowCabinet";
+import Pagination from "../components/Pagination";
 
 const ListCabinet = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
-  useEffect(() => {
+  const [tottalPages, setTottalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState();
+
+  const handleSearch = (query) => {
+    setSearchTerm(query);
+    const filtered = data.filter((item) =>
+      item.denomination.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
+  const getData = (pageNumber) => {
     axiosInstance
-      .get("/cabinet")
+      .get(`/cabinet?pageNumber=${pageNumber}`)
       .then((response) => {
-        setData(response.data);
-        console.log(response.data);
+        setData(response.data.cabinetList);
+        setFilteredData(response.data.cabinetList);
+        setTottalPages(response.data.totalPages);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    getData(currentPage);
+  }, [currentPage]);
 
   const deleteCabinet = (cabinetId) => {
     axiosInstance
       .delete("/cabinet/" + cabinetId)
       .then((response) => {
-        const newData = data.filter((item) => item.id !== cabinetId);
+        const newData = filteredData.filter((item) => item.id !== cabinetId);
+        setFilteredData(newData);
         setData(newData);
         console.log(response.data);
         // do something with the response
@@ -39,9 +59,10 @@ const ListCabinet = () => {
     axiosInstance
       .put(`/cabinet/${cabinetId}`, updatedData)
       .then((response) => {
-        const updatedList = data.map((item) =>
+        const updatedList = filteredData.map((item) =>
           item.id === cabinetId ? response.data : item
         );
+        setFilteredData(updatedList);
         setData(updatedList);
         console.log(response.data);
         // do something with the response
@@ -68,6 +89,15 @@ const ListCabinet = () => {
             </div>
             <div className="card-body">
               <div className="table-responsive">
+                <div>
+                  <input
+                    className="form-control search-top ml-auto mb-3"
+                    type="text"
+                    placeholder="Chercher avec denomination"
+                    onChange={(event) => handleSearch(event.target.value)}
+                  />
+                </div>
+
                 <table
                   className="table table-bordered"
                   id="dataTable"
@@ -87,10 +117,17 @@ const ListCabinet = () => {
                   </thead>
 
                   <tbody>
-                    {data.map((item, index) => (
+                    {filteredData.map((item, index) => (
                       <TableRowCabinet
                         key={index}
                         item={item}
+                        handleViewLocalisation={() => {
+                          setLng(item.longitude);
+                  
+
+                          setLat(item.latitude);
+                          setShowModal(true);
+                        }}
                         onDelete={deleteCabinet}
                         onUpdate={updateCabinet}
                         onCancel={() => {}}
@@ -100,6 +137,7 @@ const ListCabinet = () => {
                 </table>
               </div>
             </div>
+            <Pagination tottalPages={tottalPages} onClick={setCurrentPage} />
           </div>
           {/* /tables*/}
         </div>

@@ -1,21 +1,44 @@
 import { useEffect, useState } from "react";
-import Navbar from "../adminComponents/Navbar";
 import axiosInstance from "../services/apiClient";
 import TableRow from "../components/TableRow";
+import Pagination from "../components/Pagination";
+import Navbar from "../adminComponents/Navbar";
 
 const ListMedcin = () => {
   const [data, setData] = useState([]);
-  useEffect(() => {
+  const [filteredData, setFilteredData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [tottalPages, setTottalPages] = useState(0);
+  const [searchTerm, setSearchTerm] = useState();
+
+  const handleSearch = (query) => {
+    setSearchTerm(query);
+    const filtered = data.filter((item) =>
+      (
+        item.firstName.toLowerCase() +
+        " " +
+        item.lastName.toLowerCase()
+      ).includes(query.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
+  const fetchData = (currentPage) => {
     axiosInstance
-      .get("/medcin")
+      .get(`/medcin?pageNumber=${currentPage}`)
       .then((response) => {
-        setData(response.data);
-        console.log(response.data);
+        setData(response.data.medecinList);
+        setFilteredData(response.data.medecinList);
+        setTottalPages(response.data.totalPages);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage]);
 
   const deleteMedecin = (medcinId) => {
     axiosInstance
@@ -32,8 +55,6 @@ const ListMedcin = () => {
   };
 
   const updateMedecin = (updatedData, medcinId) => {
-    console.log("=================here===================");
-    console.log("====================================");
     axiosInstance
       .put(`/medcin/${medcinId}`, updatedData)
       .then((response) => {
@@ -54,26 +75,23 @@ const ListMedcin = () => {
       <Navbar />
       <div className="content-wrapper">
         <div className="container-fluid">
-          {/* Breadcrumbs*/}
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <a href="#">Dashboard</a>
-            </li>
-            <li className="breadcrumb-item active">Tables</li>
-          </ol>
-          {/* Example DataTables Card*/}
+          {/* ... (breadcrumb and other elements) */}
           <div className="card mb-3">
             <div className="card-header">
-              <i className="fa fa-table" /> List de cabinets
+              <i className="fa fa-table" /> List de Medcin
             </div>
             <div className="card-body">
               <div className="table-responsive">
-                <table
-                  className="table table-bordered"
-                  id="dataTable"
-                  width="100%"
-                  cellSpacing={0}
-                >
+                <div>
+                  <input
+                    className="form-control search-top ml-auto mb-3"
+                    type="text"
+                    placeholder="Chercher avec le nom et prénom"
+                    onChange={(event) => handleSearch(event.target.value)}
+                  />
+                </div>
+
+                <table className="table table-bordered" width="100%">
                   <thead>
                     <tr>
                       <th>id</th>
@@ -89,9 +107,8 @@ const ListMedcin = () => {
                       <th>Action</th>
                     </tr>
                   </thead>
-
                   <tbody>
-                    {data.map((item, index) => (
+                    {filteredData.map((item, index) => (
                       <TableRow
                         key={index}
                         item={item}
@@ -105,7 +122,7 @@ const ListMedcin = () => {
               </div>
             </div>
           </div>
-          {/* /tables*/}
+          <Pagination tottalPages={tottalPages} onClick={setCurrentPage} />
         </div>
       </div>
     </>

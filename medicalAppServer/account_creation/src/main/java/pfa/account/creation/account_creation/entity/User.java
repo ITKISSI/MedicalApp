@@ -1,10 +1,7 @@
-package pfa.account.creation.account_creation.user;
+package pfa.account.creation.account_creation.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import pfa.account.creation.account_creation.medcin.Medecin;
-
-import java.util.List;
 
 
 @Entity

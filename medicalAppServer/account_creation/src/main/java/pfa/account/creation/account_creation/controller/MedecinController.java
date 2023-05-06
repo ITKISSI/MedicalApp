@@ -1,10 +1,13 @@
-package pfa.account.creation.account_creation.medcin;
+package pfa.account.creation.account_creation.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pfa.account.creation.account_creation.entity.Medecin;
+import pfa.account.creation.account_creation.payload.MedecinResponse;
+import pfa.account.creation.account_creation.service.impl.MedecinServiceImp;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,16 +18,18 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 
 public class MedecinController {
-    private MedecinService medcinService;
+    private MedecinServiceImp medcinService;
 
     @Autowired
-    public MedecinController(MedecinService medcinService) {
+    public MedecinController(MedecinServiceImp medcinService) {
         this.medcinService = medcinService;
     }
 
     @GetMapping
-    public List<Medecin> getAllMedcin(){
-        return medcinService.getAllMedcin();
+    @PreAuthorize("hasRole('Admin')")
+
+    public MedecinResponse getAllMedcin(@RequestParam(value = "pageNumber",defaultValue = "0",required = false )int pageNumber, @RequestParam(value = "pageSize",defaultValue = "5",required = false) int pageSize){
+        return medcinService.getAllMedcin(pageNumber,pageSize);
     }
 
     @GetMapping("/{id}")
@@ -39,6 +44,8 @@ public class MedecinController {
         return ResponseEntity.notFound().build();
     }
     @PostMapping
+    @PreAuthorize("hasRole('Admin')")
+
     public Medecin addMedcin(@RequestBody Medecin medecin){
         return medcinService.upSertMedcin(medecin);
     }

@@ -62,10 +62,10 @@ const CreateMedcin = () => {
 
   useEffect(() => {
     axiosInstance
-      .get("/cabinet")
+      .get("/cabinet?pageSize=10")
       .then((response) => {
-        setCabinetData(response.data);
-        console.log(response.data);
+        setCabinetData(response.data.cabinetList);
+        console.log(response.data.cabinetList);
       })
       .catch((error) => {
         console.error(error);

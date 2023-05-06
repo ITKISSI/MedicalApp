@@ -64,7 +64,7 @@ function TableRow({ item, onUpdate, onCancel, onDelete }) {
             <input
               type="text"
               name="address"
-              value={formData.address}
+              value={formData.adress}
               onChange={handleChange}
             />
           </td>
@@ -128,7 +128,7 @@ function TableRow({ item, onUpdate, onCancel, onDelete }) {
           <td>{item.firstName}</td>
           <td>{item.lastName}</td>
           <td>{item.age}</td>
-          <td>{item.address}</td>
+          <td>{item.adress}</td>
           <td>{item.cin}</td>
           <td>{item.login}</td>
           <td>{item.password}</td>

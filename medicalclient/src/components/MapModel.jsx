@@ -4,7 +4,7 @@ import MapContainer from "./MapContainer";
 function MapModel(props) {
 
   const cabinetPosition = { lat:props.lat, lng:props.lng};
-  console.log('====================================');
+  console.log('=================position===================');
   console.log(cabinetPosition);
   console.log('====================================');
 
