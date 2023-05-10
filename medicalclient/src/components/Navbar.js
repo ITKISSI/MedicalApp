@@ -15,12 +15,9 @@ const Navbar = () => {
                   <a className="cmn-toggle-switch cmn-toggle-switch__htx open_close" href="#0"><span>Menu mobile</span></a>
                   <ul id="top_access">
                     <li>
-                      
                         <Link to = "/login">
                           <i class="pe-7s-user"></i>
                         </Link>
-                        
-                      
                     </li>
                     <li>
                     <Link to = "/registerDoctor">
@@ -30,16 +27,10 @@ const Navbar = () => {
                   </ul>
                   <div className="main-menu">
                     <ul>
-                      <li className="submenu">
-                        <a href="#0" class="show-submenu">Home<i className="icon-down-open-mini"></i></a>
-                        
-                        <ul>
-                          <li><a href="index-7.html">Home with Map</a></li>
-                        </ul>
-                        
+                      <li className="submenu">                    
                         <Link to = "/" class="show-submenu">
-                        Home
-                      </Link>
+                            Home
+                        </Link>
                         
                       </li>
                       <li className="submenu">

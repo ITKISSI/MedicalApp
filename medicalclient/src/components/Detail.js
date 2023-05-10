@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import { Link } from "react-router-dom";
 
 function Detail() {
   return (
@@ -135,65 +136,10 @@ function Detail() {
 							</div>
 						</div>
 						
-
-						<div class="main_title_4">
-							<h3><i class="icon_circle-slelected"></i>Select visit - treatment</h3>
-						</div>
-						<ul class="treatments clearfix">
-							<li>
-								<div class="checkbox">
-									<input type="checkbox" class="css-checkbox" id="visit1" name="visit1"/>
-									<label for="visit1" class="css-label">Back Pain visit <strong>$55</strong></label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox">
-									<input type="checkbox" class="css-checkbox" id="visit2" name="visit2"/>
-									<label for="visit2" class="css-label">Cardiovascular screen
-										<strong>$55</strong></label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox">
-									<input type="checkbox" class="css-checkbox" id="visit3" name="visit3"/>
-									<label for="visit3" class="css-label">Diabetes consultation
-										<strong>$55</strong></label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox">
-									<input type="checkbox" class="css-checkbox" id="visit4" name="visit4"/>
-									<label for="visit4" class="css-label">Icontinence visit <strong>$55</strong></label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox">
-									<input type="checkbox" class="css-checkbox" id="visit5" name="visit5"/>
-									<label for="visit5" class="css-label">Foot Pain visit <strong>$55</strong></label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox">
-									<input type="checkbox" class="css-checkbox" id="visit6" name="visit6"/>
-									<label for="visit6" class="css-label">Food intollerance visit
-										<strong>$55</strong></label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox">
-									<input type="checkbox" class="css-checkbox" id="visit7" name="visit7"/>
-									<label for="visit7" class="css-label">Neck Pain visit <strong>$55</strong></label>
-								</div>
-							</li>
-							<li>
-								<div class="checkbox">
-									<input type="checkbox" class="css-checkbox" id="visit8" name="visit8"/>
-									<label for="visit8" class="css-label">Back Pain visit <strong>$55</strong></label>
-								</div>
-							</li>
-						</ul>
 						<hr/>
-						<div class="text-center"><a href="booking-page.html" class="btn_1 medium">Book Now</a></div>
+						<div class="text-center">
+							<Link to="/booking" class="btn_1 medium" >Book Now</Link>
+						</div>
 					</div>
 					
 
