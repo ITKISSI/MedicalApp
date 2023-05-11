@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pfa.account.creation.account_creation.dto.MedecinDto;
 import pfa.account.creation.account_creation.entity.Medecin;
 import pfa.account.creation.account_creation.payload.MedecinResponse;
 import pfa.account.creation.account_creation.service.impl.MedecinServiceImp;
@@ -31,6 +32,17 @@ public class MedecinController {
     public MedecinResponse getAllMedcin(@RequestParam(value = "pageNumber",defaultValue = "0",required = false )int pageNumber, @RequestParam(value = "pageSize",defaultValue = "5",required = false) int pageSize){
         return medcinService.getAllMedcin(pageNumber,pageSize);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Medecin>> searchMedecin(@RequestParam("term") String term) {
+        List<Medecin> searchResult = medcinService.searchMedecin(term);
+        if (!searchResult.isEmpty()) {
+            return ResponseEntity.ok(searchResult);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Medecin> getMedecinById(@PathVariable Long id) {

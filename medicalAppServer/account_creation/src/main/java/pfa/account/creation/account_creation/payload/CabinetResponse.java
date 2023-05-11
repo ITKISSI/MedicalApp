@@ -16,6 +16,4 @@ public class CabinetResponse {
     private long tottalElements;
     private int totalPages;
     private boolean last;
-
-
 }

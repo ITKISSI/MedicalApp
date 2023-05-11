@@ -13,6 +13,7 @@ import pfa.account.creation.account_creation.repository.MedecinRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -64,6 +65,36 @@ public class MedecinServiceImp implements MedcinService {
     public Optional<Medecin> getMedecinById(Long id) {
         return medecinRepository.findById(id);
     }
+
+    @Override
+    public List<Medecin> searchMedecin(String term) {
+        String searchTermLowerCase = term.toLowerCase();
+
+        List<Medecin> searchResult = medecinRepository.findAll().stream()
+                .map(medecin -> {
+                    Medecin transformedMedecin = new Medecin();
+                    transformedMedecin.setSpecialite(medecin.getSpecialite().toLowerCase());
+                    transformedMedecin.setFirstName(medecin.getFirstName().toLowerCase());
+                    transformedMedecin.setLastName(medecin.getLastName().toLowerCase());
+                    transformedMedecin.setAdress(medecin.getAdress().toLowerCase());
+                    transformedMedecin.setCin(medecin.getCin().toLowerCase());
+                    transformedMedecin.setInp(medecin.getInp());
+                    return transformedMedecin;
+                })
+                .filter(medecin ->
+                        medecin.getSpecialite().contains(searchTermLowerCase) ||
+                                String.valueOf(medecin.getInp()).contains(searchTermLowerCase) ||
+                                medecin.getFirstName().contains(searchTermLowerCase) ||
+                                medecin.getLastName().contains(searchTermLowerCase) ||
+                                medecin.getAdress().contains(searchTermLowerCase) ||
+                                medecin.getCin().contains(searchTermLowerCase)
+                )
+                .collect(Collectors.toList());
+
+        return searchResult;
+    }
+
+
 
 
 }

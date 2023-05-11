@@ -7,8 +7,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MedcinService {
-     MedecinResponse getAllMedcin(int pageNumber,int pageSize);
+     MedecinResponse getAllMedcin(int pageNumber, int pageSize);
+
      Medecin upSertMedcin(Medecin medecin);
+
      Boolean deleteMedecinById(Long id);
+
      Optional<Medecin> getMedecinById(Long id);
+
+     List<Medecin> searchMedecin(String term);
 }
