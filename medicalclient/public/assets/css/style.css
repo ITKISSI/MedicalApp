@@ -1015,7 +1015,7 @@ ul#additional_links li:after {
   background-color: #e74e84;
   color: #fff;
 }
-#custom-search-input ul li label {
+#custom-search-input ul li button label {
   display: inline-block;
   -moz-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
@@ -4252,9 +4252,15 @@ input[type=file]::-webkit-file-upload-button, input[type=file].invalid::-webkit-
     bottom: 140px;
   }
 }
-.hero_map .search_wp #custom-search-input ul li label {
+.hero_map .search_wp #custom-search-input ul li button  {
   background-color: #3f4079;
   color: #fff;
+  border: none;
+  border-radius: 3px;
+  line-height: 1;
+  text-shadow: none;
+  text-align: center;
+  cursor: pointer;
 }
 
 .cta_subscribe h3 {

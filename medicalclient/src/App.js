@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
+import SearchZone from './components/SearchZone';
 
 
 function App() {
@@ -57,32 +58,8 @@ function App() {
           
 
           <main>
-            <div className="hero_map">
-              <div id="map_listing"></div>
-              <form method="post" action="list.html" className="search_wp">
-                <div id="custom-search-input">
-                  <div className="input-group">
-                    <input type="text" className=" search-query" placeholder="Ex. Name, Specialization ...."/>
-                    <input type="submit" className="btn_search" value="Search"/>
-                  </div>
-                  <ul>
-                    <li>
-                      <input type="radio" id="all" name="radio_search" value="all" checked=""/>
-                      <label htmlFor="all">All</label>
-                    </li>
-                    <li>
-                      <input type="radio" id="doctor" name="radio_search" value="doctor"/>
-                      <label htmlFor="doctor">Doctor</label>
-                    </li>
-                    <li>
-                      <input type="radio" id="clinic" name="radio_search" value="clinic"/>
-                      <label htmlFor="clinic">Clinic</label>
-                    </li>
-                  </ul>
-                </div>
-              </form>
-            </div>
 
+            <SearchZone/>
 
             <div className="bg_color_1">
               <div className="container margin_120_95">
