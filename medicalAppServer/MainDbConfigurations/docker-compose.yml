@@ -12,7 +12,7 @@ services:
       environment:
         MYSQL_ROOT_PASSWORD: 'root'
         MYSQL_PASSWORD: 't3rceS'
-        MYSQL_DATABASE: 'database'
+        MYSQL_DATABASE: 'MainDb'
   myadmin:
     container_name: 'phpmyadmin'
     image: phpmyadmin/phpmyadmin:5
