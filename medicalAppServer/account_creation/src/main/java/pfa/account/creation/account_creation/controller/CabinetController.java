@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import pfa.account.creation.account_creation.payload.CabinetDTO;
 import pfa.account.creation.account_creation.payload.CabinetResponse;
 import pfa.account.creation.account_creation.payload.medecin.MedecinDTO;
-import pfa.account.creation.account_creation.service.impl.CabinetService;
-import pfa.account.creation.account_creation.service.impl.CabinetServiceImp;
-import pfa.account.creation.account_creation.service.impl.MedecinService;
+import pfa.account.creation.account_creation.service.CabinetService;
+import pfa.account.creation.account_creation.service.MedecinService;
 import pfa.account.creation.account_creation.utils.AppConstants;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package pfa.account.creation.account_creation.service.impl;
+package pfa.account.creation.account_creation.service.serviceImp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +10,7 @@ import pfa.account.creation.account_creation.exception.ResourceNotFoundException
 import pfa.account.creation.account_creation.payload.CabinetDTO;
 import pfa.account.creation.account_creation.payload.CabinetResponse;
 import pfa.account.creation.account_creation.repository.CabinetRepository;
+import pfa.account.creation.account_creation.service.CabinetService;
 import pfa.account.creation.account_creation.utils.mapper.CabinetMapperAble;
 
 import java.util.List;

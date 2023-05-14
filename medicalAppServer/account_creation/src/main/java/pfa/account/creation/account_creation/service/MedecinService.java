@@ -1,4 +1,4 @@
-package pfa.account.creation.account_creation.service.impl;
+package pfa.account.creation.account_creation.service;
 
 import pfa.account.creation.account_creation.payload.medecin.MedecinCreateDTO;
 import pfa.account.creation.account_creation.payload.MedecinResponse;

@@ -6,6 +6,8 @@ import lombok.*;
 import pfa.account.creation.account_creation.entity.Cabinet;
 import pfa.account.creation.account_creation.entity.User;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,4 +20,9 @@ public class Medecin extends User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cabinet_id",nullable = false) // to provide forienkey
     private Cabinet cabinet;
+
+
+
+    @OneToMany(mappedBy = "medecin",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Disponibilite> disponibilites;
 }

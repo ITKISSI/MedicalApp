@@ -1,4 +1,4 @@
-package pfa.account.creation.account_creation.service.impl;
+package pfa.account.creation.account_creation.service.serviceImp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +14,7 @@ import pfa.account.creation.account_creation.payload.medecin.MedecinCreateDTO;
 import pfa.account.creation.account_creation.payload.medecin.MedecinDTO;
 import pfa.account.creation.account_creation.repository.CabinetRepository;
 import pfa.account.creation.account_creation.repository.MedecinRepository;
+import pfa.account.creation.account_creation.service.MedecinService;
 import pfa.account.creation.account_creation.utils.mapper.MedecinMapperAble;
 
 import java.util.List;
@@ -59,10 +60,8 @@ public class MedecinServiceImp implements MedecinService {
     public MedecinDTO createMedecin(MedecinCreateDTO medecinCreateDTO, long cabinetId) {
         Cabinet cabinet = cabinetRepository.findById(cabinetId).orElseThrow(() -> new ResourceNotFoundException("Cabinet", "id", cabinetId));
         Medecin medecin = medecinMapperAble.mapToEntity(medecinCreateDTO);
-        System.out.println(medecin);
         medecin.setCabinet(cabinet);
         Medecin savedMedecin = medecinRepository.save(medecin);
-
         return medecinMapperAble.mapToDtoWithOutLoginAndPassword(savedMedecin,cabinet.getDenomination());
     }
 

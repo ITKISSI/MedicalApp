@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pfa.account.creation.account_creation.payload.MedecinResponse;
 import pfa.account.creation.account_creation.payload.medecin.MedecinCreateDTO;
 import pfa.account.creation.account_creation.payload.medecin.MedecinDTO;
-import pfa.account.creation.account_creation.service.impl.MedecinService;
-
-import java.util.List;
+import pfa.account.creation.account_creation.service.MedecinService;
 
 
 @RestController
