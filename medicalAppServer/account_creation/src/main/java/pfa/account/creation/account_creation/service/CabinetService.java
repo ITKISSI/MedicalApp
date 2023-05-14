@@ -13,4 +13,5 @@ public interface CabinetService {
      void deleteCabinetById(Long id);
      CabinetDTO updateCabinet(CabinetDTO cabinetDTO,long cabinetId);
 
+    double calculateDistanceBetweenCoordinates(double cabinetLongitude, double cabinetLatitude, double userLongitude, double userLatitude);
 }

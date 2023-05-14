@@ -53,4 +53,16 @@ public class CabinetController {
     public List<MedecinDTO> getMedecinInCabinet(@PathVariable long cabinetId){
         return medecinService.getMedecinByCabinetId(cabinetId);
     }
+    @GetMapping("/calculate-distance")
+    public ResponseEntity<String> calculateDistance(
+            @RequestParam("cabinetLongitude") double cabinetLongitude,
+            @RequestParam("cabinetLatitude") double cabinetLatitude,
+            @RequestParam("userLongitude") double userLongitude,
+            @RequestParam("userLatitude") double userLatitude
+    ) {
+        double distance = cabinetService.calculateDistanceBetweenCoordinates(cabinetLongitude, cabinetLatitude, userLongitude, userLatitude);
+        String formattedDistance = String.format("%.3f m", distance);
+        return ResponseEntity.ok(formattedDistance);
+    }
+
 }

@@ -55,6 +55,7 @@ public class CabinetServiceImp implements CabinetService {
         Cabinet cabinet = cabinetRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cabinet", "id", id));
         return cabinetMapperAble.mapToDto(cabinet);
     }
+
     @Override
     public void deleteCabinetById(Long id) {
         Cabinet cabinet = cabinetRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cabinet", "id", id));
@@ -64,7 +65,7 @@ public class CabinetServiceImp implements CabinetService {
     @Override
     public CabinetDTO updateCabinet(CabinetDTO cabinetDTO, long cabinetId) {
         Cabinet newCabinet = cabinetRepository.findById(cabinetId).orElseThrow(() -> new ResourceNotFoundException("Cabinet", "id", cabinetId));
-        Cabinet comingCabinet=cabinetMapperAble.mapToEntity(cabinetDTO);
+        Cabinet comingCabinet = cabinetMapperAble.mapToEntity(cabinetDTO);
         newCabinet.setDenomination(comingCabinet.getDenomination());
         newCabinet.setAdresse(comingCabinet.getAdresse());
         newCabinet.setTelephone(comingCabinet.getTelephone());
@@ -72,6 +73,33 @@ public class CabinetServiceImp implements CabinetService {
         newCabinet.setLatitude(comingCabinet.getLatitude());
         cabinetRepository.save(newCabinet);
         return cabinetMapperAble.mapToDto(newCabinet);
+    }
+
+    @Override
+    public double calculateDistanceBetweenCoordinates(double cabinetLongitude, double cabinetLatitude, double userLongitude, double userLatitude) {
+        // Convert coordinates to radians
+        double lon1Rad = Math.toRadians(cabinetLongitude);
+        double lat1Rad = Math.toRadians(cabinetLatitude);
+        double lon2Rad = Math.toRadians(userLongitude);
+        double lat2Rad = Math.toRadians(userLatitude);
+
+        // Earth radius in kilometers
+        double earthRadius = 6371;
+
+        // Calculate the differences in coordinates
+        double lonDiff = lon2Rad - lon1Rad;
+        double latDiff = lat2Rad - lat1Rad;
+
+        // Haversine formula
+        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+                Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+                        Math.sin(lonDiff / 2) * Math.sin(lonDiff / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        // Calculate the distance
+        double distance = earthRadius * c;
+
+        return distance;
     }
 
 }
