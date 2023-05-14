@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CabinetResponse {
-    private List<Cabinet> cabinetList;
+    private List<CabinetDTO> cabinetList;
     private int pageNumber;
     private int pageSize;
     private long tottalElements;

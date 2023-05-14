@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
     @Entity(name = "Cabinet")
@@ -23,7 +22,6 @@ import java.util.List;
         private int telephone;
         private double longitude;
         private double latitude;
-        @OneToMany(mappedBy = "cabinet", cascade = CascadeType.ALL)
-        @JsonManagedReference
+        @OneToMany(mappedBy = "cabinet",cascade = CascadeType.ALL,orphanRemoval = true)
         private List<Medecin> medecins = new ArrayList<>();
     }

@@ -2,15 +2,17 @@ package pfa.account.creation.account_creation.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pfa.account.creation.account_creation.entity.Cabinet;
+import pfa.account.creation.account_creation.payload.CabinetDTO;
 import pfa.account.creation.account_creation.payload.CabinetResponse;
-import pfa.account.creation.account_creation.service.impl.CabinetServiceImp;
+import pfa.account.creation.account_creation.payload.medecin.MedecinDTO;
+import pfa.account.creation.account_creation.service.CabinetService;
+import pfa.account.creation.account_creation.service.MedecinService;
+import pfa.account.creation.account_creation.utils.AppConstants;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -18,60 +20,37 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 
 public class CabinetController {
-    private CabinetServiceImp cabinetService;
+    private CabinetService cabinetService;
+    private MedecinService medecinService;
     @Autowired
-    public CabinetController(CabinetServiceImp cabinetService) {
+    public CabinetController(CabinetService cabinetService, MedecinService medecinService) {
         this.cabinetService = cabinetService;
-    }
-    @GetMapping()
-    //@PreAuthorize("hasRole('Admin')")
-
-    public CabinetResponse getAllCabinet(@RequestParam(value = "pageNumber",defaultValue = "0",required = false )int pageNumber, @RequestParam(value = "pageSize",defaultValue = "5",required = false) int pageSize){
-        return cabinetService.getAllCabinet(pageNumber,pageSize);
+        this.medecinService = medecinService;
     }
     @PostMapping
-    @PreAuthorize("hasRole('Admin')")
+    public ResponseEntity<CabinetDTO> createCabinet(@RequestBody CabinetDTO cabinetDTO) {
+        return new ResponseEntity<>(cabinetService.createCabinet(cabinetDTO), HttpStatus.CREATED);
+    }
 
-    public Cabinet addCabinet(@RequestBody Cabinet cabinet){
-       return cabinetService.upSertCabinet(cabinet);
+    @GetMapping
+    public CabinetResponse getAllCabinet(@RequestParam(defaultValue = AppConstants.PAGE_NUMBER, required = false) int pageNumber, @RequestParam(defaultValue = AppConstants.PAGE_SIZE, required = false) int pageSize) {
+        return cabinetService.getAllCabinet(pageNumber, pageSize);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Cabinet> getCabinetById(@PathVariable Long id) {
-        Optional<Cabinet> cabinetOptional = cabinetService.getCabinetById(id);
-        if (cabinetOptional.isPresent()) {
-            Cabinet medecin = cabinetOptional.get();
-            return ResponseEntity.ok(medecin);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<CabinetDTO> getCabinetById(@PathVariable long id) {
+        return new ResponseEntity<>(cabinetService.getCabinetById(id), HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('Admin')")
-
-    public ResponseEntity<Void> deleteMedcin(@PathVariable Long id){
-        boolean deleted = cabinetService.deleteCabinetById(id);
-        if (!deleted){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteCabineyById(@PathVariable long id) {
+        cabinetService.deleteCabinetById(id);
+        return new ResponseEntity<>("Cabinet with " + id + " deleted", HttpStatus.OK);
     }
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('Admin')")
-
-    public ResponseEntity<Cabinet> updateMedecinById(@PathVariable Long id, @RequestBody Cabinet updatedCabinet) {
-        Optional<Cabinet> cabinetOptional = cabinetService.getCabinetById(id);
-        if (cabinetOptional.isPresent()) {
-            Cabinet cabinet = cabinetOptional.get();
-            // Update the fields of the medecin entity with the values from the updatedMedecin object
-            cabinet.setDenomination(updatedCabinet.getDenomination());
-            cabinet.setAdresse(updatedCabinet.getAdresse());
-            cabinet.setTelephone(updatedCabinet.getTelephone());
-            cabinet.setLongitude(updatedCabinet.getLongitude());
-            cabinet.setLatitude(updatedCabinet.getLatitude());
-            cabinet.setMedecins(updatedCabinet.getMedecins());
-            // Save the updated medecin entity to the database
-            Cabinet savedCabinet = cabinetService.upSertCabinet(cabinet);
-            return ResponseEntity.ok(savedCabinet);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<CabinetDTO> updateCabinet(@PathVariable long id , @RequestBody CabinetDTO cabinetDTO){
+        return new ResponseEntity<>(cabinetService.updateCabinet(cabinetDTO,id),HttpStatus.OK);
+    }
+    @GetMapping("/{cabinetId}/medecin")
+    public List<MedecinDTO> getMedecinInCabinet(@PathVariable long cabinetId){
+        return medecinService.getMedecinByCabinetId(cabinetId);
     }
 }

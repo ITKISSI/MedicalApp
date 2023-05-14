@@ -9,5 +9,4 @@ import pfa.account.creation.account_creation.entity.Cabinet;
 public interface CabinetRepository extends JpaRepository<Cabinet,Long> {
 
 
-
 }

@@ -11,7 +11,7 @@ import lombok.*;
 
 @AllArgsConstructor
 @Table(name = "_user")
-
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
