@@ -2,22 +2,23 @@ package ma.eheio.suscriptionrdvpatient.service;
 
 
 import jakarta.transaction.Transactional;
-import ma.eheio.suscriptionrdvpatient.dto.LoginResponseDTO;
+import ma.eheio.suscriptionrdvpatient.email.EmailSender;
+import ma.eheio.suscriptionrdvpatient.emailConfig.EmailValidator;
 import ma.eheio.suscriptionrdvpatient.model.Patient;
 import ma.eheio.suscriptionrdvpatient.model.Role;
 import ma.eheio.suscriptionrdvpatient.repository.PatientRepository;
 import ma.eheio.suscriptionrdvpatient.repository.RoleRepository;
+import ma.eheio.suscriptionrdvpatient.service.token.ConfirmationToken;
+import ma.eheio.suscriptionrdvpatient.service.token.ConfirmationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -30,36 +31,83 @@ public class AuthenticationService {
     @Autowired
     private PasswordEncoder encoder;
     @Autowired
-    private AuthenticationManager manager;
+    private ConfirmationTokenService confirmationTokenService;
     @Autowired
-    private TokenService tokenService;
+    private PatientService patientService;
+    @Autowired
+    private EmailValidator emailValidator;
 
-        public Patient registerUser(String firstname,String lastname,String username,String phone,String email,String password){
+    @Autowired
+    private EmailSender emailSender;
 
-        String encodedPassword =encoder.encode(password);
-        Role userRole = roleRepository.findByAuthority("USER").get();
-        Set<Role> roles = new HashSet<>();
-        roles.add(userRole);
-        Patient patient = new Patient();
-        patient.setFirstname(firstname);
-        patient.setLastname(lastname);
-        patient.setUsername(username);
-        patient.setPhone(phone);
-        patient.setEmail(email);
-        patient.setAuthorities(roles);
-        patient.setPassword(encodedPassword);
-        return patientRepository.save(patient);
+    public AuthenticationService() {
     }
 
-    public LoginResponseDTO loginUser(String username,String password){
-        try{
-            Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
-            String token = tokenService.generateJwt(auth);
+    public String registerUser(String firstname,String lastname,String login,String password){
 
-            return  new LoginResponseDTO(patientRepository.findUserByUsername(username).get(),token);
 
-        }catch(AuthenticationException e){
-            return new LoginResponseDTO(null,"");
+            boolean isEmailValid=emailValidator.test(login);
+            if(!isEmailValid)
+            {
+                throw new IllegalStateException("Email Not valid");
+            }
+            String encodedPassword =encoder.encode(password);
+            Role userRole = roleRepository.findByAuthority("USER").get();
+            Set<Role> roles = new HashSet<>();
+            roles.add(userRole);
+            Patient patient = new Patient();
+            patient.setFirstName(firstname);
+            patient.setLastName(lastname);
+            patient.setLogin(login);
+            patient.setAuthorities(roles);
+            patient.setPassword(encodedPassword);
+            patientRepository.save(patient);
+
+            String token = UUID.randomUUID().toString();
+            ConfirmationToken confirmationToken=new ConfirmationToken(
+                    token,
+                    LocalDateTime.now(),
+                    LocalDateTime.now().plusMinutes(15),
+                    patient
+            );
+            confirmationTokenService.saveConfirmationToken(confirmationToken);
+
+            String link= "localhost:8081/auth/confirm?token="+token;
+
+            emailSender.send(login,
+                    "<html><body><p>Please click the link below to confirm your account:</p><p><a href=\"http://localhost:8081/auth/confirm?token="+token+"\">Confirm Account</a></p></body></html>"
+            );
+
+
+            return token;
+    }
+    public String getJwtToken(Authentication auth)
+    {
+        return "";
+    }
+
+
+    @Transactional
+    public String confirmToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenService
+                .getToken(token)
+                .orElseThrow(() ->
+                        new IllegalStateException("token not found"));
+
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException("email already confirmed");
         }
+
+        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+
+        if (expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
+        confirmationTokenService.setConfirmedAt(token);
+        patientService.enableAppUser(
+                confirmationToken.getAppUser().getLogin());
+
+        return "/confirmedEmail";
     }
+
 }

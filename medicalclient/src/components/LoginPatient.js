@@ -25,14 +25,18 @@ function LoginPatient() {
     
             await axios.post("http://localhost:8081/auth/login",formData)
             .then(res=>{
-                if(res.data.user===null || res.data.jwt===""){
-                    toast.error("Error");
+                if(res.data.user===null && res.data.jwt===""){
+                    toast.error("Paasord or Username incorrect");
                 }
-                else{
-                    toast.success("success")
+                else if(res.data.user===null && res.data.jwt!=="")
+                {
+                    toast.error(res.data.jwt);
+                }
+                else if(res.data.user!==null && res.data.jwt!==""){
+                    toast.success("Hello "+res.data.user.username)
                     setTimeout(() => {
                         navigate("/");
-                      }, 3000);
+                      }, 4000);
                 }
                 
             })

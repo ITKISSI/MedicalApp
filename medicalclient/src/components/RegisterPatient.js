@@ -39,8 +39,7 @@ function RegisterPatient() {
 			  }
 			  else{
 				await axios.post("http://localhost:8081/auth/register",patient);
-
-				toast.success("Added")
+				toast.success("A confirmation email has been sent to your inbox")
 			  }
 			  
 		}catch(e){
