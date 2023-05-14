@@ -1,9 +1,14 @@
 package ma.eheio.suscriptionrdvpatient.controller;
 
 
+import ma.eheio.suscriptionrdvpatient.model.Appointment;
 import ma.eheio.suscriptionrdvpatient.repository.PatientRepository;
+import ma.eheio.suscriptionrdvpatient.service.AppointmentService;
 import ma.eheio.suscriptionrdvpatient.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,12 +20,17 @@ public class PatientController {
     private PatientService patientService;
 
     @Autowired
-    private PatientRepository patientRepository;
+    private AppointmentService appointmentService;
 
     @GetMapping("/home")
     public String userPage()
     {
         return "User access level";
+    }
+
+    @PostMapping(value="/appointment",consumes = {"application/json"})
+    public Appointment add(@RequestBody Appointment appointment){
+        return appointmentService.add(appointment);
     }
 
     //// CRUD patient

@@ -28,6 +28,8 @@ import Error404 from './components/Error404';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RegistreCabinet from './Cabinet/RegistreCabinet';
+import ConfirmedEmail from './components/confirmedEmail';
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -103,6 +105,10 @@ const router = createBrowserRouter([
   {
     path: "confirm",
     element: <Confirm />,
+  },
+  {
+    path: "confirmedEmail",
+    element: <ConfirmedEmail />,
   },
   {
     path: "error404",

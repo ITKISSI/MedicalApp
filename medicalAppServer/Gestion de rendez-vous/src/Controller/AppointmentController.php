@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AppointmentController extends AbstractController
 {
-    #[Route('/appointments', name: 'appointments' ,methods: ['GET']) ]
+    #[Route('/appointments/appointments', name: 'appointments' ,methods: ['GET']) ]
     public function index(EntityManagerInterface $em): Response
     {
         $appointments = $em->getRepository(Appointment::class)->findAll();
