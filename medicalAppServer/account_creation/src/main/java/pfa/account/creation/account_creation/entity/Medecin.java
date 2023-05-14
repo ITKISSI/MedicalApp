@@ -10,9 +10,12 @@ import pfa.account.creation.account_creation.entity.User;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
+
 public class Medecin extends User {
     private int inp;
     private String specialite;
-    @ManyToOne
-    @JsonBackReference
-    private Cabinet cabinet;}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cabinet_id",nullable = false) // to provide forienkey
+    private Cabinet cabinet;
+}

@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface MedecinRepository extends JpaRepository<Medecin,Long> {
-
-
+    List<Medecin> findByCabinetId(long id);
 }
