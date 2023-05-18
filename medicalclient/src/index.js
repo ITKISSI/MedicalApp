@@ -29,6 +29,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RegistreCabinet from './Cabinet/RegistreCabinet';
 import ConfirmedEmail from './components/confirmedEmail';
+import { LoadScript } from '@react-google-maps/api';
+
 
 const router = createBrowserRouter([
   {

@@ -118,17 +118,9 @@ const TableRowCabinet = ({
             </td>
 
             <td>
-              {item.medecins.length == 0 ? (
-                "0"
-              ) : (
-                <a
-                  onClick={handleShowMedecin}
-                  class="link-opacity-100"
-                  href="#"
-                >
-                  Afficher les medecins
-                </a>
-              )}
+              <a onClick={handleShowMedecin} class="link-opacity-100" href="#">
+                Afficher les medecins
+              </a>
             </td>
             <td>
               <button className="btn btn-warning" onClick={handleEditClick}>

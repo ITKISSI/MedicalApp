@@ -1,42 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../adminComponents/Navbar";
 import axiosInstance from "../services/apiClient";
 import GoogleMapComponent from "../components/GoogleMapComponent";
-import { ReactComponent as Loader } from "../Loader.svg";
+import { ToastContainer, toast } from "react-toastify";
 
 const CreateCabinet = () => {
   const [denomination, setDemonation] = useState("");
-  const [address, setAdresse] = useState("");
+  const [adresse, setAdresse] = useState("");
   const [telephone, setTelephone] = useState("");
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [submitText, setSubmitText] = useState("Ajouter");
-  const [isAdded, setIsAdded] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsLoading(true);
+    let errors = {};
 
-    axiosInstance
-      .post("/cabinet", {
-        denomination,
-        address,
-        telephone,
-        longitude,
-        latitude,
-      })
-      .then((response) => {
-        console.log("Data created successfully +longitude " + longitude);
-        console.log("Data created successfully +latitude " + latitude);
-        setIsAdded(true);
+    if (!denomination)
+      errors.denomination = "Denomination ne peut pas être vide";
+    if (!adresse) errors.adresse = "adresse ne peut pas être vide";
+    if (!telephone) errors.telephone = "telephone ne peut pas être vide";
+    if (!longitude || !latitude)
+      errors.Localisation = "ville ne peut pas être vide";
+    setErrors(errors);
 
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-      });
+    if (Object.keys(errors).length === 0) {
+      axiosInstance
+        .post("/cabinet", {
+          denomination,
+          adresse,
+          telephone,
+          longitude,
+          latitude,
+        })
+        .then((response) => {
+          toast("Cabinet a été créé");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   return (
@@ -71,6 +74,9 @@ const CreateCabinet = () => {
                       className="form-control"
                       placeholder="denomination"
                     />
+                    {errors.denomination && (
+                      <p className="text-danger">{errors.denomination}</p>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -78,11 +84,14 @@ const CreateCabinet = () => {
                     <label>adresse</label>
                     <input
                       type="text"
-                      value={address}
+                      value={adresse}
                       onChange={(event) => setAdresse(event.target.value)}
                       className="form-control"
                       placeholder="adresse"
                     />
+                    {errors.adresse && (
+                      <p className="text-danger">{errors.adresse}</p>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -95,13 +104,14 @@ const CreateCabinet = () => {
                       className="form-control"
                       placeholder="telephone"
                     />
+                    {errors.telephone && (
+                      <p className="text-danger">{errors.telephone}</p>
+                    )}
                   </div>
                   <p>
                     <button className="btn_1 medium" type="submit">
-                      {!isLoading ? submitText : <Loader className="spinner" />}
+                      Ajouter
                     </button>{" "}
-                    <br />
-                    {isAdded && <span className="text-success">Le cabinet a été ajouté.</span>}
                   </p>
                 </div>
 
@@ -110,6 +120,7 @@ const CreateCabinet = () => {
                     <label>Localisation</label>
 
                     <GoogleMapComponent
+                      errors={errors}
                       isFromViewLocalisation={false}
                       longitude={longitude}
                       latitude={latitude}
@@ -122,6 +133,19 @@ const CreateCabinet = () => {
             </div>
           </form>
         </div>
+        <ToastContainer
+          toastStyle={{ backgroundColor: "#05b30c", color: "white" }}
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </>
   );

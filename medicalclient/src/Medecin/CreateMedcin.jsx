@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Navbar from "../adminComponents/Navbar";
 import axiosInstance from "../services/apiClient";
-import { ReactComponent as Loader } from "../Loader.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const CreateMedcin = () => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
@@ -14,63 +15,90 @@ const CreateMedcin = () => {
   const [inp, setInp] = useState();
   const [specialite, setSpecialite] = useState();
   const [cabinetData, setCabinetData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [submitText, setSubmitText] = useState("Save");
-  const [saveResult, setSaveResult] = useState("Medecin a ete ajoute ! ");
-  const [isSaveSucces, setSaveSucces] = useState(false);
-  const [isRequestFinished, setIsRequestFinished] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // TODO: handle form submission
-    setIsLoading(true);
-
-    axiosInstance
-      .post("/medcin", {
-        firstName: name,
-        lastName: prenom,
-        age: age,
-        adress: adresse,
-        cin: cin,
-        login: login,
-        password: password,
-        inp: inp,
-        specialite: specialite,
-        cabinet: {
-          id: selectedCabinet,
-        },
-      })
-      .then((response) => {
-        console.log("Data created successfully");
-        setIsLoading(false);
-        setSaveSucces(true);
-        setSaveResult("Medecin a ete ajoute");
-        setIsRequestFinished(true);
-      })
-      .catch((error) => {
-        console.error(error);
-        setIsLoading(false);
-        setSaveResult(error);
-        setSaveSucces(false);
-        setIsRequestFinished(true);
-      });
-  };
+  const [errors, setErrors] = useState({});
 
   const handleOptionChange = (event) => {
     setSelectedCabinet(event.target.value);
   };
 
   useEffect(() => {
-    axiosInstance
-      .get("/cabinet?pageSize=10")
-      .then((response) => {
-        setCabinetData(response.data.cabinetList);
-        console.log(response.data.cabinetList);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const fetchCabinets = async () => {
+      const pageSize = 10;
+      let pageNumber = 0;
+      let allCabinets = [];
+
+      while (true) {
+        try {
+          const response = await axiosInstance.get(
+            `/cabinet?pageSize=${pageSize}&pageNumber=${pageNumber}`
+          );
+          const { cabinetList, isLast } = response.data;
+
+          if (!cabinetList || cabinetList.length === 0) {
+            break;
+          }
+          allCabinets = allCabinets.concat(cabinetList);
+
+          if (isLast) {
+            break;
+          }
+          pageNumber++;
+        } catch (error) {
+          console.error(error);
+          break;
+        }
+      }
+
+      setCabinetData(allCabinets);
+    };
+
+    fetchCabinets();
   }, []);
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent form submission from reloading the page
+    // Additional logic for form submission, such as sending data to a server
+
+    let errors = {};
+
+    if (!name) errors.name = "Le nom ne peut pas être vide.";
+    if (!prenom) errors.prenom = "Le prénom ne peut pas être vide.";
+    if (!age) errors.age = "L'âge ne peut pas être vide.";
+    if (!adresse) errors.adresse = "L'adresse ne peut pas être vide.";
+    if (!cin) errors.cin = "Le numéro CIN ne peut pas être vide.";
+    if (!login) errors.login = "Le login ne peut pas être vide.";
+    if (!password) errors.password = "Le mot de passe ne peut pas être vide.";
+    if (!inp) errors.inp = "Le champ 'inp' ne peut pas être vide.";
+    if (!specialite) errors.specialite = "La spécialité ne peut pas être vide.";
+    if (!selectedCabinet)
+      errors.selectedCabinet = "La cabinet ne peut pas etre vide";
+
+    setErrors(errors);
+
+    // Only submit if there are no errors
+    if (Object.keys(errors).length === 0) {
+      // Your axios call here
+      axiosInstance
+        .post("/medcin/" + selectedCabinet + "/cabinet", {
+          firstName: name,
+          lastName: prenom,
+          age: age,
+          adress: adresse,
+          cin: cin,
+          login: login,
+          password: password,
+          inp: inp,
+          specialite: specialite,
+        })
+        .then((response) => {
+          toast("Médecin a été créé");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
 
   return (
     <>
@@ -104,6 +132,9 @@ const CreateMedcin = () => {
                       className="form-control"
                       placeholder="Nom"
                     />
+                    {errors.name && (
+                      <p className="text-danger">{errors.name}</p>
+                    )}
                   </div>
                 </div>
 
@@ -118,6 +149,9 @@ const CreateMedcin = () => {
                       className="form-control"
                       placeholder="Prenom"
                     />
+                    {errors.prenom && (
+                      <p className="text-danger">{errors.prenom}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -133,6 +167,7 @@ const CreateMedcin = () => {
                       className="form-control"
                       placeholder="Age"
                     />
+                    {errors.age && <p className="text-danger">{errors.age}</p>}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -145,6 +180,9 @@ const CreateMedcin = () => {
                       className="form-control"
                       placeholder="Adresse"
                     />
+                    {errors.adresse && (
+                      <p className="text-danger">{errors.adresse}</p>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -157,6 +195,7 @@ const CreateMedcin = () => {
                       className="form-control"
                       placeholder="Cin"
                     />
+                    {errors.cin && <p className="text-danger">{errors.cin}</p>}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -169,6 +208,9 @@ const CreateMedcin = () => {
                       onChange={(event) => setLogin(event.target.value)}
                       placeholder="Login"
                     />
+                    {errors.login && (
+                      <p className="text-danger">{errors.login}</p>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -181,6 +223,9 @@ const CreateMedcin = () => {
                       onChange={(event) => setPassword(event.target.value)}
                       placeholder="mot de passe"
                     />
+                    {errors.password && (
+                      <p className="text-danger">{errors.password}</p>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -193,6 +238,7 @@ const CreateMedcin = () => {
                       onChange={(event) => setInp(event.target.value)}
                       placeholder="Inp"
                     />
+                    {errors.inp && <p className="text-danger">{errors.inp}</p>}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -205,6 +251,9 @@ const CreateMedcin = () => {
                       className="form-control"
                       placeholder="specialite"
                     />
+                    {errors.specialite && (
+                      <p className="text-danger">{errors.specialite}</p>
+                    )}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -226,6 +275,9 @@ const CreateMedcin = () => {
                         </option>
                       ))}
                     </select>
+                    {errors.selectedCabinet && (
+                      <p className="text-danger">{errors.selectedCabinet}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -234,19 +286,27 @@ const CreateMedcin = () => {
               {/* /row*/}
             </div>
             <p className="text-center">
-              <button className="btn_1 medium" type="submit">
-                {!isLoading ? submitText : <Loader className="spinner" />}
-              </button>{" "}
+              <button className="btn_1 medium" type="click">
+                Ajouter
+              </button>
               <br />
-              {isRequestFinished && (
-                <span className={isSaveSucces ? "text-success" : "text-danger"}>
-                  {saveResult.message ? saveResult.message : saveResult}
-                </span>
-              )}
             </p>
           </form>
         </div>
-        {/* /.container-fluid*/}
+
+        <ToastContainer
+          toastStyle={{ backgroundColor: "#05b30c", color: "white" }}
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </>
   );

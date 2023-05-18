@@ -63,7 +63,7 @@ function TableRow({ item, onUpdate, onCancel, onDelete }) {
           <td>
             <input
               type="text"
-              name="address"
+              name="adress"
               value={formData.adress}
               onChange={handleChange}
             />
@@ -73,22 +73,6 @@ function TableRow({ item, onUpdate, onCancel, onDelete }) {
               type="text"
               name="cin"
               value={formData.cin}
-              onChange={handleChange}
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              name="login"
-              value={formData.login}
-              onChange={handleChange}
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              name="password"
-              value={formData.password}
               onChange={handleChange}
             />
           </td>
@@ -108,7 +92,7 @@ function TableRow({ item, onUpdate, onCancel, onDelete }) {
               onChange={handleChange}
             />
           </td>
-          <td>
+          <td className="d-flex">
             <button
               className="btn btn-success"
               onClick={() => {
@@ -117,7 +101,7 @@ function TableRow({ item, onUpdate, onCancel, onDelete }) {
             >
               Save
             </button>{" "}
-            <button className="btn btn-danger" onClick={handleCancelClick}>
+            <button className="btn btn-danger ml-2" onClick={handleCancelClick}>
               Cancel
             </button>
           </td>
@@ -130,16 +114,15 @@ function TableRow({ item, onUpdate, onCancel, onDelete }) {
           <td>{item.age}</td>
           <td>{item.adress}</td>
           <td>{item.cin}</td>
-          <td>{item.login}</td>
-          <td>{item.password}</td>
+
           <td>{item.inp}</td>
           <td>{item.specialite}</td>
-          <td>
-            <button className="btn btn-warning" onClick={handleEditClick}>
+          <td className="d-flex">
+            <button className="btn btn-warning " onClick={handleEditClick}>
               Edit
             </button>{" "}
             <button
-              className="btn btn-danger"
+              className="btn btn-danger ml-2"
               onClick={() => handleDeleteClick(item.id)}
             >
               supprimer

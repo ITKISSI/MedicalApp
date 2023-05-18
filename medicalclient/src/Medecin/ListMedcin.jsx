@@ -46,6 +46,7 @@ const ListMedcin = () => {
       .then((response) => {
         const newData = data.filter((item) => item.id !== medcinId);
         setData(newData);
+        setFilteredData(newData); // Add this line
         console.log(response.data);
         // do something with the response
       })
@@ -62,6 +63,7 @@ const ListMedcin = () => {
           item.id === medcinId ? response.data : item
         );
         setData(updatedList);
+        setFilteredData(updatedList); // Add this line
         console.log(response.data);
         // do something with the response
       })
@@ -100,8 +102,6 @@ const ListMedcin = () => {
                       <th>age</th>
                       <th>adress</th>
                       <th>cin</th>
-                      <th>login</th>
-                      <th>password</th>
                       <th>inp</th>
                       <th>specialite</th>
                       <th>Action</th>
