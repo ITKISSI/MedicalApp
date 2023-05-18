@@ -1,151 +1,115 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 function SearchZone() {
-
-  const [query ,setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
-  const [filter, setFilter] = useState("All");
-  
+  const [filter, setFilter] = useState('All');
+
+
+  // useEffect(() => {
+  //   Geocode.setApiKey('AIzaSyC-2H5_BTMVElmn0c-sgYcqc1CEx7jrbCs');
+  // }, []);
+
+
+
   const handleSearch = async (event) => {
     event.preventDefault();
 
-    // Requête à l'API pour récupérer tous les cabinets
-    const response = await fetch('http://localhost:8080/api/v1/cabinet');
-    const data = await response.json();
+    const [cabinetResponse, medecinResponse] = await Promise.all([
+      fetch('http://localhost:8080/api/v1/cabinet'),
+      fetch('http://localhost:8080/api/v1/medcin'),
+    ]);
 
-    // Filtrer les résultats en fonction de la chaîne de caractères saisie par l'utilisateur et du filtre sélectionné
+    const cabinetData = await cabinetResponse.json();
+    const medecinData = await medecinResponse.json();
+
     let filteredResults = [];
-    if (query === "") {
 
-      if (filter === "All") {
-        filteredResults = data.cabinetList.flatMap((cabinet) => {
-          return cabinet.medecins.map((medecin) => ({ doctor: medecin, cabinet }));
-        });
-      } else if (filter === "Doctor") {
-        filteredResults = data.cabinetList.flatMap((cabinet) => {
-          return cabinet.medecins.map((medecin) => ({ doctor: medecin }));
-        });
-      } else if (filter === "Cabinet") {
-        filteredResults = data.cabinetList.map((cabinet) => ({ cabinet }));
+    if (query === '') {
+      if (filter === 'Doctor') {
+        filteredResults = medecinData.medecinList.map((medecin) => ({ doctor: medecin }));
+      } else if (filter === 'Clinic') {
+        filteredResults = cabinetData.cabinetList.map((cabinet) => ({ cabinet }));
       }
-    } 
-    
-    else {
-     if (filter === "Doctor") {
-      
-      filteredResults = data.cabinetList.flatMap((cabinet) => {
-        const matchingDoctors = cabinet.medecins.filter((medecin) =>
+      else if (filter === 'Specialite') {
+        filteredResults = medecinData.medecinList.map((medecin) => ({ doctor: medecin, specialite: medecin.specialite }));
+      }
+    } else {
+      if (filter === 'Doctor') {
+        filteredResults = medecinData.medecinList.filter((medecin) =>
           medecin.firstName.toLowerCase().includes(query.toLowerCase()) || medecin.lastName.toLowerCase().includes(query.toLowerCase())
-        );
-        return matchingDoctors.map((doctor) => ({ doctor, cabinet }));
-      });
-    } else if (filter === "Cabinet") {
-      filteredResults = data.cabinetList.filter((cabinet) => {
-        const nameMatches = cabinet.denomination.toLowerCase().includes(query.toLowerCase());
-        return nameMatches;
-      }).map((cabinet) => {
-        return { cabinet };
-      });
+        ).map((medecin) => ({ doctor: medecin }));
+      } else if (filter === 'Clinic') {
+        filteredResults = cabinetData.cabinetList.filter((cabinet) =>
+          cabinet.denomination.toLowerCase().includes(query.toLowerCase())
+        ).map((cabinet) => ({ cabinet }));
+      } else if (filter === 'Specialite') {
+        filteredResults = medecinData.medecinList.filter((medecin) =>
+          medecin.specialite.toLowerCase().includes(query.toLowerCase())
+        ).map((medecin) => ({ doctor: medecin }));
+      }
+
+
     }
-    else if (filter === "All" ) {
-      // Filtrer les cabinets en fonction de la chaîne de caractères saisie par l'utilisateur
-      filteredResults = data.cabinetList.filter((cabinet) => {
-        const nameMatches = cabinet.denomination.toLowerCase().includes(query.toLowerCase());
-        const doctorMatches = cabinet.medecins.some(
-          (medecin) => medecin.firstName.toLowerCase().includes(query.toLowerCase()) || medecin.lastName.toLowerCase().includes(query.toLowerCase())
-        );
-        return nameMatches || doctorMatches;
-      }).flatMap((cabinet) => {
-        // Filtrer les médecins associés à chaque cabinet en fonction de la chaîne de caractères saisie par l'utilisateur
-        const matchingDoctors = cabinet.medecins.filter((medecin) =>
-          medecin.firstName.toLowerCase().includes(query.toLowerCase()) || medecin.lastName.toLowerCase().includes(query.toLowerCase())
-        );
-        // Créer un objet pour chaque médecin et cabinet correspondant
-        return matchingDoctors.map((doctor) => ({ doctor, cabinet }));
-      });
-      // Ajouter les cabinets qui ne contiennent pas de médecins correspondant à la chaîne de caractères saisie par l'utilisateur
-      const nonMatchingCabinets = data.cabinetList.filter((cabinet) => {
-        const nameMatches = cabinet.denomination.toLowerCase().includes(query.toLowerCase());
-        const doctorMatches = cabinet.medecins.some(
-          (medecin) => medecin.firstName.toLowerCase().includes(query.toLowerCase()) || medecin.lastName.toLowerCase().includes(query.toLowerCase())
-        );
-        return nameMatches && !doctorMatches;
-      }).map((cabinet) => ({ cabinet }));
-      filteredResults = filteredResults.concat(nonMatchingCabinets);
-    }
-        
-    }
-    
-    // Retourner la liste des cabinets filtrée
     setResults(filteredResults);
   };
 
   return (
     <div className="hero_map">
       <div id="map_listing"></div>
-      <form onSubmit={handleSearch} className="search_wp">
+      <form onSubmit={handleSearch} className="search_wp" >
         <div id="custom-search-input">
           <div className="input-group">
-            <input type="text" className="search-query" 
-              placeholder="Ex. Name, Specialization ...." 
-              value={query} 
+            <input
+              type="text"
+              className="search-query"
+              placeholder="Ex. Name, Specialization ...."
+              value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
-            <input type="submit" className="btn_search" value="Search"/>
+            <input type="submit" className="btn_search" value="Search" />
           </div>
           <ul>
             <li>
-              <button id="all" onClick={() => setFilter("All")}>
-            <label> All </label>
+              <button id="doctor" onClick={() => setFilter('Doctor')}>
+                <label> Doctor </label>
               </button>
             </li>
             <li>
-               <button  id="doctor" onClick={() => setFilter("Doctor")}>
-              <label>
-                Doctor
-              </label>
-            </button>
+              <button id="clinic" onClick={() => setFilter('Clinic')}>
+                <label> Clinic </label>
+              </button>
+            </li>
+            <li>
+              <button id="specialite" onClick={() => setFilter('Specialite')}>
+                <label> Specialite </label>
+              </button>
             </li>
 
-            <li>
-               <button id="clinic" onClick={() => setFilter("Cabinet")}>
-              <label>
-                Clinic
-              </label>
-            </button>
-            </li>        
-
           </ul>
-            
-          
           <ul>
             {results.map((result) => (
               <li key={result.doctor ? result.doctor.id : result.cabinet.id}>
+                {result.city && <p>{result.city}</p>}
                 {result.doctor ? (
                   <div>
-                    <p>{result.doctor.firstName} {result.doctor.lastName}</p>
-                    {filter === "All" && <parent>{result.cabinet.denomination}</parent>}
+                    {filter === 'Doctor' && <p>{result.doctor.firstName} {result.doctor.lastName}</p>}
+                    {filter === 'Specialite' && <p>{result.doctor.specialite}</p>}
+                    {filter === 'All' && <p>{result.cabinet.denomination}</p>}
                   </div>
                 ) : (
                   <div>
-                   <p>{result.cabinet.denomination}</p>
-                   
+                    <p>{result.cabinet.denomination}</p>
                   </div>
                 )}
               </li>
             ))}
           </ul>
 
-         
-
-
-
-
-
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default SearchZone
+export default SearchZone;
