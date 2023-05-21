@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-const SearchZone = () => {
+const SearchZone = ({onSearchResults }) => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
   const [filter, setFilter] = useState('All');
   const [selectedCity, setSelectedCity] = useState('');
   const cities = ['Casablanca', 'Rabat', 'Marrakech', 'Oujda','Tata'];
+  
 
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -18,6 +18,11 @@ const SearchZone = () => {
     const cabinetData = await cabinetResponse.json();
     const medecinData = await medecinResponse.json();
 
+    for (const cabinet of cabinetData.cabinetList) {
+      const cityName = await getCityName(cabinet.latitude, cabinet.longitude);
+      cabinet.city = cityName;
+    }
+
     let filteredResults = [];
 
     if (query === '') {
@@ -25,9 +30,7 @@ const SearchZone = () => {
         filteredResults = medecinData.medecinList.map((medecin) => ({ doctor: medecin }));
       } else if (filter === 'Clinic') {
         filteredResults = cabinetData.cabinetList.map((cabinet) => ({ cabinet }));
-      } else if (filter === 'Specialite') {
-        filteredResults = medecinData.medecinList.map((medecin) => ({ doctor: medecin, specialite: medecin.specialite }));
-      }
+      } 
     } else {
       if (filter === 'Doctor') {
         filteredResults = medecinData.medecinList.filter((medecin) =>
@@ -37,33 +40,29 @@ const SearchZone = () => {
         filteredResults = cabinetData.cabinetList.filter((cabinet) =>
           cabinet.denomination.toLowerCase().includes(query.toLowerCase())
         ).map((cabinet) => ({ cabinet }));
-      } else if (filter === 'Specialite') {
-        filteredResults = medecinData.medecinList.filter((medecin) =>
-          medecin.specialite.toLowerCase().includes(query.toLowerCase())
-        ).map((medecin) => ({ doctor: medecin }));
-      }
+      } 
     }
-
+   
     if (selectedCity) {
-      filteredResults = await Promise.all(
-        filteredResults.map(async (result) => {
-          if (result.cabinet) {
-            const cityName = await getCityName(result.cabinet.latitude, result.cabinet.longitude);
-            return { ...result, city: cityName };
-          }
-          return result;
-        })
-      );
-
+      // Ajouter les noms de ville aux cabinets
+      for (const result of filteredResults) {
+        if (result.cabinet) {
+          const cityName = await getCityName(result.cabinet.latitude, result.cabinet.longitude);
+          result.cabinet.city = cityName;
+        }
+      }
+    
+      // Filtrer les résultats par ville
       filteredResults = filteredResults.filter((result) => {
         if (result.cabinet) {
-          return result.city === selectedCity;
+          return result.cabinet.city === selectedCity;
         }
         return true;
       });
     }
-
-    setResults(filteredResults);
+    
+    onSearchResults(filteredResults); // Appel à la fonction onSearchResults avec les résultats filtrés
+    
   };
 
   const getCityName = async (latitude, longitude) => {
@@ -88,6 +87,22 @@ const SearchZone = () => {
       return 'Erreur lors de la conversion';
     }
   };
+  const handleFilterChange = (selectedFilter) => {
+    setFilter(selectedFilter);
+    setQuery('');
+  
+    if (selectedFilter === 'Speciality') {
+      handleSearch(new Event('submit'));
+    }
+  };
+
+  const handleCityChange = (selectedCity) => {
+    setSelectedCity(selectedCity);
+    setQuery(''); // Réinitialiser la requête
+    handleSearch(new Event('submit')); // Appeler la fonction handleSearch avec une nouvelle soumission de formulaire
+  };
+  
+  
 
   return (
     <div className="hero_map">
@@ -106,53 +121,29 @@ const SearchZone = () => {
           </div>
           <ul>
             <li>
-              <button id="doctor" onClick={() => setFilter('Doctor')}>
+              <button id="doctor" onClick={() => handleFilterChange('Doctor')}
+              >
                 <label> Doctor </label>
               </button>
             </li>
             <li>
-              <button id="clinic" onClick={() => setFilter('Clinic')}>
+              <button id="clinic" onClick={() => handleFilterChange('Clinic')}>
                 <label> Clinic </label>
               </button>
             </li>
+            
             <li>
-              <button id="specialite" onClick={() => setFilter('Specialite')}>
-                <label> Specialite </label>
-              </button>
-            </li>
-            <li>
-              <select id='select' value={selectedCity} onChange={(event) => setSelectedCity(event.target.value)}>
+            <select id="select" value={selectedCity} onChange={(event) => handleCityChange(event.target.value)}>
                 <option value="">Select a city</option>
                 {cities.map((city) => (
                   <option key={city} value={city}>
                     {city}
                   </option>
                 ))}
-              </select>
+            </select>
             </li>
           </ul>
-          <ul>
-            {results.map((result) => (
-              <li key={result.doctor ? result.doctor.id : result.cabinet.id}>
-                {/* {result.city && <p>{result.city}</p>} */}
-                {result.doctor ? (
-                  <div>
-                    {filter === 'Doctor' && (
-                      <p>
-                        {result.doctor.firstName} {result.doctor.lastName}
-                      </p>
-                    )}
-                    {filter === 'Specialite' && <p>{result.doctor.specialite}</p>}
-                    {filter === 'All' && <p>{result.cabinet.denomination}</p>}
-                  </div>
-                ) : (
-                  <div>
-                    <p>{result.cabinet.denomination}</p>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
+         
         </div>
       </form>
     </div>
