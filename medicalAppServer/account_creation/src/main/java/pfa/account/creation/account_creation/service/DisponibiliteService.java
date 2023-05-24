@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DisponibiliteService {
 
-    DisponibiliteDTO createDisponibilite(DisponibiliteDTO disponibilite ,long medecinId);
+    List<DisponibiliteDTO> createDisponibilite(List<DisponibiliteDTO> disponibilite ,long medecinId);
 
     void deleteDisponibilite(long disponibiliteId);
 

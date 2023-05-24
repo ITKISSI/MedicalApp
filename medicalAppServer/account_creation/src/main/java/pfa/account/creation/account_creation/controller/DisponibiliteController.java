@@ -13,6 +13,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/disponibilite")
+@CrossOrigin(origins = "http://localhost:3000")
+
 public class DisponibiliteController {
 
     private DisponibiliteService disponibiliteService;
@@ -23,7 +25,7 @@ public class DisponibiliteController {
     }
 
     @PostMapping("/medecin/{medecinId}")
-    public ResponseEntity<DisponibiliteDTO> createDisponibilite(@RequestBody DisponibiliteDTO disponibiliteDTO, @PathVariable long medecinId) {
+    public ResponseEntity<List<DisponibiliteDTO>> createDisponibilite(@RequestBody List<DisponibiliteDTO> disponibiliteDTO, @PathVariable long medecinId) {
 
         return new ResponseEntity<>(disponibiliteService.createDisponibilite(disponibiliteDTO, medecinId), HttpStatus.CREATED);
     }
@@ -37,13 +39,15 @@ public class DisponibiliteController {
     public ResponseEntity<DisponibiliteDTO> updateDisponibilite(@RequestBody DisponibiliteDTO disponibilite, @PathVariable long disponibiliteId) {
         return new ResponseEntity<>(disponibiliteService.updateDisponibilite(disponibilite, disponibiliteId), HttpStatus.OK);
     }
+
     @DeleteMapping("{disponibiliteId}")
     public ResponseEntity<String> deleteDisponibilite(@PathVariable long disponibiliteId) {
         disponibiliteService.deleteDisponibilite(disponibiliteId);
         return new ResponseEntity<>("Disponibilite with id " + disponibiliteId + " has been deleted", HttpStatus.OK);
     }
+
     @GetMapping("/medecin/{medecinId}")
-    public List<DisponibiliteDTO> getAllMedecinDisponibilities(@PathVariable long medecinId){
+    public List<DisponibiliteDTO> getAllMedecinDisponibilities(@PathVariable long medecinId) {
         return disponibiliteService.getMedecinDisponibilite(medecinId);
     }
 

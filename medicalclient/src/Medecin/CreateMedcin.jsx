@@ -1,21 +1,26 @@
 import { useState, useEffect } from "react";
 import Navbar from "../adminComponents/Navbar";
 import axiosInstance from "../services/apiClient";
+import FrenchDayPicker from "../components/FrenchDayPicker";
+import TimeRangePicker from "../components/TimeRangePicker";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const CreateMedcin = () => {
   const [name, setName] = useState("");
   const [prenom, setPrenom] = useState("");
   const [age, setAge] = useState("");
   const [adresse, setAdresse] = useState("");
   const [cin, setCin] = useState("");
-  const [login, setLogin] = useState();
+  const [login, setLogin] = useState("");
   const [selectedCabinet, setSelectedCabinet] = useState("");
-  const [password, setPassword] = useState();
-  const [inp, setInp] = useState();
-  const [specialite, setSpecialite] = useState();
+  const [password, setPassword] = useState("");
+  const [inp, setInp] = useState("");
+  const [specialite, setSpecialite] = useState("");
   const [cabinetData, setCabinetData] = useState([]);
-
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [timeRanges, setTimeRanges] = useState({});
   const [errors, setErrors] = useState({});
 
   const handleOptionChange = (event) => {
@@ -57,8 +62,7 @@ const CreateMedcin = () => {
   }, []);
 
   const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent form submission from reloading the page
-    // Additional logic for form submission, such as sending data to a server
+    event.preventDefault();
 
     let errors = {};
 
@@ -73,12 +77,11 @@ const CreateMedcin = () => {
     if (!specialite) errors.specialite = "La spécialité ne peut pas être vide.";
     if (!selectedCabinet)
       errors.selectedCabinet = "La cabinet ne peut pas etre vide";
+    if (!selectedDays || selectedDays.length === 0)
+      errors.days = "Veuillez sélectionner au moins un jour.";
 
     setErrors(errors);
-
-    // Only submit if there are no errors
     if (Object.keys(errors).length === 0) {
-      // Your axios call here
       axiosInstance
         .post("/medcin/" + selectedCabinet + "/cabinet", {
           firstName: name,
@@ -92,7 +95,28 @@ const CreateMedcin = () => {
           specialite: specialite,
         })
         .then((response) => {
-          toast("Médecin a été créé");
+          const medecinId = response.data.id; // Get the created medecin's ID from the response
+          // Create the disponibilite for the medecin
+          // create payload for each selected day
+       
+          const daysPayload = selectedDays.map((dayName, idx) => ({
+            jour: dayName,
+            startTime: timeRanges[dayName]?.startTime,
+            endTime: timeRanges[dayName]?.endTime,
+          }));
+          console.log('====================================');
+          console.log(medecinId);
+          console.log(daysPayload);
+          console.log('====================================');
+          axiosInstance
+            .post(`/disponibilite/medecin/${medecinId}`,daysPayload)
+            .then((response) => {
+              toast("Médecin a été créé");
+            })
+            .catch((error) => {
+              console.error(error.message);
+            });
+
         })
         .catch((error) => {
           console.error(error);
@@ -105,7 +129,7 @@ const CreateMedcin = () => {
       <Navbar />
       <div className="content-wrapper">
         <div className="container-fluid">
-          {/* Breadcrumbs*/}
+          {/* Breadcrumbs */}
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
               <a href="#">Dashboard</a>
@@ -141,7 +165,6 @@ const CreateMedcin = () => {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>Prenom</label>
-
                     <input
                       type="text"
                       value={prenom}
@@ -258,8 +281,7 @@ const CreateMedcin = () => {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label>Cabinet</label> <br></br>
-                    {}
+                    <label>Cabinet</label> <br />
                     <select
                       className="form-select w-50"
                       aria-label="Default select example"
@@ -280,13 +302,26 @@ const CreateMedcin = () => {
                     )}
                   </div>
                 </div>
-              </div>
-              {/* /row*/}
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>Disponibilite</label>
+                    {errors.days && (
+                      <p className="text-danger">{errors.days}</p>
+                    )}
 
+                    <FrenchDayPicker
+                      selectedDays={selectedDays}
+                      setSelectedDays={setSelectedDays}
+                      timeRanges={timeRanges}
+                      setTimeRanges={setTimeRanges}
+                    />
+                  </div>
+                </div>
+              </div>
               {/* /row*/}
             </div>
             <p className="text-center">
-              <button className="btn_1 medium" type="click">
+              <button className="btn_1 medium" type="submit">
                 Ajouter
               </button>
               <br />

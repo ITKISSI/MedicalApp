@@ -24,4 +24,8 @@ import java.util.List;
         private double latitude;
         @OneToMany(mappedBy = "cabinet",cascade = CascadeType.ALL,orphanRemoval = true)
         private List<Medecin> medecins = new ArrayList<>();
+
+        @OneToMany(mappedBy = "cabinet",cascade = CascadeType.ALL,orphanRemoval = true)
+
+        private List<CabinetImages> cabinetImages=new ArrayList<>();
     }

@@ -30,12 +30,15 @@ public class DisponibiliteServiceImp implements DisponibiliteService {
     }
 
     @Override
-    public DisponibiliteDTO createDisponibilite(DisponibiliteDTO disponibiliteDTO, long medecinId) {
+    public List<DisponibiliteDTO> createDisponibilite(List<DisponibiliteDTO> disponibiliteDTO, long medecinId) {
         Medecin medecin = medecinRepository.findById(medecinId).orElseThrow(() -> new ResourceNotFoundException("Medecin", "id", medecinId));
-        Disponibilite disponibilite = disponibiliteMapper.mapToEntity(disponibiliteDTO);
-        disponibilite.setMedecin(medecin);
-        Disponibilite savedDisponibilite = disponibiliteRepository.save(disponibilite);
-        return disponibiliteMapper.mapToDTO(savedDisponibilite);
+
+        List<Disponibilite> disponibiliteList = disponibiliteDTO.stream().map((item) -> disponibiliteMapper.mapToEntity(item)).collect(Collectors.toList());
+
+        disponibiliteList.forEach((item) -> item.setMedecin(medecin));
+        disponibiliteList.forEach((disponibilite -> disponibiliteRepository.save(disponibilite)));
+
+        return disponibiliteList.stream().map((item) -> disponibiliteMapper.mapToDTO(item)).collect(Collectors.toList());
     }
 
     @Override

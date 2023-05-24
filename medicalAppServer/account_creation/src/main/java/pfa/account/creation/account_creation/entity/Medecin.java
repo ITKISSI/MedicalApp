@@ -20,9 +20,6 @@ public class Medecin extends User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cabinet_id",nullable = false) // to provide forienkey
     private Cabinet cabinet;
-
-
-
     @OneToMany(mappedBy = "medecin",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Disponibilite> disponibilites;
 }

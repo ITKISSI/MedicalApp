@@ -10,25 +10,26 @@ const TimeRangePicker = ({ startTime, setStartTime, endTime, setEndTime }) => {
   };
 
   return (
-    <div>
+    <div className="d-flex">
       <div className="form-group">
-        <label>L'heur</label>
+        <label htmlFor="startTime">Start Time:</label>
+        <input
+          type="time"
+          id="startTime"
+          value={startTime}
+          onChange={handleStartTimeChange}
+        />
       </div>
-      <label htmlFor="startTime">Start Time:</label>
-      <input
-        type="time"
-        id="startTime"
-        value={startTime}
-        onChange={handleStartTimeChange}
-      />
 
-      <label htmlFor="endTime">End Time:</label>
-      <input
-        type="time"
-        id="endTime"
-        value={endTime}
-        onChange={handleEndTimeChange}
-      />
+      <div className="form-group">
+        <label htmlFor="endTime">End Time:</label>
+        <input
+          type="time"
+          id="endTime"
+          value={endTime}
+          onChange={handleEndTimeChange}
+        />
+      </div>
     </div>
   );
 };
