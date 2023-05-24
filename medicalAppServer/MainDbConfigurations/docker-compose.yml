@@ -22,3 +22,9 @@ services:
       - "8080:80"
     depends_on:
       - database
+  
+  maildev:
+    image: maildev/maildev
+    ports:
+      - 1080:80 # MailDev web interface
+      - 1025:25 # MailDev SMTP port

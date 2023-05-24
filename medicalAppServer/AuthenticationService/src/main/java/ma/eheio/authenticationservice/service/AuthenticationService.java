@@ -1,6 +1,7 @@
 package ma.eheio.authenticationservice.service;
 
 import ma.eheio.authenticationservice.dto.LoginResponseDTO;
+import ma.eheio.authenticationservice.model.User;
 import ma.eheio.authenticationservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,22 +24,27 @@ public class AuthenticationService {
 
     public LoginResponseDTO login(String login, String password){
 
+
         if(userRepository.findUserByLogin(login).isEmpty())
         {
-            return new LoginResponseDTO("User not found");
+            return new LoginResponseDTO("",null);
         }
-        else if(!userRepository.findUserByLogin(login).get().isEnabled()){
-            return new LoginResponseDTO("User account is disabled");
-        }
-        try{
-            Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(login,password));
-            String token = tokenService.generateJwt(auth);
+        else{
+            User user =userRepository.findUserByLogin(login).get();
+            if(!user.isEnabled()){
+                return new LoginResponseDTO("disabled",user);
+            }
+            try{
+                Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(login,password));
+                String token = tokenService.generateJwt(auth);
 
-            return  new LoginResponseDTO(token);
+                return  new LoginResponseDTO(token,user);
 
-        }catch(AuthenticationException e){
-            return new LoginResponseDTO("");
+            }catch(AuthenticationException e){
+                return new LoginResponseDTO("",null);
+            }
         }
+
     }
 
     public int enableUser(String login)
