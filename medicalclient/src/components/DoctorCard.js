@@ -6,7 +6,7 @@ export default function DoctorCard({ doctor }) {
   const navigate = useNavigate(); // Use useNavigate to navigate
 
   const handleBookNow = () => {
-    navigate('/detail', { state: { firstName: doctor.firstName, lastName: doctor.lastName , adress : doctor.adress , specialite : doctor.specialite , id : doctor.id} });
+    navigate('/detail', { state: { workingCabinet : doctor.workingCabinet, firstName: doctor.firstName, lastName: doctor.lastName , adress : doctor.adress , specialite : doctor.specialite , id : doctor.id} });
   };
 
   return (

@@ -13,13 +13,11 @@ import './assets/css/custom.css';
 import 'react-toastify/dist/ReactToastify.css';
 import SearchZone from './components/SearchZone';
 import ClinicCard from './components/ClinicCard';
-
-
+import '../src/assets/js/functions.js';
 
 function App() {
 
   const [filteredResults, setFilteredResults] = useState([]);
-  
 
   const handleSearchResults = (results) => {
     setFilteredResults(results);
