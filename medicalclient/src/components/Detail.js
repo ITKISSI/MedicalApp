@@ -1,9 +1,18 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
-import { Link } from "react-router-dom";
+import { Link , useLocation } from "react-router-dom";
 
 function Detail() {
+	
+
+	const location = useLocation(); // Utilisez useLocation() pour obtenir l'objet location
+
+	// Assurez-vous que location.state existe avant d'accéder à ses propriétés
+	if (!location.state) {
+	  return <div>No data available</div>;
+	}
+	const { firstName, lastName , adress , specialite , id } = location.state;
   return (
     <div className="App">
     <div className="content">
@@ -31,10 +40,10 @@ function Detail() {
 				<aside class="col-xl-3 col-lg-4" id="sidebar">
 					<div class="box_profile">
 						<figure>
-							<img src="http://via.placeholder.com/565x565.jpg" alt="" class="img-fluid"/>
+							<img src={require(`../img/doctors/${id}.jpg`)} alt="" class="img-fluid"/>
 						</figure>
-						<small>Primary care - Internist</small>
-						<h1>DR. Julia Jhones</h1>
+						<small>{specialite}</small>
+						<h1>{firstName} {lastName}</h1>
 						<span class="rating">
 							<i class="icon_star voted"></i>
 							<i class="icon_star voted"></i>
@@ -52,10 +61,10 @@ function Detail() {
 						</ul>
 						<ul class="contacts">
 							<li>
-								<h6>Address</h6>859 60th, Brooklyn, NY, 11220
+								<h6>Address</h6>{adress}
 							</li>
 							<li>
-								<h6>Phone</h6><a href="tel://000434323342">+00043 4323342</a>
+								{/* <h6>Phone</h6><a href="tel://000434323342">doctor phone</a> */}
 							</li>
 						</ul>
 						<div class="text-center"><a
