@@ -25,12 +25,13 @@ import Contacts from './components/Contacts';
 import Booking from './components/Booking';
 import Confirm from './components/Confirm';
 import Error404 from './components/Error404';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RegistreCabinet from './Cabinet/RegistreCabinet';
 import ConfirmedEmail from './components/confirmedEmail';
 import { LoadScript } from '@react-google-maps/api';
-
+import RatingForm from './components/RatingForm';
+import DoctorRating from './components/DoctorRating';
+import TestRating from './components/TestRating'
 
 const router = createBrowserRouter([
   {
@@ -89,7 +90,7 @@ const router = createBrowserRouter([
   },
   
   {
-    path: "loginPatient",
+    path: "login",
     element: <LoginPatient />,
   },
   {
@@ -119,6 +120,18 @@ const router = createBrowserRouter([
   {
     path:'registreCabinet',
     element:<RegistreCabinet/>
+  },
+  {
+    path:'doctorRating',
+    element:<DoctorRating/>
+  },
+  {
+    path:'doctorRatingForm',
+    element:<RatingForm/>
+  },
+  {
+    path:'testRating',
+    element:<TestRating/>
   }
 ]);
 
