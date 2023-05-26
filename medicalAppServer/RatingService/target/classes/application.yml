@@ -1,0 +1,27 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+  port: 8083
+
+spring:
+  datasource:
+    password: root
+    url: jdbc:mysql://localhost:3306/MainDb
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  mvc:
+    contentnegotiation:
+      favor-parameter: true
+      favor-path-extension: false
+      parameter-name: format
+    converters:
+      preferred-json-mapper: jackson
+
+
