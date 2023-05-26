@@ -56,7 +56,7 @@ export default function RatingForm() {
     const data = {
       doctorId: doctorId,
       patientId: patientId,
-      ratingType: ratingValue
+      ratingType:ratingValue-1
     };
   
     axios
