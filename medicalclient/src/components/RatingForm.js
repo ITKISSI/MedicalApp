@@ -47,18 +47,19 @@ export default function RatingForm() {
 
   const handleRatingChange = (event, newValue) => {
     setRatingValue(newValue);
+    handleSubmit(newValue); // Call the submit function on rating change
   };
 
-  const handleSubmit = () => {
-    const doctorId = 2; 
-    const patientId = 1; 
-  
+  const handleSubmit = (newValue) => {
+    const doctorId = 2;
+    const patientId = 1;
+
     const data = {
       doctorId: doctorId,
       patientId: patientId,
-      ratingType:ratingValue-1
+      ratingType: newValue - 1,
     };
-  
+
     axios
       .post('http://localhost:8083/ratings', data)
       .then(response => {
@@ -68,11 +69,10 @@ export default function RatingForm() {
         // Handle error
         console.error(error);
       });
-  
-    console.log("WORKINNGG");
+
+    console.log("WORKING");
     console.log(data);
   };
-  
 
   return (
     <div>
@@ -85,7 +85,6 @@ export default function RatingForm() {
         getLabelText={(value) => customIcons[value].label}
         highlightSelectedOnly
       />
-      <button onClick={handleSubmit}>Submit Rating</button>
     </div>
   );
 }
