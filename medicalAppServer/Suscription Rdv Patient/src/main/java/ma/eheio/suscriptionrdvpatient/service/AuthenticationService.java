@@ -36,7 +36,6 @@ public class AuthenticationService {
     private PatientService patientService;
     @Autowired
     private EmailValidator emailValidator;
-
     @Autowired
     private EmailSender emailSender;
 
@@ -45,6 +44,9 @@ public class AuthenticationService {
 
     public String registerUser(String firstname,String lastname,String login,String password){
 
+//            if(user){
+//                return "User already exist try login in !";
+//            }
 
             boolean isEmailValid=emailValidator.test(login);
             if(!isEmailValid)

@@ -13,37 +13,33 @@ function LoginPatient() {
     let navigate=useNavigate();
     
 
-    const [formData, setFormData] = useState({
-        username: '',
+    const [user, setUser] = useState({
+        login: '',
         password: ''
       });
     
       const submit = async (e) => {
         e.preventDefault();
     
-        try {
-    
-            await axios.post("http://localhost:8081/auth/login",formData)
+        
+            await axios.post("http://localhost:8082/Authentication/login",user)
             .then(res=>{
                 if(res.data.user===null && res.data.jwt===""){
-                    toast.error("Paasord or Username incorrect");
-                }
-                else if(res.data.user===null && res.data.jwt!=="")
-                {
-                    toast.error(res.data.jwt);
+                    toast.error("User not found");
                 }
                 else if(res.data.user!==null && res.data.jwt!==""){
-                    toast.success("Hello "+res.data.user.username)
+                    toast.success("Welcome ");
+                    console.log(res.data);
+                    console.log(res.data.user.firstName);
+                    
                     setTimeout(() => {
-                        navigate("/");
+                        navigate("/admin");
                       }, 4000);
                 }
                 
             })
               
-            }catch(e){
-                toast.error("not Successfully logged")
-            }}
+            }
   return (
     <div className="App">
     <div className="content">
@@ -58,29 +54,41 @@ function LoginPatient() {
     <div className="bg_color_2">
         <div className="container margin_60_35">
             <div id="login-2">
-                <h1 style={{color : 'white !important' }}>Please login to Findoctor!</h1>
-                <form method='/login' action="POST" onSubmit={submit}>
+                <h1 style={{color :"white !impotant" }}>Please login!</h1>
+                <form onSubmit={submit}>
                     <div className="box_form clearfix">
                         <div className="box_login">
-                            <a href="#0" className="social_bt facebook">Login with Facebook</a>
-                            <a href="#0" className="social_bt google">Login with Google</a>
-                            <a href="#0" className="social_bt linkedin">Login with Linkedin</a>
-                        </div>
-                        <div className="box_login last">
+    
                             <div className="form-group">
-                                <input type="text" className="form-control" placeholder="Your username address" value={formData.username} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} required  id="username" name="username"/>
+                                <input type="text" className="form-control" placeholder="Your login" value={user.login} onChange={(event) => setUser({ ...user, [event.target.name]: event.target.value })} required id="username" name="login" />
                             </div>
+                            
                             <div className="form-group">
-                                <input type="password" className="form-control" placeholder="Your password" value={formData.password} onChange={(event) => setFormData({ ...formData, [event.target.name]: event.target.value })} required id="password" name="password"/>
-                                <a href="#0" className="forgot"><small>Forgot password?</small></a>
+                                <input type="password" className="form-control" placeholder="Your password" value={user.password} onChange={(event) => setUser({ ...user, [event.target.name]: event.target.value })} required id="password" name="password"/>
                             </div>
+                            
                             <div className="form-group">
                                 <input className="btn_1"type="submit" value={"Submit"}/>
                             </div>
                         </div>
+
+                        <div className="box_login last">
+    
+                            <div className="form-group">
+                                <br/>
+                            </div>
+
+                            <div className="form-group">
+                            </div>
+                        
+                            <div className="form-group">
+                                <p className="text-center link_bright">You do not have an account yet? <a href="#0"><strong>Register now!</strong></a></p>
+                            </div>
+                            
+                            
+                        </div>
                     </div>
                 </form>
-                <p className="text-center link_bright">Do not have an account yet? <a href="#0"><strong>Register now!</strong></a></p>
             </div>
             
         </div>
