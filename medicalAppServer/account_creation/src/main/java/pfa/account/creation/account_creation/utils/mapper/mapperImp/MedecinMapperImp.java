@@ -21,6 +21,7 @@ public class MedecinMapperImp implements MedecinMapperAble {
         medecin.setLogin(medecinCreateDTO.getLogin());
         medecin.setInp(medecinCreateDTO.getInp());
         medecin.setSpecialite(medecinCreateDTO.getSpecialite());
+        medecin.setImagePath(medecinCreateDTO.getImageFile().toString());
         /*
            Cabinet cabinet = new Cabinet();
         cabinet.setId(medecinCreateDTO.getCabinetId());
@@ -43,7 +44,9 @@ public class MedecinMapperImp implements MedecinMapperAble {
         medecinDTO.setInp(medecin.getInp());
         medecinDTO.setSpecialite(medecin.getSpecialite());
         medecinDTO.setCabinetId(medecin.getCabinet().getId());
+        medecinDTO.setImagePath(medecin.getImagePath());
         medecinDTO.setWorkingCabinet(workingCabinet);
+
         return medecinDTO;
     }
 }

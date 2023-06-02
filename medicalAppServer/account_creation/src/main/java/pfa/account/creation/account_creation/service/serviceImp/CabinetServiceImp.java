@@ -1,11 +1,14 @@
 package pfa.account.creation.account_creation.service.serviceImp;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pfa.account.creation.account_creation.entity.Cabinet;
+import pfa.account.creation.account_creation.entity.CabinetImages;
 import pfa.account.creation.account_creation.exception.ResourceNotFoundException;
 import pfa.account.creation.account_creation.payload.CabinetDTO;
 import pfa.account.creation.account_creation.payload.CabinetResponse;
@@ -13,7 +16,10 @@ import pfa.account.creation.account_creation.repository.CabinetRepository;
 import pfa.account.creation.account_creation.service.CabinetService;
 import pfa.account.creation.account_creation.utils.mapper.CabinetMapperAble;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,9 +52,27 @@ public class CabinetServiceImp implements CabinetService {
     @Override
     public CabinetDTO createCabinet(CabinetDTO cabinetDTO) {
         Cabinet cabinet = cabinetMapperAble.mapToEntity(cabinetDTO);
+
+        // Upload each image and save the path in the database
+        for (MultipartFile imageFile : cabinetDTO.getImageFiles()) {
+            String imagePath = uploadImage(imageFile);
+
+            // Create a new CabinetImages object
+            CabinetImages cabinetImages = new CabinetImages();
+            cabinetImages.setCabinet(cabinet); // Set the Cabinet
+            cabinetImages.setAlt("Optional alt text"); // Set an optional alt text
+
+            // Set the image path
+            cabinetImages.setImagePath(imagePath);
+
+            // Add the CabinetImages object to the Cabinet
+            cabinet.getCabinetImages().add(cabinetImages);
+        }
+
         Cabinet savedCabinet = cabinetRepository.save(cabinet);
         return cabinetMapperAble.mapToDto(savedCabinet);
-    }
+
+}
 
     @Override
     public CabinetDTO getCabinetById(Long id) {
@@ -100,6 +124,36 @@ public class CabinetServiceImp implements CabinetService {
         double distance = earthRadius * c;
 
         return distance;
+    }
+    private String uploadImage(MultipartFile imageFile) {
+        try {
+            // Generate a unique file name or use the original file name
+            String fileName = UUID.randomUUID().toString() + "-" + imageFile.getOriginalFilename();
+
+            // Specify the directory where you want to store the uploaded images
+            String uploadDir = System.getProperty("user.dir") + "/uploads/cabinet";
+
+            // Create the directory if it doesn't exist
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            // Save the image file
+            String filePath = uploadDir + fileName;
+            File dest = new File(filePath);
+            imageFile.transferTo(dest);
+
+            return filePath;
+        } catch (IOException e) {
+            // Handle the exception accordingly
+            e.printStackTrace();
+            try {
+                throw new FileUploadException("Failed to upload image.");
+            } catch (FileUploadException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
 }

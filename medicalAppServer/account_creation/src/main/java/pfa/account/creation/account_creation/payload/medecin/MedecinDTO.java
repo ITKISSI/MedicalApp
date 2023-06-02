@@ -11,4 +11,6 @@ public class MedecinDTO extends UserDTO {
     private String specialite;
     private Long cabinetId;
     private String workingCabinet;
+    private String imagePath; // New field for image path
+
 }

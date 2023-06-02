@@ -16,6 +16,9 @@ public class CabinetImages {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String alt;
+
+    private String imagePath; // Field to store the image path
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cabinet_id", nullable = false) // to provide forienkey
     private Cabinet cabinet;
