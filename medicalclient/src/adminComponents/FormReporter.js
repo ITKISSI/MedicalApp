@@ -21,7 +21,7 @@ function FormReporter() {
       function handleSubmit(event) {
         event.preventDefault();
     
-        fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
+        fetch(`https://127.0.0.1:8000/appointments/${id}/reporter`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -79,13 +79,13 @@ function FormReporter() {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="firstName" class="form-control" value={appointment.Patient.firstName} />
+                                    <input type="text" name="firstName" class="form-control" value={appointment.patient.firstName} />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Last name</label>
-                                    <input type="text" name="lastName" class="form-control" value={appointment.Patient.lastName} />
+                                    <input type="text" name="lastName" class="form-control" value={appointment.patient.lastName} />
                                 </div>
                             </div>
                             <div class="col-md-6">

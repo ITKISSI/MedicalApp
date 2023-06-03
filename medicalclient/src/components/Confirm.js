@@ -1,8 +1,11 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import { useLocation } from 'react-router-dom';
 
 function Confirm() {
+	const location = useLocation();
+	const { email } = location.state || {};
   return (
     <div className="App">
     <div className="content">
@@ -37,7 +40,7 @@ function Confirm() {
 							</svg>
 						</div>
 					<h2>Thanks for your booking!</h2>
-					<p>You'll receive a confirmation email at mail@example.com</p>
+					<p>You'll receive a confirmation email at {email}</p>
 					</div>
 				</div>
 			</div>

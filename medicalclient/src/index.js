@@ -30,7 +30,6 @@ import RegistreCabinet from './Cabinet/RegistreCabinet';
 import ConfirmedEmail from './components/confirmedEmail';
 import { LoadScript } from '@react-google-maps/api';
 import RatingForm from './components/RatingForm';
-import DoctorRating from './components/DoctorRating';
 import TestRating from './components/TestRating'
 
 const router = createBrowserRouter([
@@ -120,10 +119,6 @@ const router = createBrowserRouter([
   {
     path:'registreCabinet',
     element:<RegistreCabinet/>
-  },
-  {
-    path:'doctorRating',
-    element:<DoctorRating/>
   },
   {
     path:'doctorRatingForm',

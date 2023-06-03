@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
@@ -13,42 +15,29 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
 #[ApiResource]
-#[Get(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name']])]
-#[Put(denormalizationContext:['groups' => ['appointment:date' , 'appointment:state']])]
-class Patient
+//#[GetCollection(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name','patient:All']])]
+class Patient extends User
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    
     #[ORM\Column(length: 255)]
-    #[Groups(['patient:Name'])]
-    private ?string $firstName = null;
-
-    #[ORM\Column(length: 255)]
-    #[Groups(['patient:Name'])]
-    private ?string $lastName = null;
-
-    #[ORM\Column]
-    private ?int $age = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $address = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $cin = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $login = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $password = null;
-    #[ORM\Column(length: 255)]
+ //   #[Groups(['patient:All'])]
     private ?string $phoneNumber = null;
 
-    #[ORM\OneToMany(mappedBy: 'Patient', targetEntity: Appointment::class)]
+    /**
+     * @return string|null
+     */
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string|null $phoneNumber
+     */
+    public function setPhoneNumber(?string $phoneNumber): void
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+    #[ORM\OneToMany(mappedBy: 'Patient', targetEntity: Appointment::class, cascade: ['persist'])]
     private Collection $Appointments;
 
     #[ORM\ManyToMany(targetEntity: doctor::class, inversedBy: 'patients')]
@@ -56,110 +45,9 @@ class Patient
 
     public function __construct()
     {
+        parent::__construct();
         $this->Appointments = new ArrayCollection();
         $this->doctor = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getAge(): ?int
-    {
-        return $this->age;
-    }
-
-    public function setAge(int $age): self
-    {
-        $this->age = $age;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getCin(): ?string
-    {
-        return $this->cin;
-    }
-
-    public function setCin(string $cin): self
-    {
-        $this->cin = $cin;
-
-        return $this;
-    }
-
-    public function getLogin(): ?string
-    {
-        return $this->login;
-    }
-
-    public function setLogin(string $login): self
-    {
-        $this->login = $login;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-
-    public function getPhoneNumber(): ?string
-    {
-        return $this->phoneNumber;
-    }
-
-    public function setPhoneNumber(string $phoneNumber): self
-    {
-        $this->phoneNumber = $phoneNumber;
-
-        return $this;
     }
 
     /**
@@ -195,11 +83,6 @@ class Patient
     {
         return [
             'id' => $this->id,
-            'firstName' => $this->firstName,
-            'lastName' => $this->lastName,
-            'age' => $this->age,
-            'address' => $this->address,
-            'cin' => $this->cin,
             'phoneNumber' => $this->phoneNumber,
         ];
     }
@@ -227,5 +110,6 @@ class Patient
 
         return $this;
     }
+
 
 }

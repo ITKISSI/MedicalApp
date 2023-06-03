@@ -4,7 +4,7 @@ import SearchDoctorCard from './components/SearchDoctorCard';
 import Subscibe from './components/Subscribe';
 import React, { useState } from 'react'
 import Footer from './components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, Route, Router } from 'react-router-dom';
 import './assets/css/style.css';
 import './assets/css/bootstrap.min.css';
 import './assets/css/vendors.css';
@@ -13,7 +13,10 @@ import './assets/css/custom.css';
 import 'react-toastify/dist/ReactToastify.css';
 import SearchZone from './components/SearchZone';
 import ClinicCard from './components/ClinicCard';
-import '../src/assets/js/functions.js';
+import { Switch } from '@mui/material';
+import Booking from './components/Booking';
+import Confirm from './components/Confirm';
+
 
 function App() {
 

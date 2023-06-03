@@ -4,6 +4,7 @@ namespace App\Entity;
 
 
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,37 +18,33 @@ use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: AppointmentRepository::class)]
 #[ApiResource]
-#[GetCollection(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name']])]
-#[Get(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name']])]
-#[Put(denormalizationContext:['groups' => ['appointment:date' , 'appointment:state']])]
-
+//#[GetCollection(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name','patient:All']])]
 class Appointment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['appointment:All'])]
+//    #[Groups(['appointment:All'])]
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    #[Groups(['appointment:All' , 'appointment:date'])]
+ //   #[Groups(['appointment:All' , 'appointment:date'])]
     private ?DateTimeInterface $hour = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['appointment:All' , 'appointment:date'])]
+ //   #[Groups(['appointment:All' , 'appointment:date'])]
     private ?DateTimeInterface $date = null;
 
     #[ORM\Column]
-    #[Groups(['appointment:All' , 'appointment:state'])]
+ //   #[Groups(['appointment:All' , 'appointment:state'])]
     private ?bool $state = null;
 
-    #[ORM\OneToMany(mappedBy: 'Appointment', targetEntity: Doctor::class)]  
-    #[Groups(['appointment:All'])]
+    #[ORM\OneToMany(mappedBy: 'Appointment', targetEntity: Doctor::class )]
+ //   #[Groups(['appointment:All'])]
     private Collection $Doctor;
 
     #[ORM\ManyToOne(inversedBy: 'Appointments')]
-    #[Groups(['appointment:All'])]
-
+  //  #[Groups(['appointment:All'])]
     private ?Patient $Patient = null;
 
     public function __construct()

@@ -1,19 +1,23 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
-import { Link , useLocation } from "react-router-dom";
+import { useLocation ,useNavigate } from "react-router-dom";
 
 
-function Detail() {
+export default function Detail() {
 	
 
 	const location = useLocation(); // Utilisez useLocation() pour obtenir l'objet location
-
+	const navigate = useNavigate();
 	// Assurez-vous que location.state existe avant d'accéder à ses propriétés
 	if (!location.state) {
 	  return <div>No data available</div>;
 	}
-	const { workingCabinet, firstName, lastName , adress , specialite , id } = location.state;
+	const { doctor } = location.state;
+	
+	const handleBookNow = () => {
+		navigate('/booking', { state: { doctor} });
+	  };
   return (
     <div className="App">
     <div className="content">
@@ -54,12 +58,12 @@ function Detail() {
 								<div className="row">
 									<div className="col-lg-5 col-md-4">
 										<figure>
-											<img src={require(`../img/doctors/${id}.jpg`)} alt="" className="img-fluid"/>
+											<img src={require(`../img/doctors/${doctor.id}.jpg`)} alt="" className="img-fluid"/>
 										</figure>
 									</div>
 									<div className="col-lg-7 col-md-8">
-										<small>{specialite}</small>
-										<h1>{firstName} {lastName}</h1>
+										<small>{doctor.specialite}</small>
+										<h1>{doctor.firstName} {doctor.lastName}</h1>
 										<span className="rating">
 											<i className="icon_star voted"></i>
 											<i className="icon_star voted"></i>
@@ -78,11 +82,11 @@ function Detail() {
 										<ul className="contacts">
 											<li>
 												<h6>Address</h6>
-												{adress}  
+												{doctor.adress}  
 												
 											</li>
 											<li>
-												<h6>Clinic :</h6> {workingCabinet}</li>
+												<h6>Clinic :</h6> {doctor.workingCabinet}</li>
 										</ul>
 									</div>
 								</div>
@@ -368,7 +372,9 @@ function Detail() {
 								</li>
 							</ul>
 							<hr/>
-							<a href="booking-page.html" className="btn_1 full-width">Book Now</a>
+							<button className="btn_1 full-width" onClick={handleBookNow}>
+							Book Now
+							</button>
 						</form>
 					</div>
 					
@@ -388,5 +394,3 @@ function Detail() {
 </div>
   )
 }
-
-export default Detail

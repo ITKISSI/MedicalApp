@@ -13,15 +13,15 @@ function RdvList() {
 
   const loadAppointments=async () =>
     {
-        const result = await axios.get("https://127.0.0.1:8000/appointments");
-        setAppointments(result.data);
+      const result = await axios.get("https://127.0.0.1:8000/appointments");
+      setAppointments(result.data);
     };
 
 
     const handleConfirm = (id) => {
       const confirmed = window.confirm("Voulez-vous confirmer ce rendez-vous ?");
       if (confirmed) {
-        fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
+        fetch(`https://127.0.0.1:8000/appointments/${id}/stateChange`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ function RdvList() {
     const handleReject = (id) => {
       const confirmed = window.confirm("Voulez-vous rejeter ce rendez-vous ?");
       if (confirmed) {
-        fetch(`https://127.0.0.1:8000/api/appointments/${id}`, {
+        fetch(`https://127.0.0.1:8000/appointments/${id}/stateChange`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -129,9 +129,9 @@ function RdvList() {
                       <tr key={appointment.id}>
                         <td>{appointment.date}</td>                        
                         <td>{appointment.hour}</td>
-                        <td>{appointment.Doctor[0].firstName} {appointment.Doctor[0].lastName}</td>
-                        <td>{appointment.Doctor[0].speciality}</td>
-                        <td>{appointment.Patient.lastName} {appointment.Patient.firstName}</td>
+                        <td>{appointment.doctor.firstName} {appointment.doctor.lastName}</td>
+                        <td>{ appointment.doctor.speciality}</td>
+                        <td>{appointment.patient.lastName} {appointment.patient.firstName}</td> 
                         <td>{appointment.state ? (
                             <span className="text-success">Confirmé</span>
                           ) : (
@@ -148,7 +148,10 @@ function RdvList() {
                             class="btn btn-success" 
                             onClick={() => handleConfirm(appointment.id)}
                          >
-                          Valider
+                          <b>
+                            Valider
+                          </b>
+                          
                          </button>
                          <button type="button" class="btn btn-danger"
                          style={{width: '100px',
@@ -156,12 +159,20 @@ function RdvList() {
                          textalign: 'center'}}
                             onClick={() => handleReject(appointment.id)}
                          >
-                          Rejeter
+                          <b>
+                           Rejeter 
+                          </b>
+                          
                           </button>
                          <button type="button" class="btn btn-warning"  style={{width: '100px',
                               margin: '2px',
                               textalign: 'center'}}>
-                         <Link to={`/appointments/${appointment.id}/reporter`}>Reporter</Link>
+                         <Link to={`/appointments/${appointment.id}/reporter`}>
+                          
+                          <b>
+                            Reporter
+                          </b>
+                          </Link>
                           </button>
                           </div>
                          
