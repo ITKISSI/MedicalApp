@@ -3,6 +3,7 @@ package pfa.account.creation.account_creation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pfa.account.creation.account_creation.payload.CabinetDTO;
@@ -29,8 +30,8 @@ public class CabinetController {
         this.medecinService = medecinService;
     }
 
-    @PostMapping
-    public ResponseEntity<CabinetDTO> createCabinet(@RequestBody CabinetDTO cabinetDTO) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CabinetDTO> createCabinet(CabinetDTO cabinetDTO) {
         return new ResponseEntity<>(cabinetService.createCabinet(cabinetDTO), HttpStatus.CREATED);
     }
 

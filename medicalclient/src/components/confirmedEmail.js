@@ -14,7 +14,7 @@ function ConfirmedEmail() {
       
     toast.success("Email has been confirmed")
     setTimeout(() => {
-        navigate("/LoginPatient");
+        navigate("/login");
         }, 4000);
 
                

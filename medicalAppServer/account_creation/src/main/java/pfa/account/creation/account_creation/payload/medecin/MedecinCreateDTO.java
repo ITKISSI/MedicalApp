@@ -3,6 +3,7 @@ package pfa.account.creation.account_creation.payload.medecin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -13,4 +14,7 @@ public class MedecinCreateDTO extends UserDTO {
     private int inp;
     private String specialite;
     private Long cabinetId;
+
+    private MultipartFile imageFile; // Add this field for the image file
+
 }

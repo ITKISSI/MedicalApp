@@ -13,14 +13,13 @@ function RegisterPatient() {
 	const[patient,setPatient]=useState({
 		firstname:"",
 		lastname:"",
-		username:"",
 		phone:"",
 		email:"",
 		password:"",
 		cpassword:""
 	});
 
-	const {firstname,lastname,username,phone,email,password,cpassword}=patient;
+	const {firstname,lastname,phone,email,password,cpassword}=patient;
 
 	const onInputChange=(e)=>{
 		setPatient({...patient,[e.target.name]:e.target.value});
@@ -118,20 +117,6 @@ function RegisterPatient() {
 											placeholder="Last Name"
 											name="lastname"
 											value={lastname}
-											onChange={(e)=>onInputChange(e)}
-											/>
-										</div>
-									</div>
-								</div>
-								
-								<div className="row">
-									<div className="col-lg-12">
-									<div className="form-group">
-											<input type={"text"} 
-											className="form-control" 
-											placeholder="UserName"
-											name="username"
-											value={username}
 											onChange={(e)=>onInputChange(e)}
 											/>
 										</div>

@@ -8,7 +8,6 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-
 @AllArgsConstructor
 @Table(name = "_user")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

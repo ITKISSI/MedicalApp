@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pfa.account.creation.account_creation.payload.MedecinResponse;
 import pfa.account.creation.account_creation.payload.medecin.MedecinCreateDTO;
 import pfa.account.creation.account_creation.payload.medecin.MedecinDTO;
@@ -24,9 +25,15 @@ public class MedecinController {
     }
 
     @PostMapping("{cabinetId}/cabinet")
-    public ResponseEntity<MedecinDTO> createMedecin(@PathVariable long cabinetId, @RequestBody MedecinCreateDTO medecinCreateDTO) {
+    public ResponseEntity<MedecinDTO> createMedecin(
+            @PathVariable long cabinetId,
+            MedecinCreateDTO medecinCreateDTO,
+            @RequestPart("image") MultipartFile imageFile
+    ) {
+        medecinCreateDTO.setImageFile(imageFile); // Set imageFile to medecinCreateDTO
         return new ResponseEntity<>(medecinService.createMedecin(medecinCreateDTO, cabinetId), HttpStatus.CREATED);
     }
+
 
     @DeleteMapping("/{medecinId}")
     public ResponseEntity<String> deleteMedcin(@PathVariable long medecinId) {
@@ -40,12 +47,13 @@ public class MedecinController {
     }
 
     @GetMapping("/{medecinId}")
-    public ResponseEntity<MedecinDTO> getMedecinWithID(@PathVariable long medecinId){
-        return new ResponseEntity<>(medecinService.getMedecinById(medecinId),HttpStatus.OK);
+    public ResponseEntity<MedecinDTO> getMedecinWithID(@PathVariable long medecinId) {
+        return new ResponseEntity<>(medecinService.getMedecinById(medecinId), HttpStatus.OK);
     }
+
     @PutMapping("/{medecinId}")
-    public ResponseEntity<MedecinDTO> updateMedecinWithId(@PathVariable long medecinId, @RequestBody MedecinCreateDTO medecinDTO){
-        return new ResponseEntity<>(medecinService.updateMedecin(medecinDTO,medecinId),HttpStatus.OK);
+    public ResponseEntity<MedecinDTO> updateMedecinWithId(@PathVariable long medecinId, @RequestBody MedecinCreateDTO medecinDTO) {
+        return new ResponseEntity<>(medecinService.updateMedecin(medecinDTO, medecinId), HttpStatus.OK);
     }
 
 
