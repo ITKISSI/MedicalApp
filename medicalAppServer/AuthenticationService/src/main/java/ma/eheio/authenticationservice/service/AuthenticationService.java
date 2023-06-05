@@ -32,7 +32,7 @@ public class AuthenticationService {
         else{
             User user =userRepository.findUserByLogin(login).get();
             if(!user.isEnabled()){
-                return new LoginResponseDTO("disabled",user);
+                return new LoginResponseDTO("",user);
             }
             try{
                 Authentication auth = manager.authenticate(new UsernamePasswordAuthenticationToken(login,password));

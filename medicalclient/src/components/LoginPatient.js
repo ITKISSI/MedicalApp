@@ -24,8 +24,12 @@ function LoginPatient() {
         
             await axios.post("http://localhost:8082/Authentication/login",user)
             .then(res=>{
+                console.log(res.data);
                 if(res.data.user===null && res.data.jwt===""){
-                    toast.error("User not found");
+                    toast.error("Login or password incorrect");
+                }
+                else if(res.data.user!==null && res.data.jwt===""){
+                    toast.error("Account is disabled");
                 }
                 else if(res.data.user!==null && res.data.jwt!==""){
                     toast.success("Welcome ");
