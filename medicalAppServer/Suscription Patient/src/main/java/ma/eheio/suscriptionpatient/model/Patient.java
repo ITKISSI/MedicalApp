@@ -24,8 +24,8 @@ public class Patient extends User {
 
     }
 
-    public Patient(Long id, String firstName, String lastName, int age, String adress, String cin, String login, String password,String phone, Boolean looked, Boolean enabled, Set<Role> authorities, String immatriculation) {
-        super(id, firstName, lastName, age, adress, cin, login, password,phone, looked, enabled, authorities);
+    public Patient(Long id, String firstName, String lastName, int age, String adress, String cin, String login, String password,String phone, Boolean looked, Boolean enabled, Set<Role> authorities, String immatriculation,String image) {
+        super(id, firstName, lastName, age, adress, cin, login, password,phone, looked, enabled, authorities,image);
         this.immatriculation = immatriculation;
     }
 

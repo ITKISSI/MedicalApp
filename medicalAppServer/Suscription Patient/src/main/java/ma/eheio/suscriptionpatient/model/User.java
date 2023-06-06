@@ -44,6 +44,8 @@ public class User implements UserDetails {
     )
     private Set<Role> authorities;
 
+    private String image;
+
 
 
     @Override

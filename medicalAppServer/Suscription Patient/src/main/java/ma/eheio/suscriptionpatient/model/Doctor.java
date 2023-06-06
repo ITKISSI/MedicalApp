@@ -16,8 +16,8 @@ public class Doctor extends User{
     private String inp;
     private String specialty;
 
-    public Doctor(Long id, String firstName, String lastName, int age, String adress, String cin, String login, String password,String phone, Boolean looked, Boolean enabled, Set<Role> authorities, String inp, String specialty) {
-        super(id, firstName, lastName, age, adress, cin, login, password,phone, looked, enabled, authorities);
+    public Doctor(Long id, String firstName, String lastName, int age, String adress, String cin, String login, String password,String phone, Boolean looked, Boolean enabled, Set<Role> authorities, String inp, String specialty,String image) {
+        super(id, firstName, lastName, age, adress, cin, login, password,phone, looked, enabled, authorities,image);
         this.inp = inp;
         this.specialty = specialty;
     }

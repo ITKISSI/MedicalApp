@@ -38,11 +38,11 @@ public class SuscriptionRdvPatientApplication {
             String pwd = encoder.encode("123");
 
             Patient admin = new Patient(null,"tarik","nejjari",23
-                    ,"Oujda","f1212","pattarik12@gmail.com",pwd,"+2128989",false,false,roles,"f111f");
+                    ,"Oujda","f1212","pattarik12@gmail.com",pwd,"+2128989",false,false,roles,"f111f","img");
 
 
             Doctor doctor=new Doctor(null, "aziz", "kissi", 25,
-                    "italie", "f65000", "kissi122@gmail.com", pwd,"+2126000",false,false,droles,"inp12","neurologue");
+                    "italie", "f65000", "kissi122@gmail.com", pwd,"+2126000",false,false,droles,"inp12","neurologue","img");
 
 
 
