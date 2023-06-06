@@ -30,7 +30,10 @@ import RegistreCabinet from './Cabinet/RegistreCabinet';
 import ConfirmedEmail from './components/confirmedEmail';
 import { LoadScript } from '@react-google-maps/api';
 import RatingForm from './components/RatingForm';
-import TestRating from './components/TestRating'
+import TestRating from './components/TestRating';
+import UserTable from './WaitingQueue/UserTable';
+import WaitingLine from './WaitingQueue/WaitingLine';
+import PatientDashbord from './patient/PatientDashbord';
 
 const router = createBrowserRouter([
   {
@@ -127,6 +130,18 @@ const router = createBrowserRouter([
   {
     path:'testRating',
     element:<TestRating/>
+  },
+  {
+    path:'userTable',
+    element:<UserTable/>
+  },
+  {
+    path:'waitingLine',
+    element:<WaitingLine/>
+  },
+  {
+    path:'patientAdmin',
+    element:<PatientDashbord/>
   }
 ]);
 
