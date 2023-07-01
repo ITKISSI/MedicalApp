@@ -17,7 +17,7 @@ function PatientSideNav() {
       </Link>
     </li>
     <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-      <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/createMedcin">
+      <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/waitingLine">
       <i className="fa fa-fw fa-gear"></i>
       <span className="nav-link-text">Ma fille d'attente</span>
       </Link>
