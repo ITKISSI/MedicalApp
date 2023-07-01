@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function LoginPatient() {
 
@@ -58,7 +59,7 @@ function LoginPatient() {
     <div className="bg_color_2">
         <div className="container margin_60_35">
             <div id="login-2">
-                <h1 style={{color :"white !impotant" }}>Please login!</h1>
+                <h1 className="text-light">Please login!</h1>
                 <form onSubmit={submit}>
                     <div className="box_form clearfix">
                         <div className="box_login">
@@ -86,7 +87,7 @@ function LoginPatient() {
                             </div>
                         
                             <div className="form-group">
-                                <p className="text-center link_bright">You do not have an account yet? <a href="#0"><strong>Register now!</strong></a></p>
+                                <p className="text-center link_bright">You do not have an account yet?<Link to="/registerPatient">Register Patient</Link></p>
                             </div>
                             
                             

@@ -30,7 +30,7 @@ function RegisterPatient() {
 		e.preventDefault();
 		try{
 			if(password !== cpassword) {
-				toast.error("Passwords are not same");
+				toast.error("Passwords don't match");
 			  }
 			  else if (password.length < 6) {
 				toast.error("Password must be atleast 6 characters");
@@ -80,24 +80,22 @@ function RegisterPatient() {
 			<div className="container margin_120_95">
 				<div className="row">
 					<div className="col-lg-6">
-						<h1>It's time to find you!</h1>
-						<p className="lead">Te pri adhuc simul. No eros errem mea. Diam mandamus has ad. Invenire senserit
-							ad has, has ei quis iudico, ad mei nonumes periculis.</p>
+					<h1 className="text-light"><span className="text-info">Register</span> to find your doctor with MEDISTA!</h1>
 						<div className="box_feat_2">
 							<i className="pe-7s-map-2"></i>
-							<h3>Let patients to Find you!</h3>
+							<h3 className="text-info">Find your doctor!</h3>
 							<p>Ut nam graece accumsan cotidieque. Has voluptua vivendum accusamus cu. Ut per assueverit
 								temporibus dissentiet.</p>
 						</div>
 						<div className="box_feat_2">
 							<i className="pe-7s-date"></i>
-							<h3>Easly manage Bookings</h3>
+							<h3 className="text-info">Easly manage Bookings</h3>
 							<p>Has voluptua vivendum accusamus cu. Ut per assueverit temporibus dissentiet. Eum no atqui
 								putant democritum, velit nusquam sententiae vis no.</p>
 						</div>
 						<div className="box_feat_2">
 							<i className="pe-7s-phone"></i>
-							<h3>Instantly via Mobile</h3>
+							<h3 className="text-info">Instantly via Mobile</h3>
 							<p>Eos eu epicuri eleifend suavitate, te primis placerat suavitate his. Nam ut dico
 								intellegat reprehendunt, everti audiam diceret in pri, id has clita consequat
 								suscipiantur.</p>
@@ -190,8 +188,8 @@ function RegisterPatient() {
 								
 								
 								<p className="text-center add_top_30">
-									<button type='submit' onSubmit={(e)=>onSubmit(e)} className='btn btn-primary mx-2'>Submit</button>
-									<button type='reset' onClick={(e)=>onCancle(e)} className='btn btn-danger mx-2'>Cancel</button>
+									<button type='submit' onSubmit={(e)=>onSubmit(e)} className='btn_1 mx-2'>Submit</button>
+									<button type='reset' onClick={(e)=>onCancle(e)} className='btn_1 btn-info mx-2'>Cancel</button>
 								</p>
 							</form>
 						</div>
