@@ -52,7 +52,11 @@ public class CabinetServiceImp implements CabinetService {
     @Override
     public CabinetDTO createCabinet(CabinetDTO cabinetDTO) {
         Cabinet cabinet = cabinetMapperAble.mapToEntity(cabinetDTO);
+        System.out.println("*****nhello "+cabinetDTO);
 
+        /*
+
+         */
         // Upload each image and save the path in the database
         for (MultipartFile imageFile : cabinetDTO.getImageFiles()) {
             String imagePath = uploadImage(imageFile);

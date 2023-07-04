@@ -15,6 +15,4 @@ public class MedecinCreateDTO extends UserDTO {
     private String specialite;
     private Long cabinetId;
 
-    private MultipartFile imageFile; // Add this field for the image file
-
 }

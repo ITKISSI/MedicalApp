@@ -69,11 +69,6 @@ public class MedecinServiceImp implements MedecinService {
         Medecin medecin = medecinMapperAble.mapToEntity(medecinCreateDTO);
         medecin.setCabinet(cabinet);
 
-        // Upload the image and save the path in the database
-        if (medecinCreateDTO.getImageFile() != null) {
-            String imagePath = uploadImage(medecinCreateDTO.getImageFile());
-            medecin.setImagePath(imagePath);
-        }
 
         Medecin savedMedecin = medecinRepository.save(medecin);
         return medecinMapperAble.mapToDtoWithOutLoginAndPassword(savedMedecin, cabinet.getDenomination());
