@@ -140,24 +140,38 @@ class AppointmentController extends AbstractController
     }
 
 
-//    #[Route('/appointments/{id}/stateChange', name: 'appointments_state_change', methods: ["PUT"])]
-//    public function updateState(Request $request, Appointment $appointment, EntityManagerInterface $em): Response
-//    {
-//        $data = json_decode($request->getContent(), true);
-//
-//        if (isset($data['state']) && $data['state'] != $appointment->isState()) {
-//            $appointment->setState($data['state']);
-//        }
-//        if (isset($data['state'])) {
-//        $appointment->setState(constant("App\Entity\AppointmentStatus::$data[state]"));
-//        }
-//
-//        $em->persist($appointment);
-//        $em->flush();
-//
-//        return $this->json($appointment);
-//    }
+    #[Route('/appointments/{id}/stateChange', name: 'appointments_state_change', methods: ["PUT"])]
+    public function updateState(Request $request, Appointment $appointment, EntityManagerInterface $em): Response
+    {
+        $data = json_decode($request->getContent(), true);
 
+        if (!isset($data['state'])) {
+            return $this->json(['message' => 'Le nouvel état doit être spécifié.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $newState = $data['state'];
+
+        // Vérifier si le nouvel état est une valeur valide pour l'enum AppointmentStatus
+        $validStates = [
+            AppointmentStatus::In_PROGRESS,
+            AppointmentStatus::CONFIRMED,
+            AppointmentStatus::DONE,
+            AppointmentStatus::CANCELED,
+        ];
+
+//        if (!in_array($newState, $validStates)) {
+//            return $this->json(['message' => 'Le nouvel état spécifié n\'est pas valide.'], Response::HTTP_BAD_REQUEST);
+//        }
+
+       // $appointment->setState($newState);
+
+        $appointment->setState(AppointmentStatus::from($newState));
+
+        $em->persist($appointment);
+        $em->flush();
+
+        return $this->json($appointment);
+    }
     /**
      * @throws Exception
      */
@@ -215,18 +229,6 @@ class AppointmentController extends AbstractController
         return new Response('Le rendez-vous a été créé avec succès.', Response::HTTP_CREATED);
     }
 
-    #[Route('/appointment-status', name: 'appointment_status' , methods: ["GET"])]
-    public function getAppointmentStatus(): JsonResponse
-    {
-        $statusOptions = [
-            'In_PROGRESS',
-            'CONFIRMED',
-            'DONE',
-            'CANCELED',
-        ];
-
-        return new JsonResponse($statusOptions);
-    }
 
 
 }

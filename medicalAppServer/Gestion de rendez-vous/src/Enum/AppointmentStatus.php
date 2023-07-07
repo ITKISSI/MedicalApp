@@ -8,4 +8,5 @@ enum AppointmentStatus:string
    case CONFIRMED= "CONFIRMED";
    case DONE= "DONE";
    case CANCELED = "CANCELED";
+
 }

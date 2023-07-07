@@ -16,7 +16,6 @@ return [
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/appointments' => [[['_route' => 'appointments', '_controller' => 'App\\Controller\\AppointmentController::index'], null, ['GET' => 0], null, false, false, null]],
         '/confirm' => [[['_route' => 'booking_confirm', '_controller' => 'App\\Controller\\AppointmentController::create'], null, ['POST' => 0], null, false, false, null]],
-        '/appointment-status' => [[['_route' => 'appointment_status', '_controller' => 'App\\Controller\\AppointmentController::getAppointmentStatus'], null, ['GET' => 0], null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -69,22 +68,25 @@ return [
                     .')'
                     .'|pointments/([^/]++)(?'
                         .'|(*:627)'
-                        .'|/reporter(*:644)'
+                        .'|/(?'
+                            .'|reporter(*:647)'
+                            .'|stateChange(*:666)'
+                        .')'
                     .')'
                 .')'
                 .'|/_(?'
-                    .'|error/(\\d+)(?:\\.([^/]++))?(*:685)'
-                    .'|wdt/([^/]++)(*:705)'
+                    .'|error/(\\d+)(?:\\.([^/]++))?(*:708)'
+                    .'|wdt/([^/]++)(*:728)'
                     .'|profiler/([^/]++)(?'
                         .'|/(?'
-                            .'|search/results(*:751)'
-                            .'|router(*:765)'
+                            .'|search/results(*:774)'
+                            .'|router(*:788)'
                             .'|exception(?'
-                                .'|(*:785)'
-                                .'|\\.css(*:798)'
+                                .'|(*:808)'
+                                .'|\\.css(*:821)'
                             .')'
                         .')'
-                        .'|(*:808)'
+                        .'|(*:831)'
                     .')'
                 .')'
             .')/?$}sDu',
@@ -135,14 +137,15 @@ return [
             [['_route' => '_api_/users/{id}{._format}_delete', '_controller' => 'api_platform.action.placeholder', '_format' => null, '_stateless' => null, '_api_resource_class' => 'App\\Entity\\User', '_api_operation_name' => '_api_/users/{id}{._format}_delete'], ['id', '_format'], ['DELETE' => 0], null, false, true, null],
         ],
         627 => [[['_route' => 'appointment_show', '_controller' => 'App\\Controller\\AppointmentController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-        644 => [[['_route' => 'appointments_reporter', '_controller' => 'App\\Controller\\AppointmentController::update'], ['id'], ['PUT' => 0], null, false, false, null]],
-        685 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
-        705 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
-        751 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
-        765 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
-        785 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
-        798 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
-        808 => [
+        647 => [[['_route' => 'appointments_reporter', '_controller' => 'App\\Controller\\AppointmentController::update'], ['id'], ['PUT' => 0], null, false, false, null]],
+        666 => [[['_route' => 'appointments_state_change', '_controller' => 'App\\Controller\\AppointmentController::updateState'], ['id'], ['PUT' => 0], null, false, false, null]],
+        708 => [[['_route' => '_preview_error', '_controller' => 'error_controller::preview', '_format' => 'html'], ['code', '_format'], null, null, false, true, null]],
+        728 => [[['_route' => '_wdt', '_controller' => 'web_profiler.controller.profiler::toolbarAction'], ['token'], null, null, false, true, null]],
+        774 => [[['_route' => '_profiler_search_results', '_controller' => 'web_profiler.controller.profiler::searchResultsAction'], ['token'], null, null, false, false, null]],
+        788 => [[['_route' => '_profiler_router', '_controller' => 'web_profiler.controller.router::panelAction'], ['token'], null, null, false, false, null]],
+        808 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
+        821 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
+        831 => [
             [['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

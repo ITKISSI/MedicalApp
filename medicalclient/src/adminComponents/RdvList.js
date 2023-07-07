@@ -26,7 +26,7 @@ function RdvList() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({state: true})
+          body: JSON.stringify({state: "CONFIRMED"})
         })
         .then(response => {
           if (!response.ok) {
@@ -53,16 +53,15 @@ function RdvList() {
       }
     }
     
-
-    const handleReject = (id) => {
-      const confirmed = window.confirm("Voulez-vous rejeter ce rendez-vous ?");
+    const handleDone = (id) => {
+      const confirmed = window.confirm("Do you want to make this apppointment as done ?");
       if (confirmed) {
         fetch(`https://127.0.0.1:8000/appointments/${id}/stateChange`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({state: false})
+          body: JSON.stringify({state: "DONE"})
         })
         .then(response => {
           if (!response.ok) {
@@ -80,7 +79,42 @@ function RdvList() {
               }
             });
           });
-          window.alert('Le rendez-vous a été rejeté avec succès');
+          window.alert('The appointment was successfully done');
+        })
+        .catch(error => {
+          console.error(error);
+          window.alert('Une erreur est survenue lors de la mise à jour de l\'état du rendez-vous');
+        });
+      }
+    }
+
+    const handleReject = (id) => {
+      const confirmed = window.confirm("Do you want to cancel this appointment?");
+      if (confirmed) {
+        fetch(`https://127.0.0.1:8000/appointments/${id}/stateChange`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({state: "CANCELED"})
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Une erreur est survenue lors de la mise à jour de l\'état du rendez-vous');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setAppointments(prevAppointments => {
+            return prevAppointments.map(prevAppointment => {
+              if (prevAppointment.id === id) {
+                return {...prevAppointment, state: data.state};
+              } else {
+                return prevAppointment;
+              }
+            });
+          });
+          window.alert('The appointment was successfully canceled ');
         })
         .catch(error => {
           console.error(error);
@@ -132,10 +166,18 @@ function RdvList() {
                         <td>{appointment.doctor.firstName} {appointment.doctor.lastName}</td>
                         <td>{ appointment.doctor.speciality}</td>
                         <td>{appointment.patient.lastName} {appointment.patient.firstName}</td> 
-                        <td>{appointment.state ? (
-                            <span className="text-success">Confirmé</span>
-                          ) : (
-                            <span className="text-danger">Non confirmé</span>
+                        <td>
+                          {appointment.state === "In_PROGRESS" && (
+                            <span className="text-warning">{appointment.state}</span>
+                          )}
+                          {appointment.state === "CONFIRMED" && (
+                            <span className="text-primary">{appointment.state}</span>
+                          )}
+                          {appointment.state === "CANCELED" && (
+                            <span className="text-danger">{appointment.state}</span>
+                          )}
+                          {appointment.state === "DONE" && (
+                            <span className="text-success">{appointment.state}</span>
                           )}
                         </td>
                          <td>
@@ -145,11 +187,11 @@ function RdvList() {
                               margin: '2px',
                               textalign: 'center'}}
                             type="button" 
-                            class="btn btn-success" 
+                            class="btn btn-primary" 
                             onClick={() => handleConfirm(appointment.id)}
                          >
                           <b>
-                            Valider
+                            Confirme
                           </b>
                           
                          </button>
@@ -160,7 +202,18 @@ function RdvList() {
                             onClick={() => handleReject(appointment.id)}
                          >
                           <b>
-                           Rejeter 
+                           Cancel
+                          </b>
+                          
+                          </button>
+                          <button type="button" class="btn btn-success"
+                         style={{width: '100px',
+                         margin: '2px',
+                         textalign: 'center'}}
+                            onClick={() => handleDone(appointment.id)}
+                         >
+                          <b>
+                           Done
                           </b>
                           
                           </button>
@@ -170,7 +223,7 @@ function RdvList() {
                          <Link to={`/appointments/${appointment.id}/reporter`}>
                           
                           <b>
-                            Reporter
+                            Postpone 
                           </b>
                           </Link>
                           </button>

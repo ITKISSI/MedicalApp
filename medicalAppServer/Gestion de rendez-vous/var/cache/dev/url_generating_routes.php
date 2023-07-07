@@ -47,6 +47,6 @@ return [
     'appointments' => [[], ['_controller' => 'App\\Controller\\AppointmentController::index'], [], [['text', '/appointments']], [], [], []],
     'appointment_show' => [['id'], ['_controller' => 'App\\Controller\\AppointmentController::show'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/appointments']], [], [], []],
     'appointments_reporter' => [['id'], ['_controller' => 'App\\Controller\\AppointmentController::update'], [], [['text', '/reporter'], ['variable', '/', '[^/]++', 'id', true], ['text', '/appointments']], [], [], []],
+    'appointments_state_change' => [['id'], ['_controller' => 'App\\Controller\\AppointmentController::updateState'], [], [['text', '/stateChange'], ['variable', '/', '[^/]++', 'id', true], ['text', '/appointments']], [], [], []],
     'booking_confirm' => [[], ['_controller' => 'App\\Controller\\AppointmentController::create'], [], [['text', '/confirm']], [], [], []],
-    'appointment_status' => [[], ['_controller' => 'App\\Controller\\AppointmentController::getAppointmentStatus'], [], [['text', '/appointment-status']], [], [], []],
 ];
