@@ -49,6 +49,63 @@ abstract class User
 
     #[ORM\Column(length: 255)]
     protected ?string $password = null;
+    #[ORM\Column(length: 255)]
+    protected ?string $phoneNumber = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    protected ?string $image = null;
+
+    #[ORM\ManyToOne(targetEntity: Role::class)]
+    #[ORM\JoinColumn(nullable:false)]
+    private ?Role $role = null;
+
+    /**
+     * @return Role|null
+     */
+    public function getRole(): ?Role
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param Role|null $role
+     */
+    public function setRole(?Role $role): void
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     */
+    public function setImage(?string $image): void
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string|null $phoneNumber
+     */
+    public function setPhoneNumber(?string $phoneNumber): void
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
 
     public function __construct()
     {

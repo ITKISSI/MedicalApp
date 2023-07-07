@@ -6,6 +6,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Enum\AppointmentStatus;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
@@ -35,21 +36,25 @@ class Appointment
  //   #[Groups(['appointment:All' , 'appointment:date'])]
     private ?DateTimeInterface $date = null;
 
-    #[ORM\Column]
+
  //   #[Groups(['appointment:All' , 'appointment:state'])]
-    private ?bool $state = null;
+    #[ORM\Column(enumType: AppointmentStatus::class)]
+    private ?AppointmentStatus $state = null;
 
-    #[ORM\OneToMany(mappedBy: 'Appointment', targetEntity: Doctor::class )]
- //   #[Groups(['appointment:All'])]
-    private Collection $Doctor;
-
-    #[ORM\ManyToOne(inversedBy: 'Appointments')]
-  //  #[Groups(['appointment:All'])]
-    private ?Patient $Patient = null;
-
-    public function __construct()
+    /**
+     * @return AppointmentStatus|null
+     */
+    public function getState(): ?AppointmentStatus
     {
-        $this->Doctor = new ArrayCollection();
+        return $this->state;
+    }
+
+    /**
+     * @param AppointmentStatus|null $state
+     */
+    public function setState(?AppointmentStatus $state): void
+    {
+        $this->state = $state;
     }
 
     public function getId(): ?int
@@ -81,46 +86,18 @@ class Appointment
         return $this;
     }
 
-    public function isState(): ?bool
+
+    #[ORM\ManyToOne(inversedBy: 'Appointments')]
+    //   #[Groups(['appointment:All'])]
+    private ?Doctor $Doctor= null;
+
+    #[ORM\ManyToOne(inversedBy: 'Appointments')]
+    //  #[Groups(['appointment:All'])]
+    private ?Patient $Patient = null;
+
+    public function __construct()
     {
-        return $this->state;
-    }
 
-    public function setState(bool $state): self
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Doctor>
-     */
-    public function getDoctor(): Collection
-    {
-        return $this->Doctor;
-    }
-
-    public function addDoctor(Doctor $doctor): self
-    {
-        if (!$this->Doctor->contains($doctor)) {
-            $this->Doctor->add($doctor);
-            $doctor->setAppointment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDoctor(Doctor $doctor): self
-    {
-        if ($this->Doctor->removeElement($doctor)) {
-            // set the owning side to null (unless already changed)
-            if ($doctor->getAppointment() === $this) {
-                $doctor->setAppointment(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getPatient(): ?Patient
@@ -131,6 +108,18 @@ class Appointment
     public function setPatient(?Patient $Patient): self
     {
         $this->Patient = $Patient;
+
+        return $this;
+    }
+
+    public function getDoctor(): ?Doctor
+    {
+        return $this->Doctor;
+    }
+
+    public function setDoctor(?Doctor $Doctor): self
+    {
+        $this->Doctor = $Doctor;
 
         return $this;
     }

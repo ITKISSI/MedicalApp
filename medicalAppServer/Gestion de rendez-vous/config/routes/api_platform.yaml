@@ -1,7 +1,4 @@
 api_platform:
-    defaults:
-        iri: ~
     resource: .
     type: api_platform
     prefix: /api
-

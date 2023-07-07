@@ -15,39 +15,36 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
 #[ApiResource]
+#[ORM\Table(name: "patients")]
 //#[GetCollection(normalizationContext:['groups' => ['appointment:All','doctor:speciality','patient:Name','doctor:name','patient:All']])]
 class Patient extends User
 {
-    #[ORM\Column(length: 255)]
- //   #[Groups(['patient:All'])]
-    private ?string $phoneNumber = null;
+    #[ORM\Column(length: 255,nullable: true)]
+    protected ?string $immatricultation = null;
 
     /**
      * @return string|null
      */
-    public function getPhoneNumber(): ?string
+    public function getImmatricultation(): ?string
     {
-        return $this->phoneNumber;
+        return $this->immatricultation;
     }
 
     /**
-     * @param string|null $phoneNumber
+     * @param string|null $immatricultation
      */
-    public function setPhoneNumber(?string $phoneNumber): void
+    public function setImmatricultation(?string $immatricultation): void
     {
-        $this->phoneNumber = $phoneNumber;
+        $this->immatricultation = $immatricultation;
     }
+
     #[ORM\OneToMany(mappedBy: 'Patient', targetEntity: Appointment::class, cascade: ['persist'])]
     private Collection $Appointments;
-
-    #[ORM\ManyToMany(targetEntity: doctor::class, inversedBy: 'patients')]
-    private Collection $doctor;
 
     public function __construct()
     {
         parent::__construct();
         $this->Appointments = new ArrayCollection();
-        $this->doctor = new ArrayCollection();
     }
 
     /**
@@ -79,37 +76,11 @@ class Patient extends User
 
         return $this;
     }
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'phoneNumber' => $this->phoneNumber,
-        ];
-    }
-
-    /**
-     * @return Collection<int, doctor>
-     */
-    public function getDoctor(): Collection
-    {
-        return $this->doctor;
-    }
-
-    public function addDoctor(doctor $doctor): self
-    {
-        if (!$this->doctor->contains($doctor)) {
-            $this->doctor->add($doctor);
-        }
-
-        return $this;
-    }
-
-    public function removeDoctor(doctor $doctor): self
-    {
-        $this->doctor->removeElement($doctor);
-
-        return $this;
-    }
-
-
+//    public function toArray(): array
+//    {
+//        return [
+//            'id' => $this->id,
+//
+//        ];
+//    }
 }
