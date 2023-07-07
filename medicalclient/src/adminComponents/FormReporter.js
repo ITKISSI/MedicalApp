@@ -79,13 +79,13 @@ function FormReporter() {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="firstName" class="form-control" value={appointment.patient.firstName} />
+                                    <input type="text" name="firstName" class="form-control" value={appointment.Patient.firstName} />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Last name</label>
-                                    <input type="text" name="lastName" class="form-control" value={appointment.patient.lastName} />
+                                    <input type="text" name="lastName" class="form-control" value={appointment.Patient.lastName} />
                                 </div>
                             </div>
                             <div class="col-md-6">

@@ -93,13 +93,15 @@ class Doctor extends User
 
 
 
-//    public function toArray(): array
-//    {
-//        return [
-//            'id' => $this->id,
-//            'speciality' => $this->speciality,
-//        ];
-//    }
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'firstName' => $this -> firstName,
+            'lastName' => $this -> lastName,
+            'speciality' => $this->speciality,
+        ];
+    }
 
 
 

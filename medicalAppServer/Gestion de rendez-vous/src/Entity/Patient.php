@@ -76,11 +76,16 @@ class Patient extends User
 
         return $this;
     }
-//    public function toArray(): array
-//    {
-//        return [
-//            'id' => $this->id,
-//
-//        ];
-//    }
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'age' => $this->age,
+            'address' => $this->address,
+            'cin' => $this->cin,
+            'phoneNumber' => $this->phoneNumber,
+        ];
+    }
 }

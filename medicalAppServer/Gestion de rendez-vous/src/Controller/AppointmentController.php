@@ -116,9 +116,14 @@ class AppointmentController extends AbstractController
     #[Route('/appointments/{id}', name: 'appointment_show', methods: ['GET'])]
     public function show(Appointment $appointment): Response
     {
-        // Vous pouvez ajouter ici des vérifications ou des autorisations avant d'afficher le rendez-vous
-
-        return $this->json($appointment);
+        return $this->json([
+            'id'        => $appointment->getId(),
+            'date'      => $appointment->getDate()->format('Y-m-d'),
+            'hour'      => $appointment->getHour()->format('H:i'),
+            'state'     => $appointment->getState(),
+            'Patient'   => $appointment->getPatient()->toArray(),
+            'Doctor'    => $appointment->getDoctor()->toArray(),
+        ]);
     }
 
     #[Route('/appointments/{id}/reporter', name: 'appointments_reporter', methods: ["PUT"])]
@@ -150,21 +155,6 @@ class AppointmentController extends AbstractController
         }
 
         $newState = $data['state'];
-
-        // Vérifier si le nouvel état est une valeur valide pour l'enum AppointmentStatus
-        $validStates = [
-            AppointmentStatus::In_PROGRESS,
-            AppointmentStatus::CONFIRMED,
-            AppointmentStatus::DONE,
-            AppointmentStatus::CANCELED,
-        ];
-
-//        if (!in_array($newState, $validStates)) {
-//            return $this->json(['message' => 'Le nouvel état spécifié n\'est pas valide.'], Response::HTTP_BAD_REQUEST);
-//        }
-
-       // $appointment->setState($newState);
-
         $appointment->setState(AppointmentStatus::from($newState));
 
         $em->persist($appointment);
