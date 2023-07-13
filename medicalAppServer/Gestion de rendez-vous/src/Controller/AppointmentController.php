@@ -6,16 +6,24 @@ use App\Entity\Appointment;
 use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\Role;
-use App\Entity\VonageService;
 use App\Enum\AppointmentStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Psr\Http\Client\ClientExceptionInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\RequestOptions;
+use Infobip\Api\SmsApi;
+use Infobip\Configuration;
+use Infobip\Model\SmsAdvancedTextualRequest;
+use Infobip\Model\SmsDestination;
+use Infobip\Model\SmsTextualMessage;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Throwable;
+
 
 class AppointmentController extends AbstractController
 {
@@ -164,9 +172,10 @@ class AppointmentController extends AbstractController
     }
     /**
      * @throws Exception
+     * @throws GuzzleException
      */
     #[Route('/confirm', name: 'booking_confirm', methods: ["POST"])]
-    public function create(Request $request ,EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
         $data = json_decode($request->getContent(), true);
 
@@ -184,7 +193,6 @@ class AppointmentController extends AbstractController
         $hour = new \DateTime($data['hour']);
         $state = AppointmentStatus::In_PROGRESS;
 
-
         $doctor = $em->getRepository(Doctor::class)->find($doctorId);
 
         // Récupérer le rôle correspondant à "user"
@@ -200,7 +208,7 @@ class AppointmentController extends AbstractController
         $patient->setCIN($cin);
         $patient->setAge($age);
         $patient->setLogin($email);
-        $patient->setPassword(random_int(100000,10000000000));
+        $patient->setPassword(random_int(100000, 10000000000));
         $patient->setRole($userRole); // Définir le rôle de l'utilisateur à "user"
 
         // Créer un nouvel Appointment
@@ -211,14 +219,20 @@ class AppointmentController extends AbstractController
         $appointment->setHour($hour);
         $appointment->setState($state);
 
+        $smsResponse = sendConfirmationSms();
+
+        if ($smsResponse instanceof \Infobip\Model\SmsResponse) {
+            // Le SMS a été envoyé avec succès
+            // Faites ce que vous voulez avec la réponse
+            $bulkId = $smsResponse->getBulkId();
+            // ...
+        }
+
         $em->persist($patient);
         $em->persist($appointment);
         $em->flush();
 
-        // Retourner une réponse JSON
-        return new Response('Le rendez-vous a été créé avec succès.', Response::HTTP_CREATED);
+
+        return new Response('Delivery report received', Response::HTTP_OK);
     }
-
-
-
 }

@@ -182,7 +182,7 @@ function Booking({}) {
                       </div>
                       <div className="col-md-6 col-sm-6">
                         <div className="form-group">
-                          <label>Telephone</label>
+                          <label>Phone Number</label>
                           <input
                             type="text"
                             id="telephone_booking"

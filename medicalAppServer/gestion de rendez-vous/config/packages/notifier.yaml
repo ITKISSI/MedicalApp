@@ -2,6 +2,9 @@ framework:
     notifier:
         chatter_transports:
         texter_transports:
+            messagebird: '%env(MESSAGEBIRD_DSN)%'
+            vonage: '%env(VONAGE_DSN)%'
+            allmysms: '%env(ALLMYSMS_DSN)%'
         channel_policy:
             # use chat/slack, chat/telegram, sms/twilio or sms/nexmo
             urgent: ['email']

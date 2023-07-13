@@ -86,7 +86,7 @@ export default function Detail() {
 												
 											</li>
 											<li>
-												<h6>Clinic :</h6> {doctor.workingCabinet}</li>
+												<h6>Cabinet :</h6> {doctor.workingCabinet}</li>
 										</ul>
 									</div>
 								</div>

@@ -102,11 +102,11 @@ const SearchZone = ({onSearchResults }) => {
     handleSearch(new Event('submit')); // Appeler la fonction handleSearch avec une nouvelle soumission de formulaire
   };
   
-  
+  const imageUrl = '../img/image2.jpeg';
 
   return (
     <div className="hero_map">
-      <div id="map_listing"></div>
+      <div id="map_listing" style={{backgroundImage: `url(${imageUrl})`}}></div>
       <form onSubmit={handleSearch} className="search_wp">
         <div id="custom-search-input">
           <div className="input-group">

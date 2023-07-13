@@ -15,7 +15,9 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
@@ -71,6 +73,9 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\PasswordHasher\\' => 33,
             'Symfony\\Component\\OptionsResolver\\' => 34,
+            'Symfony\\Component\\Notifier\\Bridge\\Vonage\\' => 41,
+            'Symfony\\Component\\Notifier\\Bridge\\MessageBird\\' => 46,
+            'Symfony\\Component\\Notifier\\Bridge\\AllMySms\\' => 43,
             'Symfony\\Component\\Notifier\\' => 27,
             'Symfony\\Component\\Mime\\' => 23,
             'Symfony\\Component\\Messenger\\Bridge\\Doctrine\\' => 44,
@@ -112,6 +117,8 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Link\\' => 9,
+            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Clock\\' => 10,
@@ -127,7 +134,22 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
         'M' => 
         array (
             'Monolog\\' => 8,
+            'MessageBird\\' => 12,
             'Masterminds\\' => 12,
+        ),
+        'I' => 
+        array (
+            'Infobip\\' => 8,
+        ),
+        'G' => 
+        array (
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
+        ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
         ),
         'E' => 
         array (
@@ -146,6 +168,7 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
             'Doctrine\\Common\\Lexer\\' => 22,
             'Doctrine\\Common\\Collections\\' => 28,
             'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
             'Doctrine\\Bundle\\MigrationsBundle\\' => 33,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
@@ -306,6 +329,18 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
+        'Symfony\\Component\\Notifier\\Bridge\\Vonage\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/vonage-notifier',
+        ),
+        'Symfony\\Component\\Notifier\\Bridge\\MessageBird\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/message-bird-notifier',
+        ),
+        'Symfony\\Component\\Notifier\\Bridge\\AllMySms\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/all-my-sms-notifier',
+        ),
         'Symfony\\Component\\Notifier\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/notifier',
@@ -458,6 +493,15 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
         array (
             0 => __DIR__ . '/..' . '/psr/link/src',
         ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
         'Psr\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
@@ -494,9 +538,33 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'MessageBird\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/messagebird/php-rest-api/src/MessageBird',
+        ),
         'Masterminds\\' => 
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
+        'Infobip\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/infobip/infobip-api-php-client/Infobip',
+        ),
+        'GuzzleHttp\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'GuzzleHttp\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
+        ),
+        'GuzzleHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (
@@ -545,6 +613,10 @@ class ComposerStaticInit02836a0ae9f4e085d46d454fd19c59b0
         'Doctrine\\Common\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
         ),
         'Doctrine\\Common\\' => 
         array (

@@ -12,6 +12,15 @@
             "./src/ApiResource/.gitignore"
         ]
     },
+    "doctrine/annotations": {
+        "version": "1.14",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.10",
+            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
+        }
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.10",
         "recipe": {
@@ -64,6 +73,15 @@
             "./phpunit.xml.dist",
             "./tests/bootstrap.php"
         ]
+    },
+    "symfony/all-my-sms-notifier": {
+        "version": "6.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "78d88926fedfb0d484f8ed63c6f041d2db5c007c"
+        }
     },
     "symfony/console": {
         "version": "6.3",
@@ -139,6 +157,15 @@
             "branch": "main",
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
+    },
+    "symfony/message-bird-notifier": {
+        "version": "6.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "770843d2fe51913bb309203bc0818c285032f066"
         }
     },
     "symfony/messenger": {
@@ -254,6 +281,15 @@
         "files": [
             "./config/packages/validator.yaml"
         ]
+    },
+    "symfony/vonage-notifier": {
+        "version": "6.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.4",
+            "ref": "deadcbe9c9ac02cc681ef4b152619699d445c2c7"
+        }
     },
     "symfony/web-profiler-bundle": {
         "version": "6.3",

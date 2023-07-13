@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+import RatingForm from './RatingForm';
 
 export default function DoctorCard({ doctor }) {
 
@@ -29,11 +30,13 @@ export default function DoctorCard({ doctor }) {
           <p>{doctor.workingCabinet}</p>
                   
           <span className="rating">
-            <i className="icon_star voted"></i>
+            {/* <i className="icon_star voted"></i>
             <i className="icon_star voted"></i>
             <i className="icon_star voted"></i>
             <i className="icon_star"></i>
-            <i className="icon_star"></i> <small>(145)</small>
+            <i className="icon_star"></i> <small>(145)</small> */}
+
+            <RatingForm/>
           </span>
         </div>
         <ul>

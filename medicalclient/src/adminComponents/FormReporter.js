@@ -64,27 +64,27 @@ function FormReporter() {
                 <div class="container-fluid">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <Link to="/">Acceuil</Link>
+                            <Link to="/">Dashboard</Link>
                         </li>
-                        <li class="breadcrumb-item active"> <Link to="RdvList">Liste des rendez-vous</Link></li>
+                        <li class="breadcrumb-item active"> <Link to="RdvList">Appointment list</Link></li>
                         <li class="breadcrumb-item active">
-                            Reporter un rendez-vous</li>
+                            To postpone an appointment</li>
                     </ol>
 
                     <form onSubmit={handleSubmit} class="box_general padding_bottom">
                         <div class="header_box version_2">
-                            <h2><i class="fa fa-file"></i>Reporter un rendez-vous</h2>
+                            <h2><i class="fa fa-file"></i>To postpone an appointment</h2>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Name</label>
+                                    <label>Patient first name</label>
                                     <input type="text" name="firstName" class="form-control" value={appointment.Patient.firstName} />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Last name</label>
+                                    <label>Patient last name</label>
                                     <input type="text" name="lastName" class="form-control" value={appointment.Patient.lastName} />
                                 </div>
                             </div>
@@ -97,7 +97,7 @@ function FormReporter() {
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Heure</label>
+                                    <label>Hour</label>
                                     <input type="text" name="hour" class="form-control"
                                     value={appointment.hour} onChange={handleHourChange}
                                     />
@@ -107,7 +107,7 @@ function FormReporter() {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <button type="submit">
-                                        Reporter
+                                        Postpone
                                     </button>
                                 </div>
                             </div>

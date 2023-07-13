@@ -136,12 +136,12 @@ function RdvList() {
             <li class="breadcrumb-item">
               <Link to="/">Dashboard</Link>
             </li>
-            <li class="breadcrumb-item active">Tables</li>
+            <li class="breadcrumb-item active">Appointment list</li>
           </ol>
 
           <div class="card mb-3">
             <div class="card-header">
-              <i class="fa fa-table"></i> Data Table Example</div>
+              <i class="fa fa-table"></i> Appointment list</div>
             <div class="card-body">
               <div class="table-responsive">
 
@@ -150,12 +150,12 @@ function RdvList() {
                   <thead>
                     <tr>
                       <th>Date</th>
-                      <th>Heure</th>
-                      <th>Nom du Docteur</th>
-                      <th>specialite du Docteur</th>
-                      <th>Nom du Patient</th>
-                      <th>Statut</th>
-                      <th>Operations</th>
+                      <th>Hour</th>
+                      <th>Doctor full name</th>
+                      <th>Doctor speciality</th>
+                      <th>Patient full name</th>
+                      <th>Status</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -191,7 +191,7 @@ function RdvList() {
                             onClick={() => handleConfirm(appointment.id)}
                          >
                           <b>
-                            Confirme
+                            Confirm
                           </b>
                           
                          </button>

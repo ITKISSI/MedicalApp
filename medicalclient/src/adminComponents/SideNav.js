@@ -13,38 +13,35 @@ function SideNav() {
     <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
       <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/appointments">
       <i className="fa fa-fw fa-gear"></i>
-      <span className="nav-link-text">Liste de rendez-vous</span>
+      <span className="nav-link-text">Appointment list</span>
       </Link>
     </li>
     <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
       <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/createMedcin">
       <i className="fa fa-fw fa-gear"></i>
-      <span className="nav-link-text">Cree un  Medecin</span>
+      <span className="nav-link-text">Create a Doctor</span>
       </Link>
     </li>
     
     <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
       <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/ListMedcin">
       <i className="fa fa-fw fa-gear"></i>
-      <span className="nav-link-text">Liste de Medecin</span>
+      <span className="nav-link-text">Doctor list</span>
       </Link>
     </li>
 
     <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
       <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/createcabinet">
       <i className="fa fa-fw fa-gear"></i>
-      <span className="nav-link-text">Cree un Cabinet</span>
+      <span className="nav-link-text">Create a Cabinet</span>
       </Link>
     </li>
     <li className="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
       <Link  className="nav-link " data-toggle="collapse" data-parent="#exampleAccordion" to = "/cabinets">
       <i className="fa fa-fw fa-gear"></i>
-      <span className="nav-link-text">Liste de Cabinet</span>
+      <span className="nav-link-text">Cabinet list </span>
       </Link>
-    </li>
-
-    
-    
+    </li>    
   </ul>
   
   )

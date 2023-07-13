@@ -518,6 +518,9 @@
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
+    <service id="App\SMS\sendConfirmationSms" class="App\SMS\sendConfirmationSms" autowire="true" autoconfigure="true">
+      <tag name="container.error" message="The autoloader expected class &quot;App\SMS\sendConfirmationSms&quot; to be defined in file &quot;T:\PFA\MedicalApp\medicalAppServer\Gestion de rendez-vous\vendor\composer/../../src\SMS\sendConfirmationSms.php&quot;. The file was found but the class was not in it, the class name or namespace probably has a typo."/>
+    </service>
     <service id="argument_metadata_factory" class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory"/>
     <service id="argument_resolver.backed_enum_resolver" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver">
       <tag priority="100" name="Symfony\Component\HttpKernel\Controller\ArgumentResolver\BackedEnumValueResolver">controller.argument_value_resolver</tag>
@@ -1780,6 +1783,11 @@
         <argument type="service" id="monolog.logger.http_client" on-invalid="ignore"/>
       </call>
       <factory class="Symfony\Component\HttpClient\HttpClient" method="create"/>
+    </service>
+    <service id="psr18.http_client" class="Symfony\Component\HttpClient\Psr18Client">
+      <argument type="service" id=".debug.http_client"/>
+      <argument>null</argument>
+      <argument>null</argument>
     </service>
     <service id="http_client.abstract_retry_strategy" class="Symfony\Component\HttpClient\Retry\GenericRetryStrategy" abstract="true">
       <argument type="abstract">http codes</argument>
@@ -3340,7 +3348,7 @@
     </service>
     <service id="routing.loader.annotation" class="Symfony\Bundle\FrameworkBundle\Routing\AnnotatedRouteControllerLoader">
       <tag name="routing.loader" priority="-10"/>
-      <argument>null</argument>
+      <argument type="service" id="annotations.cached_reader" on-invalid="null"/>
       <argument>dev</argument>
     </service>
     <service id="routing.loader.annotation.directory" class="Symfony\Component\Routing\Loader\AnnotationDirectoryLoader">
@@ -3438,6 +3446,38 @@
     <service id="Symfony\Bundle\FrameworkBundle\Controller\TemplateController" class="Symfony\Bundle\FrameworkBundle\Controller\TemplateController" public="true">
       <argument type="service" id="twig" on-invalid="ignore"/>
     </service>
+    <service id="annotations.reader" class="Doctrine\Common\Annotations\AnnotationReader">
+      <call method="addGlobalIgnoredName">
+        <argument>required</argument>
+      </call>
+    </service>
+    <service id="annotations.cached_reader" class="Doctrine\Common\Annotations\PsrCachedReader">
+      <tag name="annotations.cached_reader"/>
+      <tag name="container.do_not_inline"/>
+      <argument type="service" id="annotations.reader"/>
+      <argument type="service">
+        <service class="Symfony\Component\Cache\Adapter\ArrayAdapter"/>
+      </argument>
+      <argument>true</argument>
+      <argument type="service_closure" id="annotations.cache_adapter"/>
+    </service>
+    <service id="annotations.filesystem_cache_adapter" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
+      <argument></argument>
+      <argument>0</argument>
+      <argument type="abstract">Cache-Directory</argument>
+    </service>
+    <service id="annotations.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\AnnotationsCacheWarmer">
+      <tag name="kernel.cache_warmer"/>
+      <argument type="service" id="annotations.reader"/>
+      <argument>T:\PFA\MedicalApp\medicalAppServer\Gestion de rendez-vous\var\cache\dev/annotations.php</argument>
+      <argument>#^Symfony\\(?:Component\\HttpKernel\\|Bundle\\FrameworkBundle\\Controller\\(?!.*Controller$))#</argument>
+      <argument>true</argument>
+    </service>
+    <service id="annotations.cache_adapter" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" constructor="create">
+      <tag name="container.hot_path"/>
+      <argument>T:\PFA\MedicalApp\medicalAppServer\Gestion de rendez-vous\var\cache\dev/annotations.php</argument>
+      <argument type="service" id="cache.annotations"/>
+    </service>
     <service id="property_accessor" class="Symfony\Component\PropertyAccess\PropertyAccessor">
       <argument>3</argument>
       <argument>2</argument>
@@ -3525,7 +3565,7 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader">
-            <argument>null</argument>
+            <argument type="service" id="annotations.cached_reader" on-invalid="null"/>
           </service>
         </argument>
       </argument>
@@ -3535,7 +3575,7 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader">
-            <argument>null</argument>
+            <argument type="service" id="annotations.cached_reader" on-invalid="null"/>
           </service>
         </argument>
       </argument>
@@ -3860,6 +3900,9 @@
       </call>
       <call method="enableAnnotationMapping">
         <argument>true</argument>
+      </call>
+      <call method="setDoctrineAnnotationReader">
+        <argument type="service" id="annotations.cached_reader"/>
       </call>
       <call method="addMethodMapping">
         <argument>loadValidatorMetadata</argument>
@@ -4429,8 +4472,17 @@
       <tag name="messenger.message_handler" handles="Symfony\Component\Notifier\Message\ChatMessage"/>
       <argument type="service" id="chatter.transports"/>
     </service>
+    <service id="texter" class="Symfony\Component\Notifier\Texter">
+      <argument type="service" id="texter.transports"/>
+      <argument type="service" id="debug.traced.messenger.bus.default" on-invalid="null"/>
+      <argument type="service" id="debug.event_dispatcher" on-invalid="ignore"/>
+    </service>
     <service id="texter.transports" class="Symfony\Component\Notifier\Transport\Transports">
-      <argument type="collection"/>
+      <argument type="collection">
+        <argument key="messagebird">%env(MESSAGEBIRD_DSN)%</argument>
+        <argument key="vonage">%env(VONAGE_DSN)%</argument>
+        <argument key="allmysms">%env(ALLMYSMS_DSN)%</argument>
+      </argument>
       <factory service="texter.transport_factory" method="fromStrings"/>
     </service>
     <service id="texter.transport_factory" class="Symfony\Component\Notifier\Transport">
@@ -4451,8 +4503,23 @@
       <argument type="service" id="debug.event_dispatcher"/>
       <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
     </service>
+    <service id="notifier.transport_factory.vonage" class="Symfony\Component\Notifier\Bridge\Vonage\VonageTransportFactory">
+      <tag name="texter.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
+    </service>
+    <service id="notifier.transport_factory.all-my-sms" class="Symfony\Component\Notifier\Bridge\AllMySms\AllMySmsTransportFactory">
+      <tag name="texter.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
+    </service>
     <service id="notifier.transport_factory.null" class="Symfony\Component\Notifier\Transport\NullTransportFactory">
       <tag name="chatter.transport_factory"/>
+      <tag name="texter.transport_factory"/>
+      <argument type="service" id="debug.event_dispatcher"/>
+      <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
+    </service>
+    <service id="notifier.transport_factory.message-bird" class="Symfony\Component\Notifier\Bridge\MessageBird\MessageBirdTransportFactory">
       <tag name="texter.transport_factory"/>
       <argument type="service" id="debug.event_dispatcher"/>
       <argument type="service" id=".debug.http_client" on-invalid="ignore"/>
@@ -10191,6 +10258,7 @@
     <service id="Symfony\Contracts\Translation\TranslatorInterface" alias="translator.data_collector"/>
     <service id="Symfony\Component\Asset\Packages" alias="assets.packages"/>
     <service id="Symfony\Contracts\HttpClient\HttpClientInterface" alias=".debug.http_client"/>
+    <service id="Psr\Http\Client\ClientInterface" alias="psr18.http_client"/>
     <service id="mailer" alias="mailer.mailer"/>
     <service id="Symfony\Component\Mailer\MailerInterface" alias="mailer.mailer"/>
     <service id="Symfony\Component\Mailer\Transport\TransportInterface" alias="mailer.default_transport"/>
@@ -10209,6 +10277,8 @@
     <service id="Symfony\Component\Routing\Matcher\UrlMatcherInterface" alias="router.default"/>
     <service id="Symfony\Component\Routing\RequestContextAwareInterface" alias="router.default"/>
     <service id="Symfony\Component\Routing\RequestContext" alias="router.request_context"/>
+    <service id="annotation_reader" alias="annotations.cached_reader"/>
+    <service id="Doctrine\Common\Annotations\Reader" alias="annotations.cached_reader"/>
     <service id="Symfony\Component\PropertyAccess\PropertyAccessorInterface" alias="property_accessor"/>
     <service id="Symfony\Component\Serializer\SerializerInterface" alias="debug.serializer"/>
     <service id="Symfony\Component\Serializer\Normalizer\NormalizerInterface" alias="debug.serializer"/>
@@ -10259,6 +10329,7 @@
     <service id="Symfony\Component\Messenger\MessageBusInterface" alias="debug.traced.messenger.bus.default"/>
     <service id="messenger.failure_transports.default" alias="messenger.transport.failed"/>
     <service id="Symfony\Component\Notifier\NotifierInterface" alias="notifier"/>
+    <service id="Symfony\Component\Notifier\TexterInterface" alias="texter"/>
     <service id="notifier.logger_notification_listener" alias="notifier.notification_logger_listener">
       <deprecated package="symfony/framework-bundle" version="6.3">The "%alias_id%" service is deprecated, use "notifier.notification_logger_listener" instead.</deprecated>
     </service>
@@ -10271,6 +10342,7 @@
     <service id="doctrine.dbal.event_manager" alias="doctrine.dbal.default_connection.event_manager"/>
     <service id="Doctrine\DBAL\Connection $defaultConnection" alias="doctrine.dbal.default_connection"/>
     <service id="Doctrine\ORM\EntityManagerInterface" alias="doctrine.orm.default_entity_manager"/>
+    <service id="doctrine.orm.metadata.annotation_reader" alias="annotations.cached_reader"/>
     <service id="doctrine.orm.entity_manager" alias="doctrine.orm.default_entity_manager" public="true"/>
     <service id="doctrine.orm.default_metadata_cache" alias="cache.doctrine.orm.default.metadata"/>
     <service id="doctrine.orm.default_result_cache" alias="cache.doctrine.orm.default.result"/>
