@@ -21,4 +21,6 @@ public class CabinetDTO {
 
     private List<MultipartFile> imageFiles; // Field to hold multiple image files
 
+
+
 }

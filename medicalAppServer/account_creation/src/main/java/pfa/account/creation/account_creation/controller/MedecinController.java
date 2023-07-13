@@ -27,10 +27,8 @@ public class MedecinController {
     @PostMapping("{cabinetId}/cabinet")
     public ResponseEntity<MedecinDTO> createMedecin(
             @PathVariable long cabinetId,
-            MedecinCreateDTO medecinCreateDTO,
-            @RequestPart("image") MultipartFile imageFile
+            MedecinCreateDTO medecinCreateDTO
     ) {
-        medecinCreateDTO.setImageFile(imageFile); // Set imageFile to medecinCreateDTO
         return new ResponseEntity<>(medecinService.createMedecin(medecinCreateDTO, cabinetId), HttpStatus.CREATED);
     }
 

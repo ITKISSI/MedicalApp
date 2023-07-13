@@ -5,8 +5,13 @@ namespace App\Controller;
 use App\Entity\Appointment;
 use App\Entity\Doctor;
 use App\Entity\Patient;
+use App\Entity\Role;
+use App\Entity\VonageService;
+use App\Enum\AppointmentStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Psr\Http\Client\ClientExceptionInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,48 +72,59 @@ class AppointmentController extends AbstractController
 
     }
 
-    #[Route('/appointments/{id}', name: 'appointments_show', methods: ['GET'])]
-    public function show(EntityManagerInterface $em, int $id): Response
+//    #[Route('/appointments/{id}', name: 'appointments_show', methods: ['GET'])]
+//    public function show(EntityManagerInterface $em, int $id): Response
+//    {
+//        $appointment = $em->getRepository(Appointment::class)->find($id);
+//
+//        if (!$appointment) {
+//            throw $this->createNotFoundException('Appointment not found');
+//        }
+//
+//        $patientData = null;
+//        if ($appointment->getPatient()) {
+//            $patientData = [
+//                'id' => $appointment->getPatient()->getId(),
+//                'phoneNumber' => $appointment->getPatient()->getPhoneNumber(),
+//                'firstName' => $appointment->getPatient()->getFirstName(),
+//                'lastName' => $appointment->getPatient()->getLastName(),
+//            ];
+//        }
+//
+//        $doctorData = [];
+//        foreach ($appointment->getDoctor() as $doctor) {
+//            $doctorData[] = [
+//                'id' => $doctor->getId(),
+//                'speciality' => $doctor->getSpeciality(),
+//                'inp' => $doctor->getInp(),
+//                'firstName' => $doctor->getFirstName(),
+//                'lastName' => $doctor->getLastName(),
+//            ];
+//        }
+//
+//        $appointmentData = [
+//            'id' => $appointment->getId(),
+//            'date' => $appointment->getDate()->format('Y-m-d'),
+//            'hour' => $appointment->getHour()->format('H:i'),
+//            'state' => $appointment->isState(),
+//            'patient' => $patientData,
+//            'doctors' => $doctorData, // Changer la clé 'doctor' en 'doctors'
+//        ];
+//
+//        return $this->json($appointmentData);
+//    }
+    #[Route('/appointments/{id}', name: 'appointment_show', methods: ['GET'])]
+    public function show(Appointment $appointment): Response
     {
-        $appointment = $em->getRepository(Appointment::class)->find($id);
-
-        if (!$appointment) {
-            throw $this->createNotFoundException('Appointment not found');
-        }
-
-        $patientData = null;
-        if ($appointment->getPatient()) {
-            $patientData = [
-                'id' => $appointment->getPatient()->getId(),
-                'phoneNumber' => $appointment->getPatient()->getPhoneNumber(),
-                'firstName' => $appointment->getPatient()->getFirstName(),
-                'lastName' => $appointment->getPatient()->getLastName(),
-            ];
-        }
-
-        $doctorData = [];
-        foreach ($appointment->getDoctor() as $doctor) {
-            $doctorData[] = [
-                'id' => $doctor->getId(),
-                'speciality' => $doctor->getSpeciality(),
-                'inp' => $doctor->getInp(),
-                'firstName' => $doctor->getFirstName(),
-                'lastName' => $doctor->getLastName(),
-            ];
-        }
-
-        $appointmentData = [
-            'id' => $appointment->getId(),
-            'date' => $appointment->getDate()->format('Y-m-d'),
-            'hour' => $appointment->getHour()->format('H:i'),
-            'state' => $appointment->isState(),
-            'patient' => $patientData,
-            'doctors' => $doctorData, // Changer la clé 'doctor' en 'doctors'
-        ];
-
-        return $this->json($appointmentData);
+        return $this->json([
+            'id'        => $appointment->getId(),
+            'date'      => $appointment->getDate()->format('Y-m-d'),
+            'hour'      => $appointment->getHour()->format('H:i'),
+            'state'     => $appointment->getState(),
+            'Patient'   => $appointment->getPatient()->toArray(),
+            'Doctor'    => $appointment->getDoctor()->toArray(),
+        ]);
     }
-
 
     #[Route('/appointments/{id}/reporter', name: 'appointments_reporter', methods: ["PUT"])]
     public function update(Request $request, Appointment $appointment, EntityManagerInterface $em): Response
@@ -134,16 +150,18 @@ class AppointmentController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        if (isset($data['state']) && $data['state'] != $appointment->isState()) {
-            $appointment->setState($data['state']);
+        if (!isset($data['state'])) {
+            return $this->json(['message' => 'Le nouvel état doit être spécifié.'], Response::HTTP_BAD_REQUEST);
         }
+
+        $newState = $data['state'];
+        $appointment->setState(AppointmentStatus::from($newState));
 
         $em->persist($appointment);
         $em->flush();
 
         return $this->json($appointment);
     }
-
     /**
      * @throws Exception
      */
@@ -154,8 +172,6 @@ class AppointmentController extends AbstractController
 
         // Récupérer les données envoyées depuis le frontend
         $doctorId = $data['doctorId'];
-//        $doctorFirstName = $data['doctorFirstName'];
-//        $doctorLastName = $data['doctorLastName'];
         $patientFirstName = $data['patientFirstName'];
         $patientLastName = $data['patientLastName'];
         $email = $data['email'];
@@ -166,9 +182,13 @@ class AppointmentController extends AbstractController
         $age = $data['age'];
         $date = new \DateTime($data['date']);
         $hour = new \DateTime($data['hour']);
-        $state = $data['state'];
+        $state = AppointmentStatus::In_PROGRESS;
+
 
         $doctor = $em->getRepository(Doctor::class)->find($doctorId);
+
+        // Récupérer le rôle correspondant à "user"
+        $userRole = $em->getRepository(Role::class)->findOneBy(['authority' => 'user']);
 
         // Créer un nouveau patient
         $patient = new Patient();
@@ -181,16 +201,16 @@ class AppointmentController extends AbstractController
         $patient->setAge($age);
         $patient->setLogin($email);
         $patient->setPassword(random_int(100000,10000000000));
+        $patient->setRole($userRole); // Définir le rôle de l'utilisateur à "user"
 
         // Créer un nouvel Appointment
         $appointment = new Appointment();
-        $appointment->addDoctor($doctor);
+        $appointment->setDoctor($doctor);
         $appointment->setPatient($patient);
         $appointment->setDate($date);
         $appointment->setHour($hour);
         $appointment->setState($state);
 
-        $em->persist($doctor);
         $em->persist($patient);
         $em->persist($appointment);
         $em->flush();
@@ -198,9 +218,6 @@ class AppointmentController extends AbstractController
         // Retourner une réponse JSON
         return new Response('Le rendez-vous a été créé avec succès.', Response::HTTP_CREATED);
     }
-
-
-
 
 
 

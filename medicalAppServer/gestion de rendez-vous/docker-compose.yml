@@ -2,27 +2,38 @@ version: '3'
 
 services:
   web:
-      build: .
-      ports:
-        - "8082:80"
-      depends_on:
-        - database
+    build: .
+    ports:
+      - "8082:80"
+    depends_on:
+      - database
 
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database:
     image: mysql
     environment:
-      MYSQL_DB: ${MYSQL_DB:-app}
-      # You should definitely change the password in production
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-!ChangeMe!}
-      MYSQL_USER: ${MYSQL_USER:-app}
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_USER: 'root'
+      MYSQL_DATABASE: 'Grendezvous'
     volumes:
-      - database_data:/var/lib/mysql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - ./mysql-data2:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  phpmyadmin:
+    container_name: 'phpmyadmin'
+    image: phpmyadmin/phpmyadmin:5
+    restart: always
+    environment:
+      PMA_HOST: database
+      PMA_USER: root
+      PMA_PASSWORD: 'root'
+    ports:
+      - "8088:80"
+    depends_on:
+      - database
 
 volumes:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###

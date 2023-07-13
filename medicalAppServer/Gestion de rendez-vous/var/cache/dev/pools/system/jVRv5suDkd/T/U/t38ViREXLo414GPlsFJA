@@ -1,0 +1,82 @@
+<?php //App_Entity_User
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Serializer\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\ClassMetadata')),
+        clone ($p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata')),
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\User',
+                'id',
+                'firstName',
+                'lastName',
+                'age',
+                'address',
+                'email',
+                'cin',
+                'login',
+                'password',
+                'phoneNumber',
+                'image',
+                'role',
+            ],
+            'attributesMetadata' => [
+                [
+                    'id' => $o[1],
+                    'firstName' => $o[2],
+                    'lastName' => $o[3],
+                    'age' => $o[4],
+                    'address' => $o[5],
+                    'email' => $o[6],
+                    'cin' => $o[7],
+                    'login' => $o[8],
+                    'password' => $o[9],
+                    'phoneNumber' => $o[10],
+                    'image' => $o[11],
+                    'role' => $o[12],
+                ],
+            ],
+            'classDiscriminatorMapping' => [
+                null,
+            ],
+            'groups' => [
+                2 => [
+                    'doctor:name',
+                    'patient:All',
+                ],
+                [
+                    'doctor:name',
+                    'patient:All',
+                ],
+                [
+                    'patient:All',
+                ],
+                [
+                    'patient:All',
+                ],
+                [
+                    'patient:All',
+                ],
+                [
+                    'patient:All',
+                ],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];

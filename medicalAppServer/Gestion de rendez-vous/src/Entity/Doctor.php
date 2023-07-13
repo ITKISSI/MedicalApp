@@ -14,9 +14,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DoctorRepository::class)]
 #[ApiResource]
+#[ORM\Table(name: "doctors")]
 class Doctor extends User
 {
-
     #[ORM\Column]
     private ?int $inp = null;
 
@@ -40,18 +40,44 @@ class Doctor extends User
     //#[Groups(['doctor:speciality'])]
     private ?string $speciality = null;
 
-    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'Doctor')]
-    private ?Appointment $Appointment = null;
-
-    #[ORM\ManyToMany(targetEntity: Patient::class, mappedBy: 'doctor')]
-    private Collection $patients;
+    #[ORM\OneToMany(mappedBy: 'Doctor', targetEntity: Appointment::class, cascade: ['persist'])]
+    private Collection $Appointments ;
 
     public function __construct()
     {
         parent::__construct();
-        $this->patients = new ArrayCollection();
+        $this->Appointments = new ArrayCollection();
     }
 
+    /**
+     * @return Collection<int, Appointment>
+     */
+    public function getAppointments(): Collection
+    {
+        return $this->Appointments;
+    }
+
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->Appointments->contains($appointment)) {
+            $this->Appointments->add($appointment);
+            $appointment->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->Appointments->removeElement($appointment)) {
+            // set the owning side to null (unless already changed)
+            if ($appointment->getDoctor() === $this) {
+                $appointment->setDoctor(null);
+            }
+        }
+
+        return $this;
+    }
 
     public function getSpeciality(): ?string
     {
@@ -65,50 +91,14 @@ class Doctor extends User
         return $this;
     }
 
-    public function getAppointment(): ?Appointment
-    {
-        return $this->Appointment;
-    }
-
-    public function setAppointment(?Appointment $Appointment): self
-    {
-        $this->Appointment = $Appointment;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Patient>
-     */
-    public function getPatients(): Collection
-    {
-        return $this->patients;
-    }
-
-    public function addPatient(Patient $patient): self
-    {
-        if (!$this->patients->contains($patient)) {
-            $this->patients->add($patient);
-            $patient->addDoctor($this);
-        }
-
-        return $this;
-    }
-
-    public function removePatient(Patient $patient): self
-    {
-        if ($this->patients->removeElement($patient)) {
-            $patient->removeDoctor($this);
-        }
-
-        return $this;
-    }
 
 
     public function toArray(): array
     {
         return [
             'id' => $this->id,
+            'firstName' => $this -> firstName,
+            'lastName' => $this -> lastName,
             'speciality' => $this->speciality,
         ];
     }

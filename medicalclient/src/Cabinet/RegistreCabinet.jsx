@@ -52,7 +52,7 @@ const RegistreCabinet = () => {
             <div class="row justify-content-center">
               <div class="col-lg-8">
                 <div class="box_general_3 write_review">
-                  <h1>Registre a cabinet</h1>
+                  <h1>Ajouter votre cabinet</h1>
 
                   <form onSubmit={handleSubmit}>
                     <div class="form-group">
@@ -108,9 +108,12 @@ const RegistreCabinet = () => {
                         <p className="error ">{errors.Localisation}</p>
                       )}
                     </div>
-                    <button type="submit" class="btn_1">
+                    <div className="text-center">
+                    <button type="submit" class="w-25">
                       Ajouter
                     </button>
+                    </div>
+                   
                   </form>
                 </div>
               </div>

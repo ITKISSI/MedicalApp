@@ -11,6 +11,7 @@ const CreateCabinet = () => {
   const [longitude, setLongitude] = useState(0);
   const [latitude, setLatitude] = useState(0);
   const [errors, setErrors] = useState({});
+  const [images, setImages] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,14 +26,27 @@ const CreateCabinet = () => {
     setErrors(errors);
 
     if (Object.keys(errors).length === 0) {
+      const formData = new FormData();
+      formData.append("denomination", denomination);
+      formData.append("adresse", adresse);
+      formData.append("telephone", telephone);
+      formData.append("longitude", longitude);
+      formData.append("latitude", latitude);
+
+      // Append each image to the form data
+  
+      images.forEach((image, index) => {
+        formData.append("imageFiles", image);
+    });
+    
+
+
+      console.log('====================================');
+      console.log(formData);
+      console.log('====================================');
+
       axiosInstance
-        .post("/cabinet", {
-          denomination,
-          adresse,
-          telephone,
-          longitude,
-          latitude,
-        })
+        .post("/cabinet", formData)
         .then((response) => {
           toast("Cabinet a été créé");
         })
@@ -108,11 +122,20 @@ const CreateCabinet = () => {
                       <p className="text-danger">{errors.telephone}</p>
                     )}
                   </div>
-                  <p>
-                    <button className="btn_1 medium" type="submit">
-                      Ajouter
-                    </button>{" "}
-                  </p>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>Cabinet images </label>
+                    <input
+                      type="file"
+                      multiple
+                      name="imageFiles"
+                      onChange={(event) =>
+                        setImages(Array.from(event.target.files))
+                      }
+                      className="form-control"
+                    />
+                  </div>
                 </div>
 
                 <div className="col-md-6">
@@ -129,6 +152,13 @@ const CreateCabinet = () => {
                     />
                   </div>
                 </div>
+              </div>
+              <div className="text-center">
+                <p>
+                  <button className="w-25 p-2 " type="submit">
+                    Ajouter
+                  </button>{" "}
+                </p>
               </div>
             </div>
           </form>
