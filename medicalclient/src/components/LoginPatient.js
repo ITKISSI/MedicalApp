@@ -25,7 +25,6 @@ function LoginPatient() {
         
             await axios.post("http://localhost:8082/Authentication/login",user)
             .then(res=>{
-                console.log(res.data);
                 if(res.data.user===null && res.data.jwt===""){
                     toast.error("Login or password incorrect");
                 }
@@ -34,11 +33,10 @@ function LoginPatient() {
                 }
                 else if(res.data.user!==null && res.data.jwt!==""){
                     toast.success("Welcome ");
-                    console.log(res.data);
-                    console.log(res.data.user.firstName);
-                    
+
+                    localStorage.setItem('user', JSON.stringify(res.data.user));
                     setTimeout(() => {
-                        navigate("/admin");
+                        navigate("/waitingLine");
                       }, 4000);
                 }
                 
