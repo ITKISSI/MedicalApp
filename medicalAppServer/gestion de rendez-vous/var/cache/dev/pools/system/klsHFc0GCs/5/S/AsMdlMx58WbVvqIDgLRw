@@ -1,0 +1,68 @@
+<?php //App_Entity_Appointment
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Symfony\\Component\\Serializer\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\ClassMetadata')),
+        clone ($p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata')),
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+        clone $p['Symfony\\Component\\Serializer\\Mapping\\AttributeMetadata'],
+    ],
+    null,
+    [
+        'stdClass' => [
+            'name' => [
+                'App\\Entity\\Appointment',
+                'id',
+                'hour',
+                'date',
+                'state',
+                'Doctor',
+                'Patient',
+                'doctor',
+                'patient',
+            ],
+            'attributesMetadata' => [
+                [
+                    'id' => $o[1],
+                    'hour' => $o[2],
+                    'date' => $o[3],
+                    'state' => $o[4],
+                    'Doctor' => $o[5],
+                    'Patient' => $o[6],
+                    'doctor' => $o[7],
+                    'patient' => $o[8],
+                ],
+            ],
+            'groups' => [
+                1 => [
+                    'appointment:All',
+                ],
+                [
+                    'appointment:All',
+                    'appointment:date',
+                ],
+                [
+                    'appointment:All',
+                    'appointment:date',
+                ],
+                [
+                    'appointment:All',
+                    'appointment:state',
+                ],
+                [
+                    'appointment:All',
+                ],
+                [
+                    'appointment:All',
+                ],
+            ],
+        ],
+    ],
+    $o[0],
+    []
+); }];
