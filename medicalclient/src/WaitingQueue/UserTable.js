@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const UserTable = ({ users }) => {
 
-  
+ 
   const getCurrentDate = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
