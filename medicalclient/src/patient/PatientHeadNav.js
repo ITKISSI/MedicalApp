@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom';
+
 function PatientHeadNav() {
   return (
     <ul className="navbar-nav ml-auto">
@@ -93,8 +95,11 @@ function PatientHeadNav() {
       </form>
     </li>
     <li className="nav-item">
+      <Link to="/login">
       <a className="nav-link" data-toggle="modal" data-target="#exampleModal">
         <i className="fa fa-fw fa-sign-out"></i>Logout</a>
+      </Link>
+      
     </li>
   </ul>
 
